@@ -2,8 +2,6 @@
 
 API developed in Express.js to my **E-Commerce Full Stack** proyect.
 
----
-
 ## Routes
 
 ### User
