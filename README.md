@@ -1,6 +1,6 @@
 # E-Commerce: Backend API
 
-API developed in Express.js to my **E-Commerce Full Stack** proyect.
+API developed in Express.js for my **E-Commerce Full Stack** proyect.
 
 ## Routes
 
