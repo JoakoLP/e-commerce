@@ -1,0 +1,47 @@
+-- Hacer que la app escuche a la cookie para evitar usar temporizadores de session y useContext. --- Tuve que usar un setInterval()
+
+--- Tomar los productos desde la base de datos.
+
+--- Mostrar carrito en el drawer lateral.
+
+--- Hacerle etiquetas a los productos para buscarlos 
+
+--- Hacer un sistema de categorías que se divida aún más:
+---  -category : Computación
+---  -subCategory : Componentes de PC (Ahora reemplaza a "attributes". Ej. Procesadores)
+---  -attributes : Procesadores (CANCELADO)
+---  -tags: Intel
+
+--- Agregar una variable que diga si el usuario está online y otra con su fecha de creación
+
+Seccion de cuenta de usuario:
+  Lista de transacciones.
+  Datos personales:
+    Direccion
+    Método de pago
+  Puntos de compra(puchitos)
+
+
+ --- Crear una colección en la base de datos que contenga las categorías y subcategorías.
+
+Para solucionar el problema de longitud de cookies:
+  Cambiar la forma de iniciar sesión a una que no transfiera datos dentro de la cookie(cart, email, etc), sino que solo transfiera el id o token y con él solicite(desde frontend) la información de usuario
+
+Backend:
+  Verificación en backend de admin(para enviar cambios de productos o usuarios)
+  Agregar opción para evitar crashee que cuándo no se conecte a mongo
+
+
+Productos:
+    Dar opción para subir un producto con imagen url o archivo
+    Permitir subida de múltiple de fotos
+      Permitir que se configure el orden de las fotos del producto
+
+
+
+ Actualizar el buscador para que funcione con las nuevas categorías
+
+ Tailwind:
+  Popover
+  Banner
+  login modal

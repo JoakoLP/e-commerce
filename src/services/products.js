@@ -1,0 +1,71 @@
+import axios from "axios";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
+
+const products = axios.create({
+  withCredentials: true,
+  baseURL: "http://localhost:8080/api/products/",
+  headers: { Authorization: `${cookies.get("authorization")}` },
+});
+
+const productAdd = async (product) => {
+  try {
+    const credentials = { ...product };
+    console.log(credentials);
+    await products.post(`/add`, { ...credentials }, { withCredentials: true, headers: { "Content-Type": "multipart/form-data" } }).then((res) => {
+      console.log(res.data);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const productGet = async (setProductList) => {
+  try {
+    await products.get("/get").then((res) => {
+      // console.log(res.data);
+      // console.log(cookies.get("productList"));
+      if (setProductList) {
+        setProductList(res.data);
+      } else return res.data;
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const productEdit = async (product, _id) => {
+  try {
+    await products.put("/edit", { product, _id }, { headers: { "Content-Type": "multipart/form-data" } }).then((res) => {
+      console.log(res.data);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const productDel = async (_id) => {
+  // console.log(_id);
+  try {
+    await products.delete(`/delete/${_id}`).then((res) => {
+      console.log(res.data);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const productSearch = async (search, categ, setProducts) => {
+  try {
+    await products.get(`/search?srch=${search}&ctg=${categ}`).then((res) => {
+      // console.log(res.data);
+      setProducts(res.data);
+      return res.data;
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export default { productAdd, productGet, productEdit, productSearch, productDel };
