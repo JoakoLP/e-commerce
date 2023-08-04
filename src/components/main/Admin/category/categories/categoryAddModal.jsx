@@ -86,13 +86,13 @@ const CategoryAddModal = ({ addModal, setAddModal }) => {
               <label htmlFor="categoryId" title="ID de la categoría">
                 ID:
               </label>
-              <input type="text" name="" id="categoryId" placeholder="Ej: PC" className={` ${inputStyle}`} />
+              <input type="text" name="" id="categoryId" placeholder="Ej: PC" required className={` ${inputStyle}`} />
             </div>
             <div className={style}>
               <label htmlFor="categoryName" title="Nombre de la categoría">
                 Nombre:
               </label>
-              <input type="text" name="" id="categoryName" placeholder="Ej: Computación" className={inputStyle} form="editForm" />
+              <input type="text" name="" id="categoryName" placeholder="Ej: Computación" required className={inputStyle} form="editForm" />
             </div>
             <div className={`${style} flex-col`}>
               <p className="self-start">SubCategorías:</p>

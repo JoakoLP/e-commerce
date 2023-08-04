@@ -102,13 +102,13 @@ const CategoryEditModal = ({ edit, setEdit, editItem, setEditItem }) => {
                     <label htmlFor={`categoryId/${editItem.id}`} title="ID de la categoría">
                       ID
                     </label>
-                    <input type="text" name="" id={`categoryId/${editItem.id}`} placeholder="Ej: PC" className={` ${inputStyle}`} defaultValue={editItem.id} />
+                    <input type="text" name="" id={`categoryId/${editItem.id}`} placeholder="Ej: PC" required className={` ${inputStyle}`} defaultValue={editItem.id} />
                   </div>
                   <div className={style}>
                     <label htmlFor={`categoryName/${editItem.id}`} title="Nombre de la categoría">
                       Nombre
                     </label>
-                    <input type="text" name="" id={`categoryName/${editItem.id}`} placeholder="Ej: Computación" className={inputStyle} defaultValue={editItem.name} form="editForm" />
+                    <input type="text" name="" id={`categoryName/${editItem.id}`} placeholder="Ej: Computación" required className={inputStyle} defaultValue={editItem.name} form="editForm" />
                   </div>
                   <div className={`${style} flex-col`}>
                     <p className="self-start">SubCategorías:</p>

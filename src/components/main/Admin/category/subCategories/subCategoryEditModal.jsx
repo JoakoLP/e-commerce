@@ -60,13 +60,13 @@ const SubCategoryEditModal = ({ editModal, setEditModal, subCategory, setSubCate
               <label htmlFor={`subCategoryId/${subCategory?.id}`} title="ID de sub categoría.">
                 ID:
               </label>
-              <input type="text" name="" placeholder='Ejemplo: "PC-NTBK"' defaultValue={subCategory?.id} id={`subCategoryId/${subCategory?.id}`} className={inputStyle} />
+              <input type="text" name="" placeholder='Ejemplo: "PC-NTBK"' defaultValue={subCategory?.id} required id={`subCategoryId/${subCategory?.id}`} className={inputStyle} />
             </div>
             <div className={`${style}`}>
               <label htmlFor={`subCategoryName/${subCategory?.id}`} title="Nombre de sub categoría.">
                 Nombre:
               </label>
-              <input type="text" name="" placeholder='Ejemplo: "Notebook"' defaultValue={subCategory?.name} id={`subCategoryName/${subCategory?.id}`} className={inputStyle} />
+              <input type="text" name="" placeholder='Ejemplo: "Notebook"' defaultValue={subCategory?.name} required id={`subCategoryName/${subCategory?.id}`} className={inputStyle} />
             </div>
 
             <div className={`${style} flex-col`}>

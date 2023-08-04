@@ -58,13 +58,13 @@ const SubCategoryAddModal = ({ addModal, setAddModal }) => {
               <label htmlFor="subCategoryId" title="ID de sub categoría.">
                 ID:
               </label>
-              <input type="text" name="" placeholder='Ejemplo: "PC-NTBK"' id="subCategoryId" className={inputStyle} />
+              <input type="text" name="" placeholder='Ejemplo: "PC-NTBK"' required id="subCategoryId" className={inputStyle} />
             </div>
             <div className={`${style}`}>
               <label htmlFor="subCategoryName" title="Nombre de sub categoría.">
                 Nombre:
               </label>
-              <input type="text" name="" placeholder='Ejemplo: "Notebook"' id="subCategoryName" className={inputStyle} />
+              <input type="text" name="" placeholder='Ejemplo: "Notebook"' required id="subCategoryName" className={inputStyle} />
             </div>
 
             <div className={`${style} flex-col`}>
