@@ -13,7 +13,7 @@ API developed in Express.js for my **E-Commerce Full Stack** proyect.
 
 > | <b>name</b> | <b>type</b> | <b>description</b> | <b>Received in</b> |
 > | ----------- | ----------- | ------------------ | ------------------ |
-> | username    | required    | User's username    | body               |
+> | username    | required    | User's nickname    | body               |
 > | name        | required    | User's full name   | body               |
 > | email       | required    | User's email       | body               |
 > | password    | required    | User's password    | body               |
