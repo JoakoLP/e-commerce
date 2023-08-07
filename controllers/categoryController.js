@@ -4,10 +4,10 @@ const { SubCategory } = require("../models/subCategory");
 class CategoryController {
   // Category Controllers
   async CategoryAdd(req, res) {
-    let category = await Category.findOne({ id: req.body.id });
+    try {
+      let category = await Category.findOne({ id: req.body.id });
 
-    if (!category) {
-      try {
+      if (!category) {
         category = new Category({
           id: req.body.id,
           name: req.body.name,
@@ -15,11 +15,11 @@ class CategoryController {
         });
         await category.save();
         res.json({ msg: `Categoría '${req.body.name}' agregada con el id '${req.body.id}'.` });
-      } catch (error) {
-        res.json(error);
+      } else {
+        res.json({ msg: `Categoría con el id: ${req.body.id} ya registrada.` });
       }
-    } else {
-      res.json({ msg: `Categoría con el id: ${req.body.id} ya registrada.` });
+    } catch (error) {
+      res.json(error);
     }
   }
 
@@ -54,22 +54,26 @@ class CategoryController {
   // SubCategory Controllers
   async SubCategoryAdd(req, res) {
     // console.log(req.body);
-    let subCategory = await SubCategory.findOne({ id: req.body.id });
-    // console.log(req.body);
+    try {
+      let subCategory = await SubCategory.findOne({ id: req.body.id });
+      // console.log(req.body);
 
-    if (!subCategory) {
-      try {
-        subCategory = new SubCategory({
-          id: req.body.id,
-          name: req.body.name,
-        });
-        await subCategory.save();
-        res.json({ msg: `SubCategoría '${req.body.name}' agregada con el id '${req.body.id}'.` });
-      } catch (error) {
-        res.json(error);
+      if (!subCategory) {
+        try {
+          subCategory = new SubCategory({
+            id: req.body.id,
+            name: req.body.name,
+          });
+          await subCategory.save();
+          res.json({ msg: `SubCategoría '${req.body.name}' agregada con el id '${req.body.id}'.` });
+        } catch (error) {
+          res.json(error);
+        }
+      } else {
+        res.json({ msg: `SubCategoría con el id: ${req.body.id} ya registrada.` });
       }
-    } else {
-      res.json({ msg: `SubCategoría con el id: ${req.body.id} ya registrada.` });
+    } catch (error) {
+      res.json(error);
     }
   }
 

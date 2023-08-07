@@ -7,42 +7,54 @@ class ProductsController {
   async productAdd(req, res) {
     console.log(req.body);
     // let product = await Product.findOne({ id: req.body.id });
-    let product = await Product.findOne({ prod_id: { $eq: req.body.prod_id } });
-    // console.log(product);
-    // console.log(product);
+    try {
+      let product = await Product.findOne({ prod_id: { $eq: req.body.prod_id } });
+      // console.log(product);
+      // console.log(product);
 
-    if (!product) {
-      try {
-        const product = new Product({
-          prod_id: req.body.prod_id,
-          name: req.body.name,
-          price: req.body.price,
-          tags: req.body.tags,
-          category: req.body.category,
-          subCategory: req.body.subCategory,
-          desc: req.body.desc,
-          // img: { type: req.body.img.type, data:  "asdasdasdasd" },
-          img: { type: req.body.img.type, data: req.body.img.type == "URL" ? req.body.img.data : "" },
-          // img: { type: req.body.img.type == "URL" ? "URL" : "File", data: req.body.img.type == "URL" ? req.body.img.data : "" },
-          // img: req.body.img.type == "URL" ? { type: "URL", data: req.body.img.data } : { type: "File", data: "" },
-          reputation: req.body.reputation,
-          brand: req.body.brand,
-          color: req.body.color,
-        });
-        if (req.files[0]) {
-          console.log("Hay archivo!");
-          // console.log(req.files);
-          const { filename } = req.files[0];
-          console.log(filename);
-          product.setImgUrl(filename);
-        } else {
-          console.log("No hay archivo!");
+      if (!product) {
+        try {
+          const product = new Product({
+            prod_id: req.body.prod_id,
+            name: req.body.name,
+            price: req.body.price,
+            tags: req.body.tags,
+            category: req.body.category,
+            subCategory: req.body.subCategory,
+            desc: req.body.desc,
+            // img: { type: req.body.img.type, data:  "asdasdasdasd" },
+            img: { type: req.body.img.type, data: req.body.img.type == "URL" ? req.body.img.data : "" },
+            // img: { type: req.body.img.type == "URL" ? "URL" : "File", data: req.body.img.type == "URL" ? req.body.img.data : "" },
+            // img: req.body.img.type == "URL" ? { type: "URL", data: req.body.img.data } : { type: "File", data: "" },
+            reputation: req.body.reputation,
+            brand: req.body.brand,
+            color: req.body.color,
+          });
+          if (req.files[0]) {
+            console.log("Hay archivo!");
+            // console.log(req.files);
+            const { filename } = req.files[0];
+            console.log(filename);
+            product.setImgUrl(filename);
+          } else {
+            console.log("No hay archivo!");
+          }
+
+          console.log(product);
+          await product.save();
+          res.json({ msg: `Producto id: ${req.body.prod_id} agregado.` });
+        } catch (error) {
+          if (req.files[0]) {
+            const { filename } = req.files[0];
+            if (fs.existsSync("storage/img/products/" + filename)) {
+              // console.log("Existe el archivo.");
+              fs.unlinkSync("storage/img/products/" + filename, filename);
+            }
+          }
+          console.log(error);
+          res.json(error);
         }
-
-        console.log(product);
-        await product.save();
-        res.json({ msg: `Producto id: ${req.body.prod_id} agregado.` });
-      } catch (error) {
+      } else {
         if (req.files[0]) {
           const { filename } = req.files[0];
           if (fs.existsSync("storage/img/products/" + filename)) {
@@ -50,18 +62,10 @@ class ProductsController {
             fs.unlinkSync("storage/img/products/" + filename, filename);
           }
         }
-        console.log(error);
-        res.json(error);
+        res.json({ msg: `Producto id: ${req.body.prod_id} ya registrado.`, product });
       }
-    } else {
-      if (req.files[0]) {
-        const { filename } = req.files[0];
-        if (fs.existsSync("storage/img/products/" + filename)) {
-          // console.log("Existe el archivo.");
-          fs.unlinkSync("storage/img/products/" + filename, filename);
-        }
-      }
-      res.json({ msg: `Producto id: ${req.body.prod_id} ya registrado.`, product });
+    } catch (error) {
+      res.json(error);
     }
   }
 

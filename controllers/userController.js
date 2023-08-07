@@ -55,15 +55,19 @@ class UserController {
   }
 
   async logout(req, res) {
-    const user = await User.findById(req.cookies.userSession._id);
-    console.log(`${user?.name} logout`);
-    res.clearCookie("userSession");
-    res.clearCookie("authorization");
-    await User.findByIdAndUpdate(user?._id, { status: false });
-    req.session.destroy();
-    res.status(201).json({
-      msg: "Session closed.",
-    });
+    try {
+      const user = await User.findById(req.cookies.userSession._id);
+      console.log(`${user?.name} logout`);
+      res.clearCookie("userSession");
+      res.clearCookie("authorization");
+      await User.findByIdAndUpdate(user?._id, { status: false });
+      req.session.destroy();
+      res.status(201).json({
+        msg: "Session closed.",
+      });
+    } catch (error) {
+      res.json(error);
+    }
   }
 
   async register(req, res) {
