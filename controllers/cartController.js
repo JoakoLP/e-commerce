@@ -3,12 +3,16 @@ const { Product } = require("../models/product");
 const { tokenVerify } = require("../utils/jwt");
 
 const cartSave = async (user, newCart, req) => {
-  user.cart = { ...newCart };
-  await User.findByIdAndUpdate(user._id, { cart: user.cart });
-  req.session.user = {
-    ...user,
-    cart: user.cart,
-  };
+  try {
+    user.cart = { ...newCart };
+    await User.findByIdAndUpdate(user._id, { cart: user.cart });
+    req.session.user = {
+      ...user,
+      cart: user.cart,
+    };
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 class CartController {
@@ -20,7 +24,7 @@ class CartController {
       const user = await User.findById(decoded.body._id);
       res.json(user?.cart);
     } catch (error) {
-      console.log(error);
+      res.json(error);
     }
   }
 
