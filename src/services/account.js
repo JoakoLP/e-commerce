@@ -64,7 +64,13 @@ const userList = async (setUserList) => {
   try {
     await account.get("/userList").then((res) => {
       if (setUserList) {
-        setUserList(res.data);
+        if (Array.isArray(res.data)) {
+          setUserList(res.data);
+        } else {
+          console.log("Sin resultados, userList");
+          // console.log(typeof res.data);
+          console.log(res.data);
+        }
       } else return res.data;
       // console.log(res.data);
     });

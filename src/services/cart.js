@@ -15,8 +15,12 @@ const getCart = async (setCart) => {
   try {
     await cart.get("getCart", { withCredentials: true, headers: { Authorization: `${cookies.get("authorization")}` } }).then((res) => {
       if (setCart) {
-        console.log(res.data);
-        setCart(res.data);
+        if (res?.data?.products) {
+          console.log(res.data);
+          setCart(res.data);
+        } else {
+          console.log("Not a cart, getCart");
+        }
       } else {
         return res.data;
       }

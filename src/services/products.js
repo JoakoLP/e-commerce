@@ -27,7 +27,13 @@ const productGet = async (setProductList) => {
       // console.log(res.data);
       // console.log(cookies.get("productList"));
       if (setProductList) {
-        setProductList(res.data);
+        if (Array.isArray(res.data)) {
+          setProductList(res.data);
+        } else {
+          console.log("Sin resultados, productGet");
+          // console.log(typeof res.data);
+          console.log(res.data);
+        }
       } else return res.data;
     });
   } catch (error) {
@@ -60,7 +66,13 @@ const productSearch = async (search, categ, setProducts) => {
   try {
     await products.get(`/search?srch=${search}&ctg=${categ}`).then((res) => {
       // console.log(res.data);
-      setProducts(res.data);
+      if (Array.isArray(res.data)) {
+        setProducts(res.data);
+      } else {
+        console.log("Sin resultados, productSearch");
+        // console.log(typeof res.data);
+        console.log(res.data);
+      }
       return res.data;
     });
   } catch (error) {
