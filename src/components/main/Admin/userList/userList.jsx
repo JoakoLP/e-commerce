@@ -56,7 +56,7 @@ const UserList = () => {
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {TABLE_ROWS.map((user, index) => (
+            {TABLE_ROWS?.map((user, index) => (
               <Table.Row key={user?.username}>
                 {/* info user */}
                 <Table.Cell>
