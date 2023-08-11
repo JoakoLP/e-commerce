@@ -14,6 +14,7 @@ import Admin from "./components/main/Admin";
 import AccountComps from "./components/main/Account/AccountComps";
 import SessionComps from "./components/main/Session/SessionComps";
 import AdminComps from "./components/main/Admin/AdminComps";
+import CartButton from "./components/cart/cartButton";
 
 function App() {
   const [categIsOpen, setCategIsOpen] = useState(false);
@@ -26,6 +27,7 @@ function App() {
             <NavBar setCategIsOpen={setCategIsOpen} setCartIsOpen={setCartIsOpen} />
             <MenuDrawer categIsOpen={categIsOpen} setCategIsOpen={setCategIsOpen} />
             <CartDrawer cartIsOpen={cartIsOpen} setCartIsOpen={setCartIsOpen} />
+            <CartButton cartIsOpen={cartIsOpen} setCartIsOpen={setCartIsOpen} />
 
             <div className="min-h-[80vh] bg-gray-200">
               <Routes>

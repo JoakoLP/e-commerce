@@ -4,22 +4,22 @@ import { Cart2, XLg } from "react-bootstrap-icons";
 import { useDisableBodyScroll } from "../../useDisableBodySroll";
 import Cart from "../../cart/cart";
 
-export default function CartDrawer({ children, cartIsOpen, setCartIsOpen }) {
+export default function CartDrawer({ cartIsOpen, setCartIsOpen }) {
   useDisableBodyScroll(cartIsOpen);
   return (
     <div
       className={
-        " fixed overflow-hidden bg-gray-900 z-10 inset-0 transform ease-in-out " +
+        " fixed overflow-hidden bg-gray-900 z-30 inset-0 transform ease-in-out " +
         (cartIsOpen ? " transition-opacity opacity-100 duration-500 bg-opacity-25 translate-x-0 " : " transition-all opacity-0 bg-opacity-0 delay-500 translate-x-full ")
       }
     >
       <section
         className={
-          " w-screen max-w-lg right-0 absolute bg-white h-full shadow-xl delay-400 duration-500 ease-in-out transition-all transform  " + (cartIsOpen ? " translate-x-0 " : " translate-x-full ")
+          " w-screen sm:max-w-xl right-0 absolute bg-white h-full shadow-xl delay-400 duration-500 ease-in-out transition-all transform  " + (cartIsOpen ? " translate-x-0 " : " translate-x-full ")
         }
       >
-        <article className="relative flex flex-col w-screen h-full max-w-lg pb-10 space-y-6 ">
-          <header className="flex justify-center p-5 space-x-2 text-lg font-bold select-none">
+        <article className="relative flex flex-col w-screen h-full pb-10 sm:max-w-full">
+          <header className="flex justify-center p-5 space-x-2 text-lg font-bold bg-white select-none">
             <Cart2 size={24} />
             <span>Carrito</span>
             <Button
@@ -36,7 +36,6 @@ export default function CartDrawer({ children, cartIsOpen, setCartIsOpen }) {
               </div>
             </Button>
           </header>
-          {children}
           <Cart />
         </article>
       </section>

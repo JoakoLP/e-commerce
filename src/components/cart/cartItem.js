@@ -1,5 +1,6 @@
 import React from "react";
 import * as styles from "./styles";
+import { MinusSmallIcon, PlusSmallIcon } from "@heroicons/react/24/outline";
 
 const trashCan = (
   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
@@ -25,7 +26,7 @@ const CartItem = ({ data, addToCart, deleteFromCart, deleteAllItems, setCart }) 
               deleteFromCart(data.prod_id, setCart);
             }}
           >
-            -
+            <MinusSmallIcon className="w-4 h-4 stroke-2 stroke-white sm:stroke-black group-hover/sub:lg:stroke-cyan-700" />
           </button>
           <span className={styles.quantity}>{data.quantity}</span>
           <button
@@ -34,7 +35,7 @@ const CartItem = ({ data, addToCart, deleteFromCart, deleteAllItems, setCart }) 
               addToCart(data.prod_id, setCart);
             }}
           >
-            +
+            <PlusSmallIcon className="w-5 h-5 stroke-2 stroke-white sm:stroke-black group-hover/add:lg:stroke-cyan-700" />
           </button>
         </div>
         <div className={styles.priceSub}>

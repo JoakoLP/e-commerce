@@ -6,7 +6,7 @@ import SidebarCategories from "../navbar-bottom/sidebarCategories";
 // import SidebarCategories from "../../../assets/img/logo.png";
 import iconpng from "../../../assets/favicon.ico";
 
-export default function CategDrawer({ children, categIsOpen, setCategIsOpen }) {
+export default function CategDrawer({ categIsOpen, setCategIsOpen }) {
   useDisableBodyScroll(categIsOpen);
   return (
     <div
