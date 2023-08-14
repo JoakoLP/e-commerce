@@ -15,6 +15,7 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
   const [SubCategoryList, setSubCategoryList] = useState([]);
   const [CategoryList, setCategoryList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [subCategRest, setSubCategRest] = useState([]);
 
   // category fetch
   const loadCategories = async () => {
@@ -60,6 +61,7 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
       setTags(editItem?.tags ? editItem.tags : []);
     }
     loadCategories();
+    filterSubCategRest();
   }, [edit, editItem]);
 
   useLayoutEffect(() => {
@@ -173,6 +175,14 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
     }
   };
 
+  const filterSubCategRest = () => {
+    const check = SubCategoryList.filter((subCategory) => {
+      return subCategory?.category === null;
+    });
+    setSubCategRest(check);
+    console.log(subCategRest);
+  };
+
   // tags
   const [tags, setTags] = useState(editItem?.tags ? editItem.tags : []);
   const addTag = (e) => {
@@ -271,9 +281,57 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
                   </div>
                 </div>
 
-                <div className="border border-gray-500 rounded-sm my-1.5">
+                <div className="border border-gray-500 rounded-sm my-1.5 w-full flex flex-col justify-center items-center overflow-hidden">
                   <p className="text-lg text-center cursor-default">Categorización</p>
-                  {/* category */}
+                  <p className={isLoading ? "visible" : "hidden"}>Cargando...</p>
+                  <div className={isLoading ? "hidden" : `visible grid grid-flow-row grid-cols-2 shrink-0 gap-3 justify-between py-1.5 w-[100%] px-2 items-start`}>
+                    {CategoryList.map((category) => {
+                      return (
+                        <div className="text-black w-min">
+                          <div className="flex items-center space-x-1 justify-start">
+                            <input type="checkbox" id={`category/${category?.id}/${editItem?.prod_id}`} onChange={checkCateg} required name={`category/${editItem?.prod_id}`} value={category?.id} />
+                            <label htmlFor={`category/${category?.id}/${editItem?.prod_id}`} id={`category/${category?.id}/label`} className="w-min font-semibold pl-0.5">
+                              {category?.name}
+                            </label>
+                          </div>
+                          {category?.subCategories.length > 0 ? (
+                            <ul className="flex flex-col items-start pl-3 text-sm">
+                              {category?.subCategories?.map((subCategory) => (
+                                <li className="flex items-center space-x-1 justify-center">
+                                  <input type="checkbox" id={`subCategory/${subCategory?.id}/${editItem?.prod_id}`} name={`subCategory/${editItem?.prod_id}`} value={subCategory?.id} />
+                                  <label htmlFor={`subCategory/${subCategory?.id}/${editItem?.prod_id}`} id={`subCategory/${subCategory?.id}/label`} className="w-min text-sm pl-0.5">
+                                    {subCategory?.name}
+                                  </label>
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            {}
+                          )}
+                        </div>
+                      );
+                    })}
+                    <div className={subCategRest.length > 0 ? "visible text-black w-min" : "hidden"}>
+                      <ul className="list-disc list-inside">
+                        <li className="font-semibold">Otras subcategorías</li>
+                        <ul className="flex flex-col items-start pl-3 text-sm">
+                          {subCategRest?.map((subCategory) => {
+                            // console.log(subCategory);
+                            return (
+                              <li className="flex items-center space-x-1 justify-center">
+                                <input type="checkbox" id={`subCategory/${subCategory?.id}/${editItem?.prod_id}`} name={`subCategory/${editItem?.prod_id}`} value={subCategory?.id} />
+                                <label htmlFor={`subCategory/${subCategory?.id}/${editItem?.prod_id}`} id={`subCategory/${subCategory?.id}/label`} className="w-min text-sm pl-0.5">
+                                  {subCategory?.name}
+                                </label>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </ul>
+                    </div>
+                  </div>
+
+                  {/* category
                   <div className={`${style} flex-col`}>
                     <p className="self-start">Categoría:</p>
                     <div className={`${style} max-w-[95%] self-end max-h-[20%] overflow-hidden`}>
@@ -291,17 +349,17 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
                         })}
                       </div>
                     </div>
-                  </div>
+                  </div> */}
 
-                  {/* subcategory */}
+                  {/* subcategory
                   <div className={`${style} flex-col`}>
                     <p className="self-start">SubCategorías:</p>
                     <div className={`${style} max-w-[95%] self-end max-h-[20%] overflow-auto`}>
-                      <div className={`${style} grid shrink-1 grid-cols-3 gap-1 gap-x-0`}>
-                        <p className={isLoading ? "visible" : "hidden"}>Cargando...</p>
+                      <p className={isLoading ? "visible" : "hidden"}>Cargando...</p>
+                      <div className={isLoading ? "hidden" : `visible${style} grid shrink-1 grid-cols-3 gap-1 gap-x-0`}>
                         {SubCategoryList?.map((subCategory) => {
                           return (
-                            <div className={isLoading ? "hidden" : "visible flex items-center w-min min-w-min"}>
+                            <div className={" flex items-center w-min min-w-min"}>
                               <input type="checkbox" id={`subCategory/${subCategory?.id}/${editItem?.prod_id}`} name={`subCategory/${editItem?.prod_id}`} value={subCategory?.id} />
                               <label htmlFor={`subCategory/${subCategory?.id}/${editItem?.prod_id}`} id={`subCategory/${subCategory?.id}/label`} className="w-min text-sm pl-0.5">
                                 {subCategory?.name}
@@ -311,7 +369,7 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
                         })}
                       </div>
                     </div>
-                  </div>
+                  </div> */}
 
                   {/* subCategory temp */}
                   <div className={`${style}`}>
