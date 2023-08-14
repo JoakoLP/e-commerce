@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import categoryService from "../../../../../services/category";
 import { useDisableBodyScroll } from "../../../../useDisableBodySroll";
 
@@ -9,15 +9,44 @@ const SubCategoryAddModal = ({ addModal, setAddModal }) => {
     const subCategory = {
       id: document.getElementById("subCategoryId").value,
       name: document.getElementById("subCategoryName").value,
+      category: Category,
     };
     categoryService.subCategoryAdd(subCategory);
     window.location.reload(false);
-    console.log(subCategory);
+    // console.log(subCategory);
   };
+
+  const [CategoryList, setCategoryList] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [Category, setCategory] = useState(null);
+
+  const loadCategories = async () => {
+    await categoryService.categoryGet(setCategoryList);
+    setIsLoading(false);
+  };
+
+  const oneCategChecked = (id) => {
+    // console.log(id);
+    CategoryList.forEach((category) => {
+      if (category?.id !== id) {
+        // console.log(category?.id);
+        // console.log(id);
+        const cat = document.getElementById(`category/${category?.id}`);
+        return (cat.checked = false);
+      }
+    });
+  };
+
+  useEffect(() => {
+    document.getElementById("subCategoryForm").reset();
+    loadCategories();
+  }, []);
 
   const closeModal = () => {
     setAddModal(!addModal);
-    document.getElementById("subCategoryForm").reset();
+    // document.getElementById("subCategoryForm").reset();
   };
 
   const style = "flex justify-between items-center py-1.5 w-full px-2";
@@ -65,6 +94,39 @@ const SubCategoryAddModal = ({ addModal, setAddModal }) => {
                 Nombre:
               </label>
               <input type="text" name="" placeholder='Ejemplo: "Notebook"' required id="subCategoryName" className={inputStyle} />
+            </div>
+            <div className={`${style} flex-col`}>
+              <p className="self-start">Categorías:</p>
+              <div className={`${style} max-w-[95%] self-end max-h-[20%] overflow-auto`}>
+                <p className={isLoading ? "visible" : "hidden"}>Cargando...</p>
+                <div className={isLoading ? "hidden" : " justify-between items-center py-1.5 px-2 min-w-min grid shrink-0 grid-cols-2 gap-1"}>
+                  {CategoryList?.map((category) => {
+                    return (
+                      <div className={"flex items-center pr-2 w-min"}>
+                        <input
+                          type="checkbox"
+                          id={`category/${category?.id}`}
+                          name="category"
+                          value={category?.id}
+                          onClick={(e) => {
+                            // console.log(e?.target?.value);
+                            const checkedCategory = CategoryList.filter((element) => {
+                              return element.id === e?.target?.value;
+                            });
+                            const { id, name } = checkedCategory[0];
+                            oneCategChecked(e?.target?.value);
+                            setCategory({ id, name });
+                            // console.log(Category);
+                          }}
+                        />
+                        <label htmlFor={`category/${category?.id}`} id={`category/${category?.id}/label`} className="pl-0.5">
+                          {category?.name}
+                        </label>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
 
             <div className={`${style} flex-col`}>

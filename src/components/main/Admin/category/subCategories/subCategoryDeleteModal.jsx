@@ -49,6 +49,10 @@ const SubCategoryDeleteModal = ({ delModal, setDelModal, subCategory, setSubCate
                 <span className="font-medium">Nombre: </span>
                 {subCategory?.name}
               </p>
+              <p>
+                <span className="font-medium">Categoría: </span>
+                {subCategory?.category ? subCategory?.category?.name : "Ninguna"}
+              </p>
             </div>
           </div>
           <div className="pt-1">

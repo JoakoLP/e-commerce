@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { XMarkIcon, PlusSmallIcon } from "@heroicons/react/24/outline";
 
@@ -10,11 +10,46 @@ const SubCategoryEditModal = ({ editModal, setEditModal, subCategory, setSubCate
     const newSubCateg = {
       id: document.getElementById(`subCategoryId/${subCategory?.id}`).value,
       name: document.getElementById(`subCategoryName/${subCategory?.id}`).value,
+      category: Category,
     };
     categoryService.subCategoryEdit(newSubCateg, subCategory._id);
     window.location.reload(false);
     console.log(newSubCateg);
   };
+
+  const [CategoryList, setCategoryList] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [Category, setCategory] = useState({});
+
+  const loadCategories = async () => {
+    await categoryService.categoryGet(setCategoryList);
+    // console.log(subCategory);
+    const category = subCategory?.category;
+    if (category) {
+      // console.log(category);
+      document.getElementById(`category/${category?.id}/${subCategory?.id}`).checked = true;
+      setCategory({ id: category?.id, name: category?.name });
+    }
+    setIsLoading(false);
+  };
+
+  const oneCategChecked = (id) => {
+    // console.log(id);
+    CategoryList.forEach((category) => {
+      if (category?.id !== id) {
+        // console.log(category?.id);
+        // console.log(id);
+        const cat = document.getElementById(`category/${category?.id}/${subCategory?.id}`);
+        return (cat.checked = false);
+      }
+    });
+  };
+
+  useEffect(() => {
+    loadCategories();
+  }, [subCategory]);
 
   const closeModal = () => {
     document.getElementById(`subCategoryForm/${subCategory?.id}`).reset();
@@ -68,7 +103,39 @@ const SubCategoryEditModal = ({ editModal, setEditModal, subCategory, setSubCate
               </label>
               <input type="text" name="" placeholder='Ejemplo: "Notebook"' defaultValue={subCategory?.name} required id={`subCategoryName/${subCategory?.id}`} className={inputStyle} />
             </div>
-
+            <div className={`${style} flex-col`}>
+              <p className="self-start">Categorías:</p>
+              <div className={`${style} max-w-[95%] self-end max-h-[20%] overflow-auto`}>
+                <p className={isLoading ? "visible" : "hidden"}>Cargando...</p>
+                <div className={isLoading ? "hidden" : " justify-between items-center py-1.5 px-2 min-w-min grid shrink-0 grid-cols-2 gap-1"}>
+                  {CategoryList?.map((category) => {
+                    return (
+                      <div className={"flex items-center pr-2 w-min"}>
+                        <input
+                          type="checkbox"
+                          id={`category/${category?.id}/${subCategory?.id}`}
+                          name="category"
+                          value={category?.id}
+                          onClick={(e) => {
+                            // console.log(e?.target?.value);
+                            const checkedCategory = CategoryList.filter((element) => {
+                              return element.id === e?.target?.value;
+                            });
+                            const { id, name } = checkedCategory[0];
+                            oneCategChecked(e?.target?.value);
+                            setCategory({ id, name });
+                            console.log(Category);
+                          }}
+                        />
+                        <label htmlFor={`category/${category?.id}/${subCategory?.id}`} id={`category/${category?.id}/${subCategory?.id}/label`} className="pl-0.5">
+                          {category?.name}
+                        </label>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
             <div className={`${style} flex-col`}>
               <button
                 className="p-1 duration-300 border border-black rounded text-neutral-200 bg-cyan-700 active:scale-90 active:duration-75 active:bg-cyan-900 hover:text-white active:shadow-inner active:shadow-neutral-800 lg:hover:bg-cyan-900 lg:hover:text-white lg:hover:shadow-inner lg:hover:shadow-neutral-800"

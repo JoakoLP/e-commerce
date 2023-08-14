@@ -1,10 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import categoryService from "../../../../../services/category";
 import { useDisableBodyScroll } from "../../../../useDisableBodySroll";
 
 import { XMarkIcon, PlusSmallIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
-import { useEffect } from "react";
 
 const CategoryAddModal = ({ addModal, setAddModal }) => {
   const categoryAdd = () => {
