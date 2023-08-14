@@ -63,6 +63,7 @@ class CategoryController {
           subCategory = new SubCategory({
             id: req.body.id,
             name: req.body.name,
+            category: req.body.category,
           });
           await subCategory.save();
           res.json({ msg: `SubCategoría '${req.body.name}' agregada con el id '${req.body.id}'.` });
