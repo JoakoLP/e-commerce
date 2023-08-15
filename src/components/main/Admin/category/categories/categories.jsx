@@ -31,15 +31,17 @@ const Categories = () => {
         // console.log(user.email);
         return (
           <>
-            <div className="flex flex-col items-center p-2 bg-white border rounded-md shadow-md ">
-              <p>
-                <span className="font-medium">ID: </span>
-                {category.id}
-              </p>
-              <p>
-                <span className="font-medium">Nombre: </span>
-                {category.name}
-              </p>
+            <div className="flex flex-col items-center justify-between p-2 bg-white border rounded-md shadow-md">
+              <div>
+                <p className="text-center">
+                  <span className="font-medium">ID: </span>
+                  {category.id}
+                </p>
+                <p className="text-center">
+                  <span className="font-medium">Nombre: </span>
+                  {category.name}
+                </p>
+              </div>
               {/* <p>subCategories: {category?.subCategories?.length > 0 ? "tiene" : "no tiene"}</p> */}
               <button
                 onClick={(e) => {

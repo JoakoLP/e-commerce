@@ -43,7 +43,10 @@ const CategoryEditModal = ({ edit, setEdit, editItem, setEditItem }) => {
         const subCategory = SubCategoryList.filter((element) => {
           return element.id === checkbox.value;
         });
-        subCategories.push(subCategory[0]);
+        const { id, name } = subCategory[0];
+        let subCat = { id, name };
+        subCategories.push(subCat);
+        // subCategories.push(subCategory[0]);
       }
       // console.log(subCategories);
     });

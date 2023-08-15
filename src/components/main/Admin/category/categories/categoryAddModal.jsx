@@ -13,7 +13,9 @@ const CategoryAddModal = ({ addModal, setAddModal }) => {
         const subCategory = SubCategoryList.filter((element) => {
           return element.id === checkbox.value;
         });
-        subCategories.push(subCategory[0]);
+        const { id, name } = subCategory[0];
+        let subCat = { id, name };
+        subCategories.push(subCat);
       }
     });
 
