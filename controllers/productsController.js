@@ -81,7 +81,7 @@ class ProductsController {
   async productEdit(req, res) {
     try {
       const product = { ...req.body.product };
-      // console.log(req.body?._id);
+      console.log(req.body?._id);
       const OldProduct = await Product.findById(req.body?._id);
       if (req.body?.product?.img.type == "URL") {
         product.img.data = req.body?.product?.img.data;
@@ -94,7 +94,10 @@ class ProductsController {
           // product.setImgUrl(filename);
         }
       }
-      if (OldProduct?.img?.data !== product?.img?.data) {
+      // console.log(OldProduct?.img?.data);
+      // console.log(product?.img?.data);
+      if (OldProduct?.img?.data !== undefined && OldProduct?.img?.data !== product?.img?.data) {
+        console.log("difiere");
         const filename = path.basename(OldProduct.img?.data);
         // console.log(filename);
         if (fs.existsSync("storage/img/products/" + filename)) {
@@ -102,11 +105,13 @@ class ProductsController {
           fs.unlinkSync("storage/img/products/" + filename, filename);
         }
       }
+      console.log(OldProduct);
+      // console.log(product);
 
+      // console.log(req.body?s.product);
       await Product.findOneAndReplace({ _id: req.body?._id }, { ...product });
       const newItem = await Product.findById(req.body._id);
 
-      // console.log(product);
       // console.log(req.body.product.id);
       // console.log(req.body.product.prod_id);
       // console.log(req.body._id);
