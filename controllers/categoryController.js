@@ -82,7 +82,7 @@ class CategoryController {
     try {
       const subCategoryList = await SubCategory.find({});
       res.json(subCategoryList);
-      console.log(subCategoryList);
+      // console.log(subCategoryList);
     } catch (error) {
       res.json(error);
     }
