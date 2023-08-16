@@ -7,15 +7,22 @@ const AddProduct = () => {
   const [SubCategoryList, setSubCategoryList] = useState([]);
   const [CategoryList, setCategoryList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [subCategRest, setSubCategRest] = useState([]);
+
   // category fetch
   const loadCategories = async () => {
     await categoryService.subCategoryGet(setSubCategoryList);
     await categoryService.categoryGet(setCategoryList);
     setIsLoading(false);
   };
+
   useEffect(() => {
     loadCategories();
   }, []);
+
+  useEffect(() => {
+    filterSubCategRest();
+  }, [SubCategoryList]);
 
   const script = (e) => {
     e.preventDefault();
@@ -57,7 +64,7 @@ const AddProduct = () => {
       color: document.getElementById("elementColor").value,
     };
     console.log(product);
-    productService.productAdd(product);
+    // productService.productAdd(product);
   };
 
   // IMG
@@ -104,6 +111,14 @@ const AddProduct = () => {
         categ.required = false;
       });
     }
+  };
+
+  const filterSubCategRest = () => {
+    const check = SubCategoryList.filter((subCategory) => {
+      return subCategory?.category === null;
+    });
+    setSubCategRest(check);
+    console.log(subCategRest);
   };
 
   // Tags
@@ -173,44 +188,51 @@ const AddProduct = () => {
           </div>
 
           <div className="border border-gray-500 rounded-sm my-1.5">
-            <p className="text-lg text-center cursor-default">Categorización</p>
-            {/* category */}
-            <div className={`${style} flex-col`}>
-              <p className="self-start">Categoría:</p>
-              <div className={`${style} max-w-[95%] self-end max-h-[20%] overflow-hidden`}>
-                <div className={`items-center w-full grid auto-cols-max max-w-full gap-1`}>
-                  <p className={isLoading ? "visible" : "hidden"}>Cargando...</p>
-                  {CategoryList?.map((category) => {
-                    return (
-                      <div className={isLoading ? "hidden" : "visible flex items-center pr-2 min-w-min"}>
-                        <input type="checkbox" id={`category/${category?.id}`} onChange={checkCateg} required name="category" value={category?.id} />
-                        <label htmlFor={`category/${category?.id}`} id={`category/${category?.id}/label`} className="w-min text-sm pl-0.5">
-                          {category?.name}
-                        </label>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
+            <p className="text-xl font-semibold text-center cursor-default">Categorización</p>
+            <p className={isLoading ? "visible" : "hidden"}>Cargando...</p>
+            <div className={isLoading ? "hidden" : `visible grid grid-flow-row grid-cols-2 shrink-0 gap-3 justify-between py-1.5 w-[100%] px-2 items-start`}>
+              {CategoryList.map((category) => {
+                return (
+                  <div className="text-black w-min">
+                    <div className="flex items-center justify-start space-x-1">
+                      <input type="checkbox" id={`category/${category?.id}`} onChange={checkCateg} required name="category" value={category?.id} />
+                      <label htmlFor={`category/${category?.id}`} id={`category/${category?.id}/label`} className="w-min text-sm pl-0.5">
+                        {category?.name}
+                      </label>
+                    </div>
 
-            {/* subcategory */}
-            <div className={`${style} flex-col`}>
-              <p className="self-start">SubCategorías:</p>
-              <div className={`${style} max-w-[95%] self-end max-h-[20%] overflow-auto`}>
-                <div className={`${style} grid shrink-1 grid-cols-3 gap-1 gap-x-0`}>
-                  <p className={isLoading ? "visible" : "hidden"}>Cargando...</p>
-                  {SubCategoryList?.map((subCategory) => {
-                    return (
-                      <div className={isLoading ? "hidden" : "visible flex items-center w-min min-w-min"}>
-                        <input type="checkbox" id={`subCategory/${subCategory?.id}`} name="subCategory" value={subCategory?.id} />
-                        <label htmlFor={`subCategory/${subCategory?.id}`} id={`subCategory/${subCategory?.id}/label`} className="w-min text-sm pl-0.5">
-                          {subCategory?.name}
-                        </label>
-                      </div>
-                    );
-                  })}
-                </div>
+                    <ul className={category?.subCategories.length > 0 ? ` visible flex flex-col items-start pl-3 text-sm` : "hidden"}>
+                      {category?.subCategories?.map((subCategory) => (
+                        <li className="flex items-center justify-center space-x-1">
+                          <input type="checkbox" id={`subCategory/${subCategory?.id}`} name="subCategory" value={subCategory?.id} />
+                          <label htmlFor={`subCategory/${subCategory?.id}`} id={`subCategory/${subCategory?.id}/label`} className="w-min text-sm pl-0.5">
+                            {subCategory?.name}
+                          </label>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                );
+              })}
+              <div className={subCategRest.length > 0 ? "visible text-black w-min" : "hidden"}>
+                <ul className="list-disc list-inside">
+                  <li className="font-semibold">
+                    <span className="ml-[-10px]">Otras subcategorías</span>
+                  </li>
+                  <ul className="flex flex-col items-start pl-3 text-sm">
+                    {subCategRest?.map((subCategory) => {
+                      // console.log(subCategory);
+                      return (
+                        <li className="flex items-center justify-center space-x-1">
+                          <input type="checkbox" id={`subCategory/${subCategory?.id}`} name="subCategory" value={subCategory?.id} />
+                          <label htmlFor={`subCategory/${subCategory?.id}`} id={`subCategory/${subCategory?.id}/label`} className="w-min text-sm pl-0.5">
+                            {subCategory?.name}
+                          </label>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </ul>
               </div>
             </div>
 
