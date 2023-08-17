@@ -2,6 +2,7 @@ const { Product } = require("../models/product");
 const fs = require("fs");
 const path = require("path");
 const { appConfig } = require("../config");
+const { array } = require("../libs/storageProduct");
 
 class ProductsController {
   async productAdd(req, res) {
@@ -149,23 +150,27 @@ class ProductsController {
     try {
       const searchField = req.query.srch.toString();
       const searchCateg = req.query.ctg.toString();
+      const searchSubCateg = req.query.sctg;
+      console.log(searchField);
+      console.log(searchCateg);
+      console.log(searchSubCateg);
 
       const productList = await Product.find({});
 
-      // console.log(searchCateg);
-      // console.log(searchField);
+      // spli searchField in words
       const searchWords = searchField.split(" ");
 
+      // stores the items that matched with searchWords in their name
       let filterArray = productList.filter((item) => {
         return searchWords.every((word) => item.name.toLowerCase().includes(word.toLowerCase()));
       });
 
+      // stores the items that matched with searchWords in their tags
       let filterTag = productList.filter((item) => {
         return searchWords.every((word) => item.tags?.toString().toLowerCase().includes(word.toLowerCase()));
       });
-      // productList.filter((item) => {
-      //   return item.tags?.toString().toLowerCase().includes(searchField.toLowerCase());
-      // });
+
+      // adds non duplicated items
       if (filterTag.length > 0) {
         filterTag.forEach((item) => {
           const check = filterArray.includes(item);
@@ -175,12 +180,53 @@ class ProductsController {
         });
       }
 
+      // filter the category
       if (searchCateg != "all") {
+        // console.log(filterArray);
         const filterArrayCat = filterArray.filter((item) => {
-          return item.category === searchCateg;
+          if (item.category) {
+            return item.category.some((cat) => {
+              // console.log(cat.id);
+              // console.log(searchCateg);
+              // console.log(cat.id === searchCateg);
+              return cat.id === searchCateg;
+            });
+          }
         });
         // console.log(filterArrayCat);
         filterArray = filterArrayCat;
+      }
+
+      // filter the subCategory
+      if (searchSubCateg) {
+        const subCategs = searchSubCateg.split(",");
+        console.log(subCategs);
+
+        let filterArraySubCat = [];
+
+        subCategs.forEach((subC) => {
+          const array = filterArray.filter((item) => {
+            if (item.subCategory) {
+              return item.subCategory.some((itemSubC) => {
+                console.log(itemSubC.id);
+                console.log(subC);
+                console.log(itemSubC.id === subC);
+                return itemSubC.id === subC;
+              });
+            }
+          });
+          // adds non duplicated items
+          if (array.length > 0) {
+            array.forEach((item) => {
+              const check = filterArraySubCat.includes(item);
+              if (!check) {
+                filterArraySubCat.push(item);
+              }
+            });
+          }
+        });
+
+        filterArray = filterArraySubCat;
       }
 
       res.json(filterArray);
