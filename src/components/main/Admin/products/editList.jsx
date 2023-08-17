@@ -21,25 +21,27 @@ const EditList = () => {
   const [editItem, setEditItem] = useState();
   const [searchField, setSearchField] = useState(params.get("srch") || "");
   const [searchCateg, setSearchCateg] = useState(params.get("ctg") || "all");
+  const [searchSubCateg, setSearchSubCateg] = useState(params.get("sctg") || []);
 
   const [products, setProducts] = useState([]);
   const [SubCategoryList, setSubCategoryList] = useState([]);
   const [CategoryList, setCategoryList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const search = async (ctg) => {
+  const search = async (ctg, sctg) => {
     // const editSearch = document.getElementById("editSearch").value;
     // if (editSearch.length > 0) {
     //   setSearchField(editSearch);
     // }
-    await productsService.productSearch(searchField, ctg, setProducts);
+    await productsService.productSearch(searchField, ctg, sctg, setProducts);
     setIsLoading(false);
   };
 
   useEffect(() => {
     setIsLoading(true);
-    navigate(`?srch=${searchField}&ctg=${searchCateg}`);
-    search(searchCateg);
+    const sctg = searchSubCateg.toString();
+    navigate(`?srch=${searchField}&ctg=${searchCateg}&sctg=${sctg}`);
+    search(searchCateg, sctg);
   }, [searchCateg, searchField]);
 
   const checkArray = () => {

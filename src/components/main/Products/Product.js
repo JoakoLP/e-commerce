@@ -12,7 +12,7 @@ const Product = (props) => {
   return (
     <div
       key={data.id}
-      className="flex justify-between p-2 duration-150 bg-white border rounded shadow shadow-gray-300 sm:flex-col h-min bordear-cyan-700 active:shadow-cyan-400 lg:hover:shadow-2xl lg:hover:shadow-gray-500 lg:hover:z-10"
+      className="flex justify-between p-2 duration-150 bg-white border rounded shadow min-w-fit shadow-gray-300 sm:flex-col h-min bordear-cyan-700 active:shadow-cyan-400 lg:hover:shadow-2xl lg:hover:shadow-gray-500 lg:hover:z-10"
     >
       <div className="w-[130px] shrink-0 sm:w-auto h-[130px] sm:h-[250px] p-2 flex items-center justify-center sm:mx-1 bg-white rounded-md">
         <img src={data.img?.data || data.img} alt={data.name} className="object-contain w-full h-full truncate rounded-sm " />

@@ -62,10 +62,10 @@ const productDel = async (_id) => {
   }
 };
 
-const productSearch = async (search, categ, setProducts) => {
+const productSearch = async (search, ctg, sctg, setProducts) => {
   try {
-    await products.get(`/search?srch=${search}&ctg=${categ}`).then((res) => {
-      // console.log(res.data);
+    await products.get(`/search?srch=${search}&ctg=${ctg}&sctg=${sctg}`).then((res) => {
+      console.log(res.data);
       if (Array.isArray(res.data)) {
         setProducts(res.data);
       } else {
