@@ -11,44 +11,40 @@ import DeleteAllProd from "../components/scripts/deleteAllProd";
 const DefaultPage = () => {
   const imgArray = [
     {
-      url: "https://www.tooltyp.com/wp-content/uploads/2014/10/1900x920-8-beneficios-de-usar-imagenes-en-nuestros-sitios-web.jpg",
+      url: "https://i.imgur.com/a3nzPZp.jpg",
       alt: 1,
     },
     {
-      url: "https://img.freepik.com/vector-gratis/conjunto-logotipos-comercio-electronico-diseno-plano_23-2148944158.jpg?w=1380&t=st=1678728268~exp=1678728868~hmac=934d477e8f494bbee1e355c3cf0d75f5836b70a910c31e9293fafff32baa63cb",
+      url: "https://i.imgur.com/ECAhbwW.jpg",
       alt: 2,
     },
     {
-      url: "https://cdn.pixabay.com/photo/2017/10/17/16/10/fantasy-2861107_1280.jpg",
+      url: "https://i.imgur.com/JTkBAFZ.jpg",
       alt: 3,
     },
     {
-      url: "https://flowbite.com/docs/images/carousel/carousel-1.svg",
+      url: "https://i.imgur.com/LgJ743U.jpg",
       alt: 4,
     },
     {
-      url: "https://flowbite.com/docs/images/carousel/carousel-2.svg",
+      url: "https://i.imgur.com/DcIspDB.jpg",
       alt: 5,
     },
     {
-      url: "https://flowbite.com/docs/images/carousel/carousel-3.svg",
+      url: "https://i.imgur.com/WeWTZ2D.jpg",
       alt: 6,
     },
     {
-      url: "https://flowbite.com/docs/images/carousel/carousel-4.svg",
+      url: "https://i.imgur.com/BN5geKg.jpg",
       alt: 7,
-    },
-    {
-      url: "https://flowbite.com/docs/images/carousel/carousel-5.svg",
-      alt: 8,
     },
     // {
     //   url: "",
-    //   alt: 9,
+    //   alt: 8,
     // },
   ];
   return (
-    <div className="h-min-[85vh]">
+    <div className="h-min-[85vh] flex flex-col items-center">
       <CarouselComp imgArray={imgArray} />
       <PopularCards />
       {/* <PruebaScript /> */}

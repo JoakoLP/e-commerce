@@ -29,7 +29,7 @@ function App() {
             <CartDrawer cartIsOpen={cartIsOpen} setCartIsOpen={setCartIsOpen} />
             <CartButton cartIsOpen={cartIsOpen} setCartIsOpen={setCartIsOpen} />
 
-            <div className="min-h-[80vh] bg-gray-200">
+            <div className="min-h-[90vh] bg-gray-200">
               <Routes>
                 <Route path="/" element={<Pages.Default />} />
                 <Route path="/search" element={<Pages.Search />} />

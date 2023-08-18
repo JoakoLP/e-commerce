@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Search } from "react-bootstrap-icons";
 import { useNavigate, useLocation } from "react-router-dom";
 import { SearchOnEnter } from "./searchOnEnter";
+import { Button } from "flowbite-react";
 
 const NavSearch = () => {
   const [searchField, setSearchField] = useState("");
@@ -48,6 +49,9 @@ const NavSearch = () => {
               defaultValue="all"
               onChange={handleSelect}
               // onSelect={handleSelect}
+              // class="group p-0.5 text-center font-medium focus:z-10 focus:outline-none bg-gradient-to-br from-purple-600 to-cyan-500 enabled:hover:bg-gradient-to-bl focus:ring-cyan-300 dark:focus:ring-cyan-800 rounded-lg focus:ring-2 flex items-center justify-center w-12 h-10 text-black bg-blue-500 rounded-l-none rounded-r"
+              // className="bg-gradient-to-br from-purple-600 to-cyan-500 enabled:hover:bg-gradient-to-bl h-full !border-transparent overflow-ellipsis rounded-l text-gray-900 text-sm min-w-[80px] max-w-[30%] dark:placeholder-gray-400 dark:text-white !ring-0"
+
               class="bg-gray-50 h-full !border-transparent overflow-ellipsis rounded-l text-gray-900 text-sm block min-w-[80px] max-w-[30%] dark:placeholder-gray-400 dark:text-white !ring-0"
             >
               <option value="all">Todos</option>
@@ -74,9 +78,11 @@ const NavSearch = () => {
           </div>
         </div>
       </div>
-      <button className="flex items-center justify-center w-12 h-10 text-black bg-blue-500 rounded-r" onClick={handleClick}>
+      <Button gradientDuoTone="purpleToBlue" size="xs" className="flex items-center justify-center w-12 h-10 text-black bg-blue-500 rounded-l-none rounded-r" onClick={handleClick}>
         <Search size={20} className="align-middle" />
-      </button>
+      </Button>
+      {/* <button className="flex items-center justify-center w-12 h-10 text-black bg-blue-500 rounded-r" onClick={handleClick}>
+      </button> */}
     </div>
   );
 };

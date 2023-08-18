@@ -6,7 +6,7 @@ function CarouselComp({ imgArray }) {
   // console.log(imgArray[0].url);
   const itemRender = (imgItem, index) => {
     return (
-      <div class="hidden duration-300 ease-in-out " data-carousel-item>
+      <div class="hidden duration-300 ease-in-out bg-white" data-carousel-item>
         <img key={index} src={imgItem.url} class=" absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt={imgItem.alt} />
       </div>
     );
@@ -30,7 +30,7 @@ function CarouselComp({ imgArray }) {
         </Carousel>
       </div> */}
 
-      <div id="default-carousel" class="relative w-full" data-carousel="slide">
+      <div id="default-carousel" class="relative w-3/4 shadow-lg shadow-slate-400" data-carousel="slide">
         {/* <!-- Carousel wrapper --> */}
         <div class="relative h-56 overflow-hidden md:h-96 z-0">
           {/* <div class="hidden duration-300 ease-in-out" data-carousel-item="active">

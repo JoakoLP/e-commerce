@@ -64,7 +64,7 @@ const AddProduct = () => {
       color: document.getElementById("elementColor").value,
     };
     console.log(product);
-    // productService.productAdd(product);
+    productService.productAdd(product);
   };
 
   // IMG
