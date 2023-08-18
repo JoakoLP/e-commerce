@@ -52,63 +52,65 @@ const Register = () => {
   const divStyle = "flex flex-col items-between justify-center w-full";
   const inputStyle = "px-2 py-1 rounded-sm h-min";
   return (
-    <div className="flex flex-col items-center justify-center w-full p-5">
-      <div className="flex flex-col items-center p-4 border rounded w-min">
-        <p className="text-2xl font-bold">Registrarse</p>
-        <form action="" id="register" onSubmit={handleRegister} encType="multipart/form-data" className="flex flex-col items-center pt-3 space-y-3">
-          <div className="flex flex-col items-center space-y-1 w-min">
-            <p className={errorMsg ? "visible text-xs text-red-600" : "hidden"}>{errorMsg}</p>
-            <div className={divStyle}>
-              <label htmlFor="userNameReg" className="text-xs font-bold">
-                Usuario
-              </label>
-              <input type="text" name="" id="userNameReg" placeholder="" className={inputStyle} />
+    <div className="flex justify-center p-10">
+      <div className="flex flex-col items-center justify-center p-5 bg-white rounded w-min">
+        <div className="flex flex-col items-center p-4 border rounded w-min">
+          <p className="text-2xl font-bold">Registrarse</p>
+          <form action="" id="register" onSubmit={handleRegister} encType="multipart/form-data" className="flex flex-col items-center pt-3 space-y-3">
+            <div className="flex flex-col items-center space-y-1 w-min">
+              <p className={errorMsg ? "visible text-xs text-red-600" : "hidden"}>{errorMsg}</p>
+              <div className={divStyle}>
+                <label htmlFor="userNameReg" className="text-xs font-bold">
+                  Usuario
+                </label>
+                <input type="text" name="" id="userNameReg" placeholder="" className={inputStyle} />
+              </div>
+              <div className={divStyle}>
+                <label htmlFor="nameReg" className="text-xs font-bold">
+                  Nombre
+                </label>
+                <input type="text" name="" id="nameReg" placeholder="" className={inputStyle} />
+              </div>
+              <div className={divStyle}>
+                <label htmlFor="userEmailReg" className="text-xs font-bold">
+                  Email
+                </label>
+                <input type="email" name="" id="userEmailReg" placeholder="" className={inputStyle} />
+              </div>
+              <div className={divStyle}>
+                <label htmlFor="userPassReg" className="text-xs font-bold">
+                  Contraseña
+                </label>
+                <input type="password" name="" id="userPassReg" placeholder="" className={inputStyle} />
+              </div>
+              <div className={divStyle}>
+                <label htmlFor="userPassRegCheck" className="text-xs font-bold">
+                  Repita la contraseña
+                </label>
+                <input type="password" name="" id="userPassRegCheck" placeholder="" className={inputStyle} />
+              </div>
+              <div className={divStyle}>
+                <label htmlFor="userImgReg" className="text-xs font-bold">
+                  Imagen
+                </label>
+                <input type="file" name="" id="userImgReg" accept="image/png, image/jpeg" className="hidden" placeholder="" onChange={handleImage} />
+                <label htmlFor="userImgReg" className="self-center p-1 text-sm text-white rounded cursor-pointer select-none bg-cyan-700">
+                  Seleccionar imagen
+                </label>
+              </div>
             </div>
-            <div className={divStyle}>
-              <label htmlFor="nameReg" className="text-xs font-bold">
-                Nombre
-              </label>
-              <input type="text" name="" id="nameReg" placeholder="" className={inputStyle} />
+            <div className="flex items-center justify-center w-full">
+              <button className="p-1 text-white border border-black rounded bg-gradient-to-br from-purple-600 to-cyan-500 enabled:hover:bg-gradient-to-bl">Registrarse</button>
             </div>
-            <div className={divStyle}>
-              <label htmlFor="userEmailReg" className="text-xs font-bold">
-                Email
-              </label>
-              <input type="email" name="" id="userEmailReg" placeholder="" className={inputStyle} />
-            </div>
-            <div className={divStyle}>
-              <label htmlFor="userPassReg" className="text-xs font-bold">
-                Contraseña
-              </label>
-              <input type="password" name="" id="userPassReg" placeholder="" className={inputStyle} />
-            </div>
-            <div className={divStyle}>
-              <label htmlFor="userPassRegCheck" className="text-xs font-bold">
-                Repita la contraseña
-              </label>
-              <input type="password" name="" id="userPassRegCheck" placeholder="" className={inputStyle} />
-            </div>
-            <div className={divStyle}>
-              <label htmlFor="userImgReg" className="text-xs font-bold">
-                Imagen
-              </label>
-              <input type="file" name="" id="userImgReg" accept="image/png, image/jpeg" className="hidden" placeholder="" onChange={handleImage} />
-              <label htmlFor="userImgReg" className="self-center p-1 text-sm text-white rounded cursor-pointer select-none bg-cyan-800">
-                Seleccionar imagen
-              </label>
-            </div>
-          </div>
-          <div className="flex items-center justify-center w-full">
-            <button className="p-1 border border-black rounded ">Registrarse</button>
-          </div>
-        </form>
+          </form>
+        </div>
+        <p>
+          <span>¿Ya tienes una cuenta? </span>
+          <Link to={"/session/login"} className="text-blue-600 hover:underline">
+            Iniciar sesión
+          </Link>
+        </p>
       </div>
-      <p>
-        <span>¿Ya tienes una cuenta? </span>
-        <Link to={"/session/login"} className="text-blue-600 hover:underline">
-          Iniciar sesión
-        </Link>
-      </p>
     </div>
   );
 };
