@@ -8,7 +8,7 @@ const account = axios.create({
   withCredentials: true,
   baseURL: "https://e-commerce-server-psi.vercel.app/api/account/",
   // baseURL: "http://localhost:8080/api/account/",
-  headers: { Authorization: `${cookies.get("authorization")}` },
+  headers: { Authorization: `${cookies.get("authorization")}`, "Access-Control-Allow-Origin": "*" },
 });
 
 const login = async (credentials) => {
