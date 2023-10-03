@@ -35,6 +35,13 @@ app.use(
 );
 app.use(cookiesMiddleware());
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", process.env.APP_URL);
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 // route for static images
 app.use("/public", express.static(`${__dirname}/storage/img`));
 
