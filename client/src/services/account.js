@@ -14,7 +14,7 @@ const account = axios.create({
 const login = async (credentials) => {
   try {
     await account.post(`/login`, { ...credentials }, { withCredentials: true }).then((res) => {
-      window.location.reload(false);
+      // window.location.reload(false);
       console.log(res.data);
       // console.log({ userSession: { ...cookies.get("userSession") } });
     });
