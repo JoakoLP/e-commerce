@@ -55,6 +55,7 @@ const isLogged = (req, res, next) => {
 const isNotLogged = (req, res, next) => {
   try {
     console.log(req.cookies);
+    console.log(req);
     // if (!req.cookies.userSession) {
     if (!req.cookies.userSession) {
       res.status(501).send("You need to login first.");
