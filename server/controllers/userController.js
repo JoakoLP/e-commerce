@@ -33,14 +33,14 @@ class UserController {
         res.cookie(
           "authorization",
           `Bearer ${token}`,
-          req.body.remember ? { domain: "https://e-commerce-five-rose.vercel.app/" } : { maxAge: 60000, domain: "https://e-commerce-five-rose.vercel.app/" }
+          req.body.remember ? { domain: "https://e-commerce-server-psi.vercel.app/" } : { maxAge: 60000, domain: "https://e-commerce-server-psi.vercel.app/" }
         );
         res.cookie(
           "userSession",
           { ...req.session.user },
-          req.body.remember ? { domain: "https://e-commerce-five-rose.vercel.app/" } : { maxAge: 60000, domain: "https://e-commerce-five-rose.vercel.app/" }
+          req.body.remember ? { domain: "https://e-commerce-server-psi.vercel.app/" } : { maxAge: 60000, domain: "https://e-commerce-server-psi.vercel.app/" }
         );
-
+        console.log(req.cookies);
         await User.findByIdAndUpdate(user._id, { status: true });
         if (!req.body.remember) {
           setTimeout(async () => {
