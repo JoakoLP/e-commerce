@@ -9,7 +9,8 @@ const cookiesMiddleware = require("universal-cookie-express");
 const app = express();
 const connect = require("./db/db");
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "https://e-commerce-five-rose.vercel.app",
+  // origin: "http://localhost:3000",
   credentials: true,
 };
 

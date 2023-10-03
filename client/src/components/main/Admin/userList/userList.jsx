@@ -35,7 +35,7 @@ const UserList = () => {
 
   const TABLE_ROWS = userList;
   const TABLE_HEAD = ["Usuario", "Admin", "Estado", "Creación"];
-  const defaultUser = "https://e-commerce-five-rose.vercel.app/public/default/user-avatar.png";
+  const defaultUser = "https://e-commerce-server-psi.vercel.app/public/default/user-avatar.png";
   // const defaultUser = "http://localhost:8080/public/default/user-avatar.png";
 
   // Moment.globalLocale = "es";

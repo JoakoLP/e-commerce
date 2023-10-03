@@ -5,7 +5,8 @@ const cookies = new Cookies();
 
 const products = axios.create({
   withCredentials: true,
-  baseURL: "http://localhost:8080/api/products/",
+  baseURL: "https://e-commerce-server-psi.vercel.app/api/products/",
+  // baseURL: "http://localhost:8080/api/products/",
   headers: { Authorization: `${cookies.get("authorization")}` },
 });
 

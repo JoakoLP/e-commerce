@@ -5,13 +5,15 @@ const cookies = new Cookies();
 
 const categories = axios.create({
   withCredentials: true,
-  baseURL: "http://localhost:8080/api/categories/",
+  baseURL: "https://e-commerce-server-psi.vercel.app/api/categories/",
+  // baseURL: "http://localhost:8080/api/categories/",
   headers: { Authorization: `${cookies.get("authorization")}` },
 });
 
 const subCategories = axios.create({
   withCredentials: true,
-  baseURL: "http://localhost:8080/api/subCategories/",
+  baseURL: "https://e-commerce-server-psi.vercel.app/api/subCategories/",
+  // baseURL: "http://localhost:8080/api/subCategories/",
   headers: { Authorization: `${cookies.get("authorization")}` },
 });
 

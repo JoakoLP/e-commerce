@@ -7,7 +7,7 @@ const cookies = new Cookies();
 
 const cart = axios.create({
   withCredentials: true,
-  baseURL: "https://e-commerce-five-rose.vercel.app/api/cart/",
+  baseURL: "https://e-commerce-server-psi.vercel.app/api/cart/",
   // baseURL: "http://localhost:8080/api/cart/",
   headers: { Authorization: `${cookies.get("authorization")}` },
 });

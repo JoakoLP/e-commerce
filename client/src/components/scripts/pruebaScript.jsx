@@ -36,7 +36,7 @@ const PruebaScript = () => {
       productList.forEach((product) => {
         const credentials = { ...product };
         console.log(credentials);
-        axios.post("https://e-commerce-five-rose.vercel.app/api/products/add", { ...credentials }, { withCredentials: true }).then((res) => {
+        axios.post("https://e-commerce-server-psi.vercel.app/api/products/add", { ...credentials }, { withCredentials: true }).then((res) => {
           // axios.post("http://localhost:8080/api/products/add", { ...credentials }, { withCredentials: true }).then((res) => {
           console.log(res.data);
         });
