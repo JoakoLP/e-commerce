@@ -30,8 +30,16 @@ class UserController {
         // console.log(req.session.user);
         const token = req.body.remember ? tokenRemember({ ...req.session.user }) : token60({ ...req.session.user });
         // console.log(token);
-        res.cookie("authorization", `Bearer ${token}`, req.body.remember ? {} : { maxAge: 60000 });
-        res.cookie("userSession", { ...req.session.user }, req.body.remember ? {} : { maxAge: 60000 });
+        res.cookie(
+          "authorization",
+          `Bearer ${token}`,
+          req.body.remember ? { domain: "https://e-commerce-five-rose.vercel.app/" } : { maxAge: 60000, domain: "https://e-commerce-five-rose.vercel.app/" }
+        );
+        res.cookie(
+          "userSession",
+          { ...req.session.user },
+          req.body.remember ? { domain: "https://e-commerce-five-rose.vercel.app/" } : { maxAge: 60000, domain: "https://e-commerce-five-rose.vercel.app/" }
+        );
 
         await User.findByIdAndUpdate(user._id, { status: true });
         if (!req.body.remember) {
