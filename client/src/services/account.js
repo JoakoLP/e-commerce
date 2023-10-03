@@ -16,10 +16,17 @@ const login = async (credentials) => {
     await account.post(`/login`, { ...credentials }, { withCredentials: true }).then((res) => {
       // window.location.reload(false);
       console.log(res.data);
+      const data = res.data;
+      if (data.user) {
+        cookies.set("authorization", data.token, credentials.remember ? {} : { maxAge: 60000 });
+
+        cookies.set("userSession", data.user, credentials.remember ? {} : { maxAge: 60000 });
+      }
       // console.log({ userSession: { ...cookies.get("userSession") } });
     });
   } catch (error) {
     console.log(error);
+
     // console.log(error.response.data);
   }
 };

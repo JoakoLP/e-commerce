@@ -28,17 +28,20 @@ class UserController {
         req.session.user = { _id, username, name, email, isAdmin, avatar, date };
         // console.log(req.user);
         // console.log(req.session.user);
-        const token = req.body.remember ? tokenRemember({ ...req.session.user }) : token60({ ...req.session.user });
+        const token = `Bearer ${req.body.remember ? tokenRemember({ ...req.session.user }) : token60({ ...req.session.user })}`;
         // console.log(token);
         res.cookie(
           "authorization",
-          `Bearer ${token}`,
-          req.body.remember ? { domain: "https://e-commerce-server-psi.vercel.app/" } : { maxAge: 60000, domain: "https://e-commerce-server-psi.vercel.app/" }
+          token,
+          // `Bearer ${token}`,
+          req.body.remember ? {} : { maxAge: 60000 }
+          // req.body.remember ? { domain: "https://e-commerce-server-psi.vercel.app/" } : { maxAge: 60000, domain: "https://e-commerce-server-psi.vercel.app/" }
         );
         res.cookie(
           "userSession",
           { ...req.session.user },
-          req.body.remember ? { domain: "https://e-commerce-server-psi.vercel.app/" } : { maxAge: 60000, domain: "https://e-commerce-server-psi.vercel.app/" }
+          req.body.remember ? {} : { maxAge: 60000 }
+          // req.body.remember ? { domain: "https://e-commerce-server-psi.vercel.app/" } : { maxAge: 60000, domain: "https://e-commerce-server-psi.vercel.app/" }
         );
         console.log(req.cookies);
         await User.findByIdAndUpdate(user._id, { status: true });
