@@ -57,7 +57,8 @@ const schema = new Schema({
 schema.methods.setImgUrl = function setImgUrl(filename) {
   try {
     const { host, port } = appConfig;
-    this.img.data = `${host}:${port}/public/products/${filename}`;
+    this.img.data = `https://e-commerce-server-psi.vercel.app/public/products/${filename}`;
+    // this.img.data = `${host}:${port}/public/products/${filename}`;
     console.log("method");
     console.log(this.img);
   } catch (error) {

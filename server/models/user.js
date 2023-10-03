@@ -50,7 +50,8 @@ const schema = new Schema({
 
 schema.methods.setImgUrl = function setImgUrl(filename) {
   const { host, port } = appConfig;
-  this.avatar = `${host}:${port}/public/users/${filename}`;
+  this.avatar = `https://e-commerce-server-psi.vercel.app/public/users/${filename}`;
+  // this.avatar = `${host}:${port}/public/users/${filename}`;
 };
 
 const User = mongoose.model("User", schema);
