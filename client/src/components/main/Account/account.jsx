@@ -19,7 +19,8 @@ const Account = () => {
     <div className="flex flex-col min-h-[80vh] bg-gray-200 md:p-4 items-center space-y-4 md:space-y-8">
       <div className="flex w-full max-w-3xl p-6 space-x-5 bg-white shadow md:rounded-md ">
         <div className="p-0.5 rounded-full outline outline-2 outline-cyan-700 w-fit">
-          <img src={user?.avatar ? user?.avatar : "http://localhost:8080/public/default/user-avatar.png"} alt="" className="rounded-full h-14 aspect-square" />
+          <img src={user?.avatar ? user?.avatar : "https://e-commerce-five-rose.vercel.app/public/default/user-avatar.png"} alt="" className="rounded-full h-14 aspect-square" />
+          {/* <img src={user?.avatar ? user?.avatar : "http://localhost:8080/public/default/user-avatar.png"} alt="" className="rounded-full h-14 aspect-square" /> */}
         </div>
         <div>
           <p className="text-2xl font-medium">{user?.name ? user?.name : "Indefinido"}</p>

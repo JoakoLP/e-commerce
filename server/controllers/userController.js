@@ -81,7 +81,8 @@ class UserController {
         email: req.body.email,
         password: passwordHash,
         isAdmin: false,
-        avatar: "http://localhost:8080/public/default/user-avatar.png",
+        avatar: "https://e-commerce-five-rose.vercel.app/public/default/user-avatar.png",
+        // avatar: "http://localhost:8080/public/default/user-avatar.png",
         cart: { products: [], total: 0, count: 0 },
       });
       if (req.files[0]) {

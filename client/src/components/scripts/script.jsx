@@ -16,7 +16,8 @@ const Script = () => {
     console.log(elementJson);
     try {
       axios
-        .post("http://localhost:8080/api/", {
+        .post("https://e-commerce-five-rose.vercel.app/api/", {
+          // .post("http://localhost:8080/api/", {
           body: elementJson,
         })
         .then((res) => {

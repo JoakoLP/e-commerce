@@ -6,7 +6,8 @@ const cookies = new Cookies();
 
 const account = axios.create({
   withCredentials: true,
-  baseURL: "http://localhost:8080/api/account/",
+  baseURL: "https://e-commerce-five-rose.vercel.app/api/account/",
+  // baseURL: "http://localhost:8080/api/account/",
   headers: { Authorization: `${cookies.get("authorization")}` },
 });
 
