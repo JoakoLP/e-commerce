@@ -8,7 +8,7 @@ class UserController {
   index(req, res) {
     console.log("Información recibida:");
     console.log(req.body);
-    console.log(req.cookies);
+    // console.log(req.cookies);
     res.status(200).json({
       msg: "a",
     });
@@ -35,9 +35,7 @@ class UserController {
           token,
           // `Bearer ${token}`,
           // req.body.remember ? {} : { maxAge: 60000 }
-          req.body.remember
-            ? { domain: "e-commerce-five-rose.vercel.app", sameSite: "none", secure: true }
-            : { maxAge: 60000, domain: "e-commerce-five-rose.vercel.app", sameSite: "none", secure: true }
+          req.body.remember ? { sameSite: "none", secure: true } : { maxAge: 60000, sameSite: "none", secure: true, httpOnly: true }
           // req.body.remember ? { domain: "https://e-commerce-server-psi.vercel.app/" } : { maxAge: 60000, domain: "https://e-commerce-server-psi.vercel.app/" }
         );
         res.cookie(
@@ -47,7 +45,7 @@ class UserController {
           // req.body.remember ? { domain: "https://e-commerce-five-rose.vercel.app/" } : { maxAge: 60000, domain: "https://e-commerce-five-rose.vercel.app/" }
           // req.body.remember ? { domain: "https://e-commerce-server-psi.vercel.app/" } : { maxAge: 60000, domain: "https://e-commerce-server-psi.vercel.app/" }
         );
-        console.log(req.cookies);
+        // console.log(req.cookies);
         await User.findByIdAndUpdate(user._id, { status: true });
         if (!req.body.remember) {
           setTimeout(async () => {
@@ -60,7 +58,7 @@ class UserController {
         res.status(201).json({
           user: { ...req.session.user },
           msg: "Logged in!",
-          token,
+          // token,
         });
       }
     } catch (error) {
@@ -115,10 +113,10 @@ class UserController {
 
       const token = token60({ ...req.session.user });
       // console.log(token);
-      res.cookie("authorization", `Bearer ${token}`, { maxAge: 60000 });
-      res.cookie("userSession", { ...req.session.user }, { maxAge: 60000 });
+      res.cookie("authorization", `Bearer ${token}`, { maxAge: 60000, sameSite: "none", secure: true, httpOnly: true });
+      // res.cookie("userSession", { ...req.session.user }, { maxAge: 60000, sameSite: "none", secure: true });
 
-      res.cookie("userSession", { ...req.session.user, remember: false }, { maxAge: 60000 });
+      res.cookie("userSession", { ...req.session.user, remember: false }, { maxAge: 60000, sameSite: "none", secure: true });
       await User.findByIdAndUpdate(user._id, { status: true });
       setTimeout(async () => {
         // switch status if 'interval'
