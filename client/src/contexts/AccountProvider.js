@@ -9,6 +9,7 @@ const AccountProvider = ({ children }) => {
   const [user, setUser] = useState(cookies.get("userSession"));
 
   useEffect(() => {
+    console.log(cookies);
     console.log(user);
     if (user) {
       accountService.userGet(setUser);
