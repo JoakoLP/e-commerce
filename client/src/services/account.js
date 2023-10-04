@@ -10,7 +10,7 @@ const account = axios.create({
   baseURL: `${SERVER_URL}/api/account/`,
   // baseURL: "http://localhost:8080/api/account/",
   withCredentials: true,
-  headers: { "Access-Control-Allow-Headers": "authorization" },
+  headers: { "Access-Control-Allow-Headers": "authorization", "Access-Control-Allow-Origin": "*" },
   // headers: { Authorization: `${cookies.get("authorization")}`, "Access-Control-Allow-Headers": "authorization" },
 });
 
