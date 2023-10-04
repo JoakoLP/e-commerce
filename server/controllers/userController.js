@@ -34,7 +34,7 @@ class UserController {
           "authorization",
           token,
           // `Bearer ${token}`,
-          req.body.remember ? {} : { maxAge: 60000 }
+          // req.body.remember ? {} : { maxAge: 60000 }
           req.body.remember ? { domain: "e-commerce-five-rose.vercel.app" } : { maxAge: 60000, domain: "e-commerce-five-rose.vercel.app" }
           // req.body.remember ? { domain: "https://e-commerce-server-psi.vercel.app/" } : { maxAge: 60000, domain: "https://e-commerce-server-psi.vercel.app/" }
         );
