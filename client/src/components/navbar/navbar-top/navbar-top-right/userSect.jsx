@@ -7,13 +7,15 @@ import Cookies from "universal-cookie";
 import { CartContext } from "../../../../contexts/CartProvider";
 
 const UserSect = ({ setCartIsOpen }) => {
+  const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
+
   const cookies = new Cookies();
   const [user, setUser] = useContext(AccountContext);
 
   const cartContextValue = useContext(CartContext);
   const { cart, setCart } = cartContextValue;
 
-  const defaultUser = "https://e-commerce-server-psi.vercel.app/public/default/user-avatar.png";
+  const defaultUser = `${SERVER_URL}/public/default/user-avatar.png`;
   // const defaultUser = "http://localhost:8080/public/default/user-avatar.png";
 
   return (

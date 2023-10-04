@@ -1,6 +1,8 @@
 import axios from "axios";
 
 const Script = () => {
+  const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
+
   const formElement = document.getElementById("element");
   formElement.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -16,7 +18,7 @@ const Script = () => {
     console.log(elementJson);
     try {
       axios
-        .post("https://e-commerce-server-psi.vercel.app/api/", {
+        .post(`${SERVER_URL}/api/`, {
           // .post("http://localhost:8080/api/", {
           body: elementJson,
         })

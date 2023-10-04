@@ -4,6 +4,9 @@ const { token60, tokenRemember, tokenVerify } = require("../utils/jwt");
 const fs = require("fs");
 const path = require("path");
 
+const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
+const DOMAIN_URL = ".joaquintakara.com";
+
 class UserController {
   index(req, res) {
     console.log("Información recibida:");
@@ -35,13 +38,13 @@ class UserController {
           token,
           // `Bearer ${token}`,
           // req.body.remember ? {} : { maxAge: 60000 }
-          req.body.remember ? { sameSite: "none", secure: true, domain: ".joaquintakara.com" } : { maxAge: 60000, sameSite: "none", secure: true, httpOnly: true, domain: ".joaquintakara.com" }
+          req.body.remember ? { sameSite: "none", secure: true, domain: DOMAIN_URL } : { maxAge: 60000, sameSite: "none", secure: true, httpOnly: true, domain: DOMAIN_URL }
           // req.body.remember ? { domain: "https://e-commerce-server-psi.vercel.app/" } : { maxAge: 60000, domain: "https://e-commerce-server-psi.vercel.app/" }
         );
         res.cookie(
           "userSession",
           { ...req.session.user },
-          req.body.remember ? { sameSite: "none", secure: true, domain: ".joaquintakara.com" } : { maxAge: 60000, sameSite: "none", secure: true, domain: ".joaquintakara.com" }
+          req.body.remember ? { sameSite: "none", secure: true, domain: DOMAIN_URL } : { maxAge: 60000, sameSite: "none", secure: true, domain: DOMAIN_URL }
           // req.body.remember ? { domain: "https://e-commerce-five-rose.vercel.app/" } : { maxAge: 60000, domain: "https://e-commerce-five-rose.vercel.app/" }
           // req.body.remember ? { domain: "https://e-commerce-server-psi.vercel.app/" } : { maxAge: 60000, domain: "https://e-commerce-server-psi.vercel.app/" }
         );
@@ -94,7 +97,7 @@ class UserController {
         email: req.body.email,
         password: passwordHash,
         isAdmin: false,
-        avatar: "https://e-commerce-server-psi.vercel.app/public/default/user-avatar.png",
+        avatar: `${SERVER_URL}/public/default/user-avatar.png`,
         // avatar: "http://localhost:8080/public/default/user-avatar.png",
         cart: { products: [], total: 0, count: 0 },
       });

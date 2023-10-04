@@ -50,7 +50,9 @@ const schema = new Schema({
 
 schema.methods.setImgUrl = function setImgUrl(filename) {
   const { host, port } = appConfig;
-  this.avatar = `https://e-commerce-server-psi.vercel.app/public/users/${filename}`;
+  const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
+
+  this.avatar = `${SERVER_URL}/public/users/${filename}`;
   // this.avatar = `${host}:${port}/public/users/${filename}`;
 };
 

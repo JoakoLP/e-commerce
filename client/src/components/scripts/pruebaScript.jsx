@@ -5,6 +5,8 @@ import productService from "../../services/products";
 import { productList } from "../cart/productList";
 
 const PruebaScript = () => {
+  const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
+
   const script = (e) => {
     e.preventDefault();
     const product = {
@@ -36,7 +38,7 @@ const PruebaScript = () => {
       productList.forEach((product) => {
         const credentials = { ...product };
         console.log(credentials);
-        axios.post("https://e-commerce-server-psi.vercel.app/api/products/add", { ...credentials }, { withCredentials: true }).then((res) => {
+        axios.post(`${SERVER_URL}/api/products/add`, { ...credentials }, { withCredentials: true }).then((res) => {
           // axios.post("http://localhost:8080/api/products/add", { ...credentials }, { withCredentials: true }).then((res) => {
           console.log(res.data);
         });

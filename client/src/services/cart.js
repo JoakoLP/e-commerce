@@ -4,10 +4,11 @@ import Cookies from "universal-cookie";
 
 axios.defaults.withCredentials = false;
 const cookies = new Cookies();
+const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
 
 const cart = axios.create({
   withCredentials: true,
-  baseURL: "https://e-commerce-server-psi.vercel.app/api/cart/",
+  baseURL: `${SERVER_URL}/api/cart/`,
   // baseURL: "http://localhost:8080/api/cart/",
   headers: { Authorization: `${cookies.get("authorization")}` },
 });

@@ -2,17 +2,18 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
+const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
 
 const categories = axios.create({
   withCredentials: true,
-  baseURL: "https://e-commerce-server-psi.vercel.app/api/categories/",
+  baseURL: `${SERVER_URL}/api/categories/`,
   // baseURL: "http://localhost:8080/api/categories/",
   headers: { Authorization: `${cookies.get("authorization")}` },
 });
 
 const subCategories = axios.create({
   withCredentials: true,
-  baseURL: "https://e-commerce-server-psi.vercel.app/api/subCategories/",
+  baseURL: `${SERVER_URL}/api/subCategories/`,
   // baseURL: "http://localhost:8080/api/subCategories/",
   headers: { Authorization: `${cookies.get("authorization")}` },
 });

@@ -2,10 +2,11 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
+const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
 
 const products = axios.create({
   withCredentials: true,
-  baseURL: "https://e-commerce-server-psi.vercel.app/api/products/",
+  baseURL: `${SERVER_URL}/api/products/`,
   // baseURL: "http://localhost:8080/api/products/",
   headers: { Authorization: `${cookies.get("authorization")}` },
 });

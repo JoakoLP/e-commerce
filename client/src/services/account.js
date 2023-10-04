@@ -3,10 +3,11 @@ import Cookies from "universal-cookie";
 
 axios.defaults.withCredentials = false;
 const cookies = new Cookies();
+const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
 
 const account = axios.create({
   withCredentials: true,
-  baseURL: "https://e-commerce-server-psi.vercel.app/api/account/",
+  baseURL: `${SERVER_URL}/api/account/`,
   // baseURL: "http://localhost:8080/api/account/",
   headers: { Authorization: `${cookies.get("authorization")}`, "Access-Control-Allow-Origin": "*" },
 });

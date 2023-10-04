@@ -10,6 +10,8 @@ import Moment from "react-moment";
 import "moment/locale/es";
 
 const UserList = () => {
+  const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
+
   const [userList, setUserList] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -35,7 +37,7 @@ const UserList = () => {
 
   const TABLE_ROWS = userList;
   const TABLE_HEAD = ["Usuario", "Admin", "Estado", "Creación"];
-  const defaultUser = "https://e-commerce-server-psi.vercel.app/public/default/user-avatar.png";
+  const defaultUser = `${SERVER_URL}/public/default/user-avatar.png`;
   // const defaultUser = "http://localhost:8080/public/default/user-avatar.png";
 
   // Moment.globalLocale = "es";
