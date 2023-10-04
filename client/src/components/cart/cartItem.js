@@ -15,7 +15,6 @@ const CartItem = ({ data, addToCart, deleteFromCart, deleteAllItems, setCart }) 
         <img className={styles.itemImg} src={data.img?.data || data.img} />
         <div className={styles.itemTitleCont}>
           <span className={styles.itemTitle}>{data.name}</span>
-          <span className={styles.price}>Unidad: ${data.price}</span>
         </div>
       </div>
       <div className={styles.priceQuant}>
@@ -40,6 +39,7 @@ const CartItem = ({ data, addToCart, deleteFromCart, deleteAllItems, setCart }) 
         </div>
         <div className={styles.priceSub}>
           <span className={styles.subTot}>Subtotal: ${(data.price * data.quantity).toFixed(2)}</span>
+          <span className={styles.price}>Unidad: ${data.price}</span>
         </div>
         <button
           onClick={() => {

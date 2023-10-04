@@ -95,7 +95,9 @@ const userGet = async (setUser) => {
     await account.get("/userGet").then((res) => {
       if (setUser) {
         console.log("postGet", res.data);
-        setUser(res.data);
+        if (res.data.username) {
+          setUser(res.data);
+        }
       } else {
         return res.data;
       }
