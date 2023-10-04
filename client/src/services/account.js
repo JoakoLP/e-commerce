@@ -90,6 +90,7 @@ const userList = async (setUserList) => {
 
 const userGet = async (setUser) => {
   try {
+    console.log("token", cookies.get("authorization"));
     await account.get("/userGet", { withCredentials: true, headers: { Authorization: `${cookies.get("authorization")}` } }).then((res) => {
       if (setUser) {
         console.log(res.data);
