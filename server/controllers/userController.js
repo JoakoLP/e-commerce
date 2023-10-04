@@ -173,7 +173,7 @@ class UserController {
       const user = await User.findById(decoded.body._id);
       const { _id, username, name, email, isAdmin, avatar, bookmark, date } = user;
       const userSend = { _id, username, name, email, isAdmin, avatar, bookmark, date };
-      // console.log(userSend);
+      console.log(userSend);
       res.json(userSend);
     } catch (error) {
       console.log(error);
