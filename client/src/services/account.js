@@ -10,7 +10,8 @@ const account = axios.create({
   baseURL: `${SERVER_URL}/api/account/`,
   // baseURL: "http://localhost:8080/api/account/",
   withCredentials: true,
-  headers: { Authorization: `${cookies.get("authorization")}`, "Access-Control-Allow-Headers": "authorization" },
+  headers: { "Access-Control-Allow-Headers": "authorization" },
+  // headers: { Authorization: `${cookies.get("authorization")}`, "Access-Control-Allow-Headers": "authorization" },
 });
 
 const login = async (credentials) => {
@@ -90,7 +91,7 @@ const userList = async (setUserList) => {
 
 const userGet = async (setUser) => {
   try {
-    console.log("token", cookies.get("authorization"));
+    // console.log("token", cookies.get("authorization"));
     await account.get("/userGet", { withCredentials: true, headers: { Authorization: `${cookies.get("authorization")}` } }).then((res) => {
       if (setUser) {
         console.log(res.data);

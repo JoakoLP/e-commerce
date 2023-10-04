@@ -33,14 +33,15 @@ class UserController {
         // console.log(req.session.user);
         const token = `Bearer ${req.body.remember ? tokenRemember({ ...req.session.user }) : token60({ ...req.session.user })}`;
         // console.log(token);
-        res.cookie(
-          "authorization",
-          token,
-          // `Bearer ${token}`,
-          // req.body.remember ? {} : { maxAge: 60000 }
-          req.body.remember ? { sameSite: "none", secure: true, domain: DOMAIN_URL } : { maxAge: 60000, sameSite: "none", secure: true, domain: DOMAIN_URL }
-          // req.body.remember ? { domain: "https://e-commerce-server-psi.vercel.app/" } : { maxAge: 60000, domain: "https://e-commerce-server-psi.vercel.app/" }
-        );
+        res.header("authorization", token);
+        // res.cookie(
+        //   "authorization",
+        //   token,
+        //   // `Bearer ${token}`,
+        //   // req.body.remember ? {} : { maxAge: 60000 }
+        //   req.body.remember ? { sameSite: "none", secure: true, domain: DOMAIN_URL } : { maxAge: 60000, sameSite: "none", secure: true, domain: DOMAIN_URL }
+        //   // req.body.remember ? { domain: "https://e-commerce-server-psi.vercel.app/" } : { maxAge: 60000, domain: "https://e-commerce-server-psi.vercel.app/" }
+        // );
         res.cookie(
           "userSession",
           { ...req.session.user },
