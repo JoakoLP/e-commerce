@@ -72,10 +72,10 @@ const verifyToken = (req, res, next) => {
     // console.log(req.headers);
     // const bearerHeader = req.headers["authorization"];
 
-    const bearerHeader = req.cookie.authorization;
+    const bearerHeader = req.cookies.authorization;
 
     // const bearerHeader = req.headers;
-    // console.log(bearerHeader);
+    console.log(bearerHeader);
     if (typeof bearerHeader !== undefined) {
       const bearerToken = bearerHeader.split(" ")[1];
       req.token = bearerToken;
