@@ -69,6 +69,7 @@ const isNotLogged = (req, res, next) => {
 
 const verifyToken = (req, res, next) => {
   try {
+    console.log(req.headers);
     const bearerHeader = req.headers["authorization"];
     // const bearerHeader = req.headers;
     // console.log(bearerHeader);
