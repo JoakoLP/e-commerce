@@ -15,7 +15,7 @@ const cart = axios.create({
 
 const getCart = async (setCart) => {
   try {
-    await cart.get("getCart", { withCredentials: true, headers: { Authorization: `${cookies.get("authorization")}` } }).then((res) => {
+    await cart.get("getCart").then((res) => {
       if (setCart) {
         if (res?.data?.products) {
           console.log(res.data);
@@ -52,7 +52,7 @@ const addToCart = async (id, setCart, name) => {
   try {
     // console.log(cookies.get("userSession"));
     // console.log(cookies.get("authorization"));
-    await cart.post(`/add/${id}`, { withCredentials: true, headers: { Authorization: `${cookies.get("authorization")}` } }).then((res) => {
+    await cart.post(`/add/${id}`).then((res) => {
       // await axios.post(`${baseUrl}add/${id}`, { withCredentials: true }).then((res) => {
       console.log(res.data);
       // console.log(res.data.msg);
@@ -66,7 +66,7 @@ const addToCart = async (id, setCart, name) => {
 
 const deleteFromCart = async (id, setCart) => {
   try {
-    await cart.put(`/delete-item/${id}`, { withCredentials: true, headers: { Authorization: `${cookies.get("authorization")}` } }).then((res) => {
+    await cart.put(`/delete-item/${id}`).then((res) => {
       console.log(res.data);
       setCart(res.data.cart);
       // console.log(cookies.get("userSession"));
@@ -77,7 +77,7 @@ const deleteFromCart = async (id, setCart) => {
 };
 const deleteAllItems = async (id, setCart) => {
   try {
-    await cart.delete(`/delete-all-items/${id}`, { withCredentials: true, headers: { Authorization: `${cookies.get("authorization")}` } }).then((res) => {
+    await cart.delete(`/delete-all-items/${id}`).then((res) => {
       console.log(res.data);
       setCart(res.data.cart);
       // console.log(cookies.get("userSession"));
@@ -88,7 +88,7 @@ const deleteAllItems = async (id, setCart) => {
 };
 const clearCart = async (setCart) => {
   try {
-    await cart.delete(`/clear`, { withCredentials: true, headers: { Authorization: `${cookies.get("authorization")}` } }).then((res) => {
+    await cart.delete(`/clear`).then((res) => {
       console.log(res.data);
       setCart(res.data.cart);
       // console.log(cookies.get("userSession"));

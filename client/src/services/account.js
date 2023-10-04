@@ -9,14 +9,14 @@ const account = axios.create({
   withCredentials: true,
   baseURL: `${SERVER_URL}/api/account/`,
   // baseURL: "http://localhost:8080/api/account/",
-  withCredentials: true,
-  headers: { "Access-Control-Allow-Headers": "authorization", "Access-Control-Allow-Origin": "*" },
+  // headers: { "Access-Control-Allow-Headers": "authorization", "Access-Control-Allow-Origin": "*" },
   // headers: { Authorization: `${cookies.get("authorization")}`, "Access-Control-Allow-Headers": "authorization" },
+  headers: { Authorization: `${cookies.get("authorization")}` },
 });
 
 const login = async (credentials) => {
   try {
-    await account.post(`/login`, { ...credentials }, { withCredentials: true }).then((res) => {
+    await account.post(`/login`, { ...credentials }).then((res) => {
       // window.location.reload(false);
       console.log(res.data);
       const data = res.data;
@@ -36,7 +36,7 @@ const login = async (credentials) => {
 const register = async (credentials) => {
   try {
     console.log(credentials);
-    await account.post(`/register`, { ...credentials }, { withCredentials: true, Authorization: `${cookies.get("authorization")}`, headers: { "Content-Type": "multipart/form-data" } }).then((res) => {
+    await account.post(`/register`, { ...credentials }, { headers: { "Content-Type": "multipart/form-data" } }).then((res) => {
       // console.log(res);
       console.log(res.data.user);
       // console.log({ userSession: { ...cookies.get("userSession") } });
@@ -49,7 +49,7 @@ const register = async (credentials) => {
 
 const logout = () => {
   try {
-    account.delete(`/logout`, { withCredentials: true }).then((res) => {
+    account.delete(`/logout`).then((res) => {
       window.location.reload(false);
       console.log(res.data);
     });
@@ -61,7 +61,7 @@ const logout = () => {
 const unregister = async (credentials) => {
   try {
     console.log(credentials);
-    await account.delete(`/unregister`, { withCredentials: true }).then((res) => {
+    await account.delete(`/unregister`).then((res) => {
       console.log(res.data);
       logout();
     });
@@ -92,7 +92,7 @@ const userList = async (setUserList) => {
 const userGet = async (setUser) => {
   try {
     // console.log("token", cookies.get("authorization"));
-    await account.get("/userGet", { withCredentials: true, headers: { Authorization: `${cookies.get("authorization")}` } }).then((res) => {
+    await account.get("/userGet").then((res) => {
       if (setUser) {
         console.log("postGet", res.data);
         setUser(res.data);

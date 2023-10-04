@@ -22,7 +22,7 @@ const subCategories = axios.create({
 const categoryAdd = async (category) => {
   try {
     const credentials = { ...category };
-    await categories.post("/add", { ...credentials }, { withCredentials: true }).then((res) => {
+    await categories.post("/add", { ...credentials }).then((res) => {
       console.log(res.data);
     });
   } catch (error) {
@@ -67,7 +67,7 @@ const categoryDel = async (_id) => {
 const subCategoryAdd = async (subCategory) => {
   try {
     const credentials = { ...subCategory };
-    await subCategories.post("/add", { ...credentials }, { withCredentials: true }).then((res) => {
+    await subCategories.post("/add", { ...credentials }).then((res) => {
       console.log(res.data);
     });
   } catch (error) {
