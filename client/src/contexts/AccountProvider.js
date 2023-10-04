@@ -10,7 +10,7 @@ const AccountProvider = ({ children }) => {
 
   useEffect(() => {
     console.log(cookies);
-    console.log(user);
+    console.log("preGet", user);
     if (user) {
       accountService.userGet(setUser);
     }

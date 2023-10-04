@@ -94,7 +94,7 @@ const userGet = async (setUser) => {
     // console.log("token", cookies.get("authorization"));
     await account.get("/userGet", { withCredentials: true, headers: { Authorization: `${cookies.get("authorization")}` } }).then((res) => {
       if (setUser) {
-        console.log(res.data);
+        console.log("postGet", res.data);
         setUser(res.data);
       } else {
         return res.data;
