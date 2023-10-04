@@ -18,9 +18,8 @@ const login = async (credentials) => {
       console.log(res.data);
       const data = res.data;
       if (data.user) {
-        cookies.set("authorization", data.token, credentials.remember ? {} : { maxAge: 60000 });
-
-        cookies.set("userSession", data.user, credentials.remember ? {} : { maxAge: 60000 });
+        // cookies.set("authorization", data.token, credentials.remember ? {} : { maxAge: 60000 });
+        // cookies.set("userSession", data.user, credentials.remember ? {} : { maxAge: 60000 });
       }
       // console.log({ userSession: { ...cookies.get("userSession") } });
     });
