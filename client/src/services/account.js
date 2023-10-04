@@ -10,7 +10,7 @@ const account = axios.create({
   baseURL: `${SERVER_URL}/api/account/`,
   // baseURL: "http://localhost:8080/api/account/",
   withCredentials: true,
-  headers: { authorization: `${cookies.get("authorization")}`, "Access-Control-Allow-Origin": "*", "Access-Control-Expose-Headers": "authorization" },
+  headers: { Authorization: `${cookies.get("authorization")}`, "Access-Control-Allow-Headers": "authorization" },
 });
 
 const login = async (credentials) => {
@@ -35,7 +35,7 @@ const login = async (credentials) => {
 const register = async (credentials) => {
   try {
     console.log(credentials);
-    await account.post(`/register`, { ...credentials }, { withCredentials: true, headers: { "Content-Type": "multipart/form-data" } }).then((res) => {
+    await account.post(`/register`, { ...credentials }, { withCredentials: true, Authorization: `${cookies.get("authorization")}`, headers: { "Content-Type": "multipart/form-data" } }).then((res) => {
       // console.log(res);
       console.log(res.data.user);
       // console.log({ userSession: { ...cookies.get("userSession") } });
