@@ -33,7 +33,7 @@ class UserController {
         // console.log(req.session.user);
         const token = `Bearer ${req.body.remember ? tokenRemember({ ...req.session.user }) : token60({ ...req.session.user })}`;
         // console.log(token);
-        res.header("authorization", token);
+        res.header("Authorization", token);
         // res.cookie(
         //   "authorization",
         //   token,
