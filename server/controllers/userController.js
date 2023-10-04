@@ -38,7 +38,7 @@ class UserController {
           token,
           // `Bearer ${token}`,
           // req.body.remember ? {} : { maxAge: 60000 }
-          req.body.remember ? { sameSite: "none", secure: true, domain: DOMAIN_URL } : { maxAge: 60000, sameSite: "none", secure: true, httpOnly: true, domain: DOMAIN_URL }
+          req.body.remember ? { sameSite: "none", secure: true, domain: DOMAIN_URL } : { maxAge: 60000, sameSite: "none", secure: true, domain: DOMAIN_URL }
           // req.body.remember ? { domain: "https://e-commerce-server-psi.vercel.app/" } : { maxAge: 60000, domain: "https://e-commerce-server-psi.vercel.app/" }
         );
         res.cookie(
