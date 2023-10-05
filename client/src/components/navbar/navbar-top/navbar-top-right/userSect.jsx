@@ -7,8 +7,8 @@ import Cookies from "universal-cookie";
 import { CartContext } from "../../../../contexts/CartProvider";
 
 const UserSect = ({ setCartIsOpen }) => {
-  // const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
-  const SERVER_URL = "http://localhost:8080";
+  const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
+  // const SERVER_URL = "http://localhost:8080";
 
   const cookies = new Cookies();
   const [user, setUser] = useContext(AccountContext);

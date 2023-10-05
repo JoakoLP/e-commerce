@@ -4,8 +4,8 @@ import Cookies from "universal-cookie";
 
 axios.defaults.withCredentials = false;
 const cookies = new Cookies();
-// const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
-const SERVER_URL = "http://localhost:8080";
+const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
+// const SERVER_URL = "http://localhost:8080";
 
 const cart = axios.create({
   withCredentials: true,

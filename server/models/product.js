@@ -57,8 +57,8 @@ const schema = new Schema({
 schema.methods.setImgUrl = function setImgUrl(filename) {
   try {
     const { host, port } = appConfig;
-    // const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
-    const SERVER_URL = "http://localhost:8080";
+    const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
+    // const SERVER_URL = "http://localhost:8080";
 
     this.img.data = `${SERVER_URL}/public/products/${filename}`;
     // this.img.data = `${host}:${port}/public/products/${filename}`;

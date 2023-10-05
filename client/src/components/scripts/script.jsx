@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const Script = () => {
-  // const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
-  const SERVER_URL = "http://localhost:8080";
+  const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
+  // const SERVER_URL = "http://localhost:8080";
 
   const formElement = document.getElementById("element");
   formElement.addEventListener("submit", (event) => {

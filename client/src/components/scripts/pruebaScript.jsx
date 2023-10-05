@@ -5,8 +5,8 @@ import productService from "../../services/products";
 import { productList } from "../cart/productList";
 
 const PruebaScript = () => {
-  // const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
-  const SERVER_URL = "http://localhost:8080";
+  const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
+  // const SERVER_URL = "http://localhost:8080";
 
   const script = (e) => {
     e.preventDefault();
