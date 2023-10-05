@@ -78,8 +78,8 @@ class UserController {
     try {
       const user = await User.findById(req.cookies.userSession._id);
       console.log(`${user?.name} logout`);
-      res.clearCookie("userSession");
-      res.clearCookie("authorization");
+      res.clearCookie("userSession", { domain: DOMAIN_URL });
+      res.clearCookie("authorization", { domain: DOMAIN_URL });
       await User.findByIdAndUpdate(user?._id, { status: false });
       req.session.destroy();
       res.status(201).json({
