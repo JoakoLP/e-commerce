@@ -9,8 +9,8 @@ const cookiesMiddleware = require("universal-cookie-express");
 const app = express();
 const connect = require("./db/db");
 const corsOptions = {
-  // origin: "https://e-commerce.joaquintakara.com",
-  origin: "http://localhost:3000",
+  origin: "https://e-commerce.joaquintakara.com",
+  // origin: "http://localhost:3000",
   credentials: true,
 };
 
