@@ -18,7 +18,6 @@ const account = axios.create({
 const login = async (credentials) => {
   try {
     await account.post(`/login`, { ...credentials }).then((res) => {
-      // window.location.reload(false);
       console.log(res.data);
       const data = res.data;
       if (data.user) {
@@ -27,6 +26,7 @@ const login = async (credentials) => {
       }
       // console.log({ userSession: { ...cookies.get("userSession") } });
     });
+    // window.location.reload(false);
   } catch (error) {
     console.log(error);
 
@@ -41,7 +41,7 @@ const register = async (credentials) => {
       // console.log(res);
       console.log(res.data.user);
       // console.log({ userSession: { ...cookies.get("userSession") } });
-      window.location.reload(false);
+      // window.location.reload(false);
     });
   } catch (error) {
     console.log(error);
@@ -51,7 +51,7 @@ const register = async (credentials) => {
 const logout = () => {
   try {
     account.delete(`/logout`).then((res) => {
-      window.location.reload(false);
+      // window.location.reload(false);
       console.log(res.data);
     });
   } catch (error) {

@@ -11,7 +11,7 @@ const DeleteModal = ({ delModal, setDelModal, delItem }) => {
   const deleteProd = async () => {
     console.log(delItem);
     await productServices.productDel(delItem._id);
-    window.location.reload(false);
+    // window.location.reload(false);
   };
 
   return (

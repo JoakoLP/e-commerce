@@ -12,7 +12,7 @@ const SubCategoryAddModal = ({ addModal, setAddModal }) => {
       category: Category,
     };
     categoryService.subCategoryAdd(subCategory);
-    window.location.reload(false);
+    // window.location.reload(false);
     // console.log(subCategory);
   };
 

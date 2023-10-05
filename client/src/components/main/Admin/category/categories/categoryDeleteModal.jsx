@@ -12,7 +12,7 @@ const CategoryDeleteModal = ({ delModal, setDelModal, category }) => {
 
   const deleteCateg = () => {
     categoryService.categoryDel(category._id);
-    window.location.reload(false);
+    // window.location.reload(false);
   };
 
   return (

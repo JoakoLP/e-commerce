@@ -13,7 +13,7 @@ const SubCategoryEditModal = ({ editModal, setEditModal, subCategory, setSubCate
       category: Category,
     };
     categoryService.subCategoryEdit(newSubCateg, subCategory._id);
-    window.location.reload(false);
+    // window.location.reload(false);
     console.log(newSubCateg);
   };
 

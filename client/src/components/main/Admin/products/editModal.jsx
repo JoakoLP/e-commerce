@@ -114,7 +114,7 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
     };
     console.log(product, editItem._id);
     productsService.productEdit(product, editItem._id).then(() => {
-      window.location.reload(false);
+      // window.location.reload(false);
     });
   };
 

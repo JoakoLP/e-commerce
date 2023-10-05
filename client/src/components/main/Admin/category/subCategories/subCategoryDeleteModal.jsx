@@ -13,7 +13,7 @@ const SubCategoryDeleteModal = ({ delModal, setDelModal, subCategory, setSubCate
 
   const deleteSubCateg = () => {
     categoryService.subCategoryDel(subCategory._id);
-    window.location.reload(false);
+    // window.location.reload(false);
   };
 
   return (
