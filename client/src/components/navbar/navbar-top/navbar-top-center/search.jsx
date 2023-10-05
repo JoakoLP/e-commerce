@@ -1,16 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { SearchOnEnter } from "./searchOnEnter";
 import { Button } from "@material-tailwind/react";
 import { BiSearchAlt2 } from "react-icons/bi";
+import categoryService from "../../../../services/category";
 
 const NavSearch = () => {
   const [searchField, setSearchField] = useState("");
 
   const [selectValue, setSelectValue] = useState("all");
 
+  const [CategoryList, setCategoryList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   const navigate = useNavigate();
   const location = useLocation();
+
+  const loadCategories = async () => {
+    console.log(CategoryList);
+    await categoryService.categoryGet(setCategoryList);
+    setIsLoading(false);
+  };
 
   // temp search data
   const handleChange = (e) => {
@@ -37,6 +47,10 @@ const NavSearch = () => {
     }
   };
 
+  useEffect(() => {
+    loadCategories();
+  }, []);
+
   SearchOnEnter(searchField, handleClick);
 
   return (
@@ -51,19 +65,18 @@ const NavSearch = () => {
               // onSelect={handleSelect}
               // class="group p-0.5 text-center font-medium focus:z-10 focus:outline-none bg-gradient-to-br from-purple-600 to-cyan-500 enabled:hover:bg-gradient-to-bl focus:ring-cyan-300 dark:focus:ring-cyan-800 rounded-lg focus:ring-2 flex items-center justify-center w-12 h-10 text-black bg-blue-500 rounded-l-none rounded-r"
               // className="bg-gradient-to-br from-purple-600 to-cyan-500 enabled:hover:bg-gradient-to-bl h-full !border-transparent overflow-ellipsis rounded-l text-gray-900 text-sm min-w-[80px] max-w-[30%] dark:placeholder-gray-400 dark:text-white !ring-0"
-
-              class="bg-gray-50 h-full !border-transparent overflow-ellipsis rounded-l text-gray-900 text-sm block min-w-[80px] max-w-[30%] dark:placeholder-gray-400 dark:text-white !ring-0"
+              class="bg-gray-50 h-full !border-transparent overflow-ellipsis rounded-l text-gray-900 text-sm block w-[120px] max-w-[30%] dark:placeholder-gray-400 dark:text-white !ring-0"
             >
               <option value="all">Todos</option>
-              <option value="Notebooks">Notebook</option>
-              <option value="Desktop">Escritorio</option>
-              <option value="CPU">Procesadores</option>
-              <option value="RAM">Ram</option>
-              <option value="SSD">SSD</option>
-              <option value="HDD">HDD</option>
-              <option value="Motherboards">Placas madre</option>
-              <option value="GPU">Placas de video</option>
-              <option value="">aaa</option>
+              {isLoading ? (
+                <option disabled>Loading...</option>
+              ) : (
+                <>
+                  {CategoryList.map((category) => {
+                    return <option value={category.id}>{category.name}</option>;
+                  })}
+                </>
+              )}
             </select>
             <div className="relative w-full h-full group/srch">
               <input
@@ -73,7 +86,7 @@ const NavSearch = () => {
                 value={searchField}
                 onChange={handleChange}
               />
-              <div className="absolute invisible w-full bg-white border-custom-blue border text-black opacity-50 min-h-[30px] group-focus-within/srch:visible"></div>
+              {/* <div className="absolute invisible w-full bg-white border-custom-blue border text-black opacity-50 min-h-[30px] group-focus-within/srch:visible"></div> */}
             </div>
           </div>
         </div>
@@ -81,8 +94,6 @@ const NavSearch = () => {
       <Button size="xs" className="flex items-center justify-center w-12 h-10 p-0 text-white bg-blue-600 rounded-l-none rounded-r" onClick={handleClick}>
         <BiSearchAlt2 size={25} />
       </Button>
-      {/* <button className="flex items-center justify-center w-12 h-10 text-black bg-blue-500 rounded-r" onClick={handleClick}>
-      </button> */}
     </div>
   );
 };
