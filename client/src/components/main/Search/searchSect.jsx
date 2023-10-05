@@ -11,7 +11,11 @@ const SearchSect = () => {
   // console.log(params.get("ctg"));
   const searchField = params.get("srch");
   const [searchCateg, setSearchCateg] = useState(params.get("ctg") || "all");
-  const [searchSubCateg, setSearchSubCateg] = useState([]);
+  let subc;
+  if (params.get("sctg")) {
+    subc = params.get("sctg").split(",");
+  }
+  const [searchSubCateg, setSearchSubCateg] = useState(subc || []);
 
   const [products, setProducts] = useState([]);
 
@@ -68,9 +72,11 @@ const SearchSect = () => {
   return (
     <div className="flex flex-col pt-6">
       <div className="flex">
-        {CategoryFilter({ setSearchCateg, searchSubCateg, setSearchSubCateg })}
+        {CategoryFilter({ searchCateg, setSearchCateg, searchSubCateg, setSearchSubCateg })}
         <div className="flex flex-col items-start w-full">
-          <h1 className="pt-2 ml-2 text-xl font-bold border-b-2 border-purple-700 text-centera whitespace-nowrap w-min">Resultado de búsqueda</h1>
+          <h1 className="pt-2 ml-2 text-xl font-bold border-b-2 border-purple-700 text-centera whitespace-nowrap w-min">
+            {products.length > 0 ? products.length : "Sin"} resultado{products.length != 1 ? "s" : null} de búsqueda
+          </h1>
           <div className="amax-w-[1640px] w-fit m-auto px-1 sm:px-4 py-4">{checkArray()}</div>
         </div>
       </div>

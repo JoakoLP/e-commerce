@@ -2,16 +2,17 @@ import React, { useState } from "react";
 import categoryService from "../../../services/category";
 import { useEffect } from "react";
 
-const CategoryFilter = ({ setSearchCateg, searchSubCateg, setSearchSubCateg }) => {
+const CategoryFilter = ({ searchCateg, setSearchCateg, searchSubCateg, setSearchSubCateg }) => {
   const [SubCategoryList, setSubCategoryList] = useState([]);
   const [CategoryList, setCategoryList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [subCategRest, setSubCategRest] = useState([]);
 
   const loadCategories = async () => {
-    await categoryService.subCategoryGet(setSubCategoryList);
-    console.log(CategoryList);
     await categoryService.categoryGet(setCategoryList);
+    await categoryService.subCategoryGet(setSubCategoryList);
+    // checkSearchArrays();
+    // console.log(CategoryList);
     setIsLoading(false);
   };
 
@@ -19,26 +20,21 @@ const CategoryFilter = ({ setSearchCateg, searchSubCateg, setSearchSubCateg }) =
     const catCheckboxes = document.getElementsByName("category");
     const subCatCheckboxes = document.getElementsByName("subCategory");
 
-    // REVISAR TODA LA FUNCION DE LOS CHECKBOX
-    const uncheckSubCategories = (e) => {};
     // if the checkbox onChange is a category
     if (e?.target?.name == "category") {
+      // if it's checked
       if (e?.target?.checked) {
         setSearchCateg(e?.target?.value);
+        setSearchSubCateg([]);
+        // set all the checkbox except the selected to 'false'
         catCheckboxes.forEach((checkbox) => {
           if (checkbox?.value !== e?.target?.value) {
             checkbox.checked = false;
           }
         });
-        const subCat = SubCategoryList.filter((subC) => {
-          return subC?.id === e?.target?.value;
-        });
-        // subCatCheckboxes((subC)=>{
-        //   if(subC?.category?.id !== subCat[0]?.category?.id){}
-        // })
+        // set all the subCategories checkbox outside the selected to 'false'
         SubCategoryList.forEach((subC) => {
-          if (subC?.category?.id !== subCat[0]?.category?.id) {
-            console.log(subC?.category);
+          if (subC?.category?.id !== e?.target?.value) {
             const checkbox = document.getElementById(`subCategory/${subC?.id}`);
             if (checkbox !== null) {
               checkbox.checked = false;
@@ -46,25 +42,28 @@ const CategoryFilter = ({ setSearchCateg, searchSubCateg, setSearchSubCateg }) =
           }
         });
       } else {
+        //if isn't selected set all subCategories to 'false'
         subCatCheckboxes.forEach((checkbox) => {
           checkbox.checked = false;
           setSearchCateg("all");
-          setSearchSubCateg("");
+          setSearchSubCateg([]);
         });
       }
 
       // if the checkbox onChange is a subcategory
     } else if (e?.target?.name == "subCategory") {
+      // if it's checked
       if (e?.target?.checked) {
-        // get subcategory item
+        // get subcategory checkbox
         const subCat = SubCategoryList.filter((subC) => {
           return subC?.id === e?.target?.value;
         });
-        // sets
+        // if has a category
         if (subCat[0]?.category !== null) {
           const catCheckbox = document.getElementById(`category/${subCat[0]?.category?.id}`);
           setSearchCateg(catCheckbox?.value);
           setSearchSubCateg([...searchSubCateg, e?.target?.value]);
+          // set category checkbox to 'true'
           catCheckbox.checked = true;
           // unchecks categories where the checked subcategory isn't
           catCheckboxes.forEach((checkbox) => {
@@ -72,46 +71,50 @@ const CategoryFilter = ({ setSearchCateg, searchSubCateg, setSearchSubCateg }) =
               checkbox.checked = false;
             }
           });
-          // console.log(subCat[0]?.category);
-
-          // unchecks non checked subcategories
+          // unchecks subcategories from different category
+          let newSubCArray = [...searchSubCateg, e?.target?.value];
           SubCategoryList.forEach((subC) => {
             if (subC?.category?.id !== subCat[0]?.category?.id) {
-              // console.log(subC?.category);
               const checkbox = document.getElementById(`subCategory/${subC?.id}`);
               if (checkbox !== null) {
                 checkbox.checked = false;
-
+                // checks if this subCategory was on search array
                 const match = searchSubCateg.filter((subCateg) => {
                   return subCateg === checkbox.value;
                 });
-                console.log(match);
                 if (match.length > 0) {
-                  const newSubCArray = searchSubCateg.filter((subCateg) => {
+                  // if it was on the array, create a new array without it
+                  newSubCArray = newSubCArray.filter((subCateg) => {
                     return subCateg !== checkbox.value;
                   });
-                  console.log(newSubCArray);
-                  setSearchSubCateg(newSubCArray);
                 }
               }
             }
           });
+          if (newSubCArray.length > 0) {
+            setSearchSubCateg(newSubCArray);
+          }
         } else {
+          // else if it doesn't have a category
           setSearchSubCateg([...searchSubCateg, e?.target?.value]);
+          // set the non selected to 'false'
           subCatCheckboxes.forEach((checkbox) => {
             if (checkbox?.value !== e?.target?.value) {
               checkbox.checked = false;
             }
           });
+          // sets all the categories to 'false'
           catCheckboxes.forEach((checkbox) => {
             checkbox.checked = false;
           });
         }
       } else {
+        // else if isn't selected
         const match = searchSubCateg.filter((subC) => {
           return subC === e?.target?.value;
         });
         if (match) {
+          // create a new array only with it
           const newSubCArray = searchSubCateg.filter((subC) => {
             return subC !== e?.target?.value;
           });
@@ -121,12 +124,46 @@ const CategoryFilter = ({ setSearchCateg, searchSubCateg, setSearchSubCateg }) =
     }
   };
 
+  const checkSearchArrays = () => {
+    const categCheck = document.getElementById(`category/${searchCateg}`);
+    if (categCheck) {
+      // sets to 'true' to the url categ
+      categCheck.checked = true;
+    }
+
+    let newSubCArray = searchSubCateg;
+    searchSubCateg.forEach((subCat) => {
+      const subCategoryItem = SubCategoryList.filter((subc) => {
+        return subc?.id == subCat;
+      });
+
+      if (SubCategoryList.length > 0 && subCategoryItem[0]?.category !== null) {
+        // if subCategory has a category different than url's
+        if (subCategoryItem[0]?.category?.id != searchCateg) {
+          newSubCArray = newSubCArray.filter((subCateg) => {
+            return subCateg !== subCat;
+          });
+        }
+      }
+    });
+    newSubCArray.forEach((subCat) => {
+      const subCategCheck = document.getElementById(`subCategory/${subCat}`);
+      if (subCategCheck) {
+        subCategCheck.checked = true;
+      }
+    });
+    // if the newSubCArray is different than searchSubCateg
+    if (newSubCArray != searchSubCateg) {
+      setSearchSubCateg(newSubCArray);
+    }
+  };
+
   const filterSubCategRest = () => {
     const check = SubCategoryList.filter((subCategory) => {
       return subCategory?.category === null;
     });
     setSubCategRest(check);
-    console.log(subCategRest);
+    // console.log(subCategRest);
   };
 
   useEffect(() => {
@@ -135,6 +172,7 @@ const CategoryFilter = ({ setSearchCateg, searchSubCateg, setSearchSubCateg }) =
 
   useEffect(() => {
     filterSubCategRest();
+    checkSearchArrays();
   }, [SubCategoryList]);
 
   const styleBtn =
