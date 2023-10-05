@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Search } from "react-bootstrap-icons";
 import { useNavigate, useLocation } from "react-router-dom";
 import { SearchOnEnter } from "./searchOnEnter";
-import { Button } from "flowbite-react";
+import { Button } from "@material-tailwind/react";
+import { BiSearchAlt2 } from "react-icons/bi";
 
 const NavSearch = () => {
   const [searchField, setSearchField] = useState("");
@@ -78,8 +78,8 @@ const NavSearch = () => {
           </div>
         </div>
       </div>
-      <Button gradientDuoTone="purpleToBlue" size="xs" className="flex items-center justify-center w-12 h-10 text-black bg-blue-500 rounded-l-none rounded-r" onClick={handleClick}>
-        <Search size={20} className="align-middle" />
+      <Button size="xs" className="flex items-center justify-center w-12 h-10 p-0 text-white bg-blue-600 rounded-l-none rounded-r" onClick={handleClick}>
+        <BiSearchAlt2 size={25} />
       </Button>
       {/* <button className="flex items-center justify-center w-12 h-10 text-black bg-blue-500 rounded-r" onClick={handleClick}>
       </button> */}

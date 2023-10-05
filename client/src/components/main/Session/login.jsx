@@ -42,7 +42,7 @@ const Login = () => {
               </div>
             </div>
             <div className="flex items-center justify-center w-full ">
-              <button className="p-1 text-white border border-black rounded bg-gradient-to-br from-purple-600 to-cyan-500 enabled:hover:bg-gradient-to-bl">Iniciar sesión</button>
+              <button className="px-2.5 py-1.5 text-white bg-blue-600 rounded ">Iniciar sesión</button>
             </div>
             <div className="flex items-center self-center space-x-2">
               <label htmlFor="">Recordar</label>

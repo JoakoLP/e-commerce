@@ -94,13 +94,13 @@ const Register = () => {
                   Imagen
                 </label>
                 <input type="file" name="" id="userImgReg" accept="image/png, image/jpeg" className="hidden" placeholder="" onChange={handleImage} />
-                <label htmlFor="userImgReg" className="self-center p-1 text-sm text-white rounded cursor-pointer select-none bg-cyan-700">
+                <label htmlFor="userImgReg" className="self-center p-1 text-sm text-white bg-blue-900 rounded cursor-pointer select-none">
                   Seleccionar imagen
                 </label>
               </div>
             </div>
             <div className="flex items-center justify-center w-full">
-              <button className="p-1 text-white border border-black rounded bg-gradient-to-br from-purple-600 to-cyan-500 enabled:hover:bg-gradient-to-bl">Registrarse</button>
+              <button className="px-2.5 py-1.5 text-white bg-blue-600 rounded">Registrarse</button>
             </div>
           </form>
         </div>
