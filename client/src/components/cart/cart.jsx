@@ -54,7 +54,7 @@ const Cart = () => {
             </div>
           </>
         ) : (
-          <p className="select-none">Debes iniciar sesión.</p>
+          <p className="pt-10 text-center select-none">Debes iniciar sesión.</p>
         )}
       </>
     );
