@@ -15,15 +15,15 @@ const DefaultPage = () => {
       alt: 1,
     },
     {
-      url: "https://i.imgur.com/ECAhbwW.jpg",
+      url: "https://i.imgur.com/2G9Pzps.jpg",
       alt: 2,
     },
     {
-      url: "https://i.imgur.com/JTkBAFZ.jpg",
+      url: "https://i.imgur.com/feDJ33h.png",
       alt: 3,
     },
     {
-      url: "https://i.imgur.com/LgJ743U.jpg",
+      url: "https://i.imgur.com/BLcWWZw.jpg",
       alt: 4,
     },
     {
@@ -31,7 +31,7 @@ const DefaultPage = () => {
       alt: 5,
     },
     {
-      url: "https://i.imgur.com/WeWTZ2D.jpg",
+      url: "https://i.imgur.com/XpNLtLE.png",
       alt: 6,
     },
     {

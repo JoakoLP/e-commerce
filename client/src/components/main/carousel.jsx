@@ -7,8 +7,8 @@ function CarouselComp({ imgArray }) {
   const itemRender = (imgItem, index) => {
     return (
       <div class="items-center justify-center flex h-full overflow-hidden ease-in-out" data-carousel-item>
-        <div className="relative w-3/4 overflow-hidden bg-white">
-          <img key={index} src={imgItem.url} className="w-full" alt={imgItem.alt} />
+        <div className="relative flex justify-center w-3/4 h-full overflow-hidden bg-white">
+          <img key={index} src={imgItem.url} className="object-cover w-full aspect-auto" alt={imgItem.alt} />
         </div>
       </div>
     );
@@ -18,6 +18,7 @@ function CarouselComp({ imgArray }) {
       <Carousel
         className="w-full h-56 md:h-96 "
         loop={true}
+        autoplay={true}
         prevArrow={({ handlePrev }) => (
           <button
             type="button"
