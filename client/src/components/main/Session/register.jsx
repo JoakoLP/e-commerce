@@ -56,7 +56,7 @@ const Register = () => {
       <div className="flex flex-col items-center justify-center p-5 bg-white rounded w-min">
         <div className="flex flex-col items-center p-4 border rounded w-min">
           <p className="text-2xl font-bold">Registrarse</p>
-          <form action="" id="register" onSubmit={handleRegister} encType="multipart/form-data" className="flex flex-col items-center pt-3 space-y-3">
+          <form action="" id="register" onSubmit={console.log("disabled", "handleRegister")} encType="multipart/form-data" className="flex flex-col items-center pt-3 space-y-3">
             <div className="flex flex-col items-center space-y-1 w-min">
               <p className={errorMsg ? "visible text-xs text-red-600" : "hidden"}>{errorMsg}</p>
               <div className={divStyle}>
