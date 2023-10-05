@@ -4,7 +4,8 @@ import { UserIcon, LockClosedIcon, CreditCardIcon, MapPinIcon, ArrowRightOnRecta
 import accountService from "../../../services/account";
 
 const Account = () => {
-  const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
+  // const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
+  const SERVER_URL = "http://localhost:8080";
 
   const [user, setUser] = useContext(AccountContext);
 

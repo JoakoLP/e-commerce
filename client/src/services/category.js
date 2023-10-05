@@ -2,7 +2,8 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
-const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
+// const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
+const SERVER_URL = "http://localhost:8080";
 
 const categories = axios.create({
   withCredentials: true,

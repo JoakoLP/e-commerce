@@ -10,7 +10,8 @@ import Moment from "react-moment";
 import "moment/locale/es";
 
 const UserList = () => {
-  const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
+  // const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
+  const SERVER_URL = "http://localhost:8080";
 
   const [userList, setUserList] = useState([]);
 

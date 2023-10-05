@@ -4,8 +4,11 @@ const { token60, tokenRemember, tokenVerify } = require("../utils/jwt");
 const fs = require("fs");
 const path = require("path");
 
-const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
-const DOMAIN_URL = ".joaquintakara.com";
+// const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
+const SERVER_URL = "http://localhost:8080";
+
+// const DOMAIN_URL = ".joaquintakara.com";
+const DOMAIN_URL = "";
 
 class UserController {
   index(req, res) {
