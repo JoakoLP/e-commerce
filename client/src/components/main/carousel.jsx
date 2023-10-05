@@ -16,14 +16,14 @@ function CarouselComp({ imgArray }) {
   return (
     <>
       <Carousel
-        className="w-full h-56 md:h-96 "
+        className="w-full h-56 md:h-96 group/carousel "
         loop={true}
         autoplay={true}
         prevArrow={({ handlePrev }) => (
           <button
             type="button"
             onClick={handlePrev}
-            class="absolute top-2/4 -translate-y-1/2 w-8 h-16 left-0  rounded-r-full flex items-center justify-center px-4 cursor-pointer focus:outline-none shadow shadow-gray-300 hover:shadow-lg bg-white dark:bg-gray-800/30 active:ring-2 active:ring-white dark:active:ring-gray-800/70 active:outline-none"
+            class="absolute top-2/4 group-hover/carousel:opacity-100 opacity-0 -translate-y-1/2 w-8 h-16 left-0  rounded-r-full flex items-center justify-center px-4 cursor-pointer focus:outline-none shadow shadow-gray-300 hover:shadow-lg bg-white dark:bg-gray-800/30 active:ring-2 active:ring-white dark:active:ring-gray-800/70 active:outline-none"
           >
             <span class="inline-flex items-center justify-center">
               <svg aria-hidden="true" class="w-5 h-5 text-cyan-600 sm:w-6 sm:h-6 dark:text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -37,7 +37,7 @@ function CarouselComp({ imgArray }) {
           <button
             type="button"
             onClick={handleNext}
-            class="absolute top-2/4 -translate-y-1/2 w-8 h-16 right-0  rounded-l-full flex items-center justify-center px-4 cursor-pointer focus:outline-none shadow shadow-gray-300 hover:shadow-lg bg-white dark:hover:bg-gray-800/60 active:ring-2 active:ring-white dark:active:ring-gray-800/70 active:outline-none"
+            class="absolute top-2/4 group-hover/carousel:opacity-100 opacity-0 -translate-y-1/2 w-8 h-16 right-0  rounded-l-full flex items-center justify-center px-4 cursor-pointer focus:outline-none shadow shadow-gray-300 hover:shadow-lg bg-white dark:hover:bg-gray-800/60 active:ring-2 active:ring-white dark:active:ring-gray-800/70 active:outline-none"
           >
             <span class="inline-flex items-center justify-center">
               <svg aria-hidden="true" class="w-5 h-5 text-cyan-600 sm:w-6 sm:h-6 dark:text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
