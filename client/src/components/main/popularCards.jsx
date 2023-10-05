@@ -40,7 +40,7 @@ const PopularCards = () => {
         {a.map((item) => (
           <li className="flex items-center justify-center">
             <a href={item.href}>
-              <div className="flex flex-col items-start justify-center px-4 py-3 overflow-hidden bg-white border border-transparent shadow-lg w-44 shrink sm:w-60 md:w-52 2xl:w-60 h-70 shadow-slate-400 ">
+              <div className="flex flex-col items-start justify-center px-4 py-3 overflow-hidden duration-150 bg-white border border-transparent rounded w-44 shrink sm:w-60 md:w-52 2xl:w-60 h-70 active:shadow-cyan-400 lg:hover:shadow-2xl lg:hover:shadow-gray-500 lg:hover:z-10 ">
                 <p className="max-w-[110%] py-2 text-lg font-semibold truncate text-start whitespace-nowrap ">{item.title}</p>
                 <div className="flex h-max aspect-square shrink-0">
                   <img src={item.src} alt="" className="object-cover aspect-auto" />
