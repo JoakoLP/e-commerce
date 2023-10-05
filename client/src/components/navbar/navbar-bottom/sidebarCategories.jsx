@@ -33,18 +33,15 @@ const SidebarCategories = ({ setCategIsOpen }) => {
 
         <Sidebar.Items>
           <Sidebar.ItemGroup>
-            <Sidebar.Item href="#" icon={ChartPieIcon} onClick={handleClick}>
+            {/* <Sidebar.Item href="#" icon={ChartPieIcon} onClick={handleClick}>
               Dashboard
             </Sidebar.Item>
-            {/* <Sidebar.Collapse icon={ShoppingBagIcon} label="E-commerce">
-              <Sidebar.Item href="#">Products</Sidebar.Item>
-            </Sidebar.Collapse> */}
             <Sidebar.Item href="#" icon={InboxIcon} onClick={handleClick}>
               Inbox
             </Sidebar.Item>
             <Sidebar.Item href="#" icon={ShoppingBagIcon} onClick={handleClick}>
               Products
-            </Sidebar.Item>
+            </Sidebar.Item> */}
             {user ? (
               <>
                 <Sidebar.Item href="/account" icon={UserIcon} onClick={handleClick}>
