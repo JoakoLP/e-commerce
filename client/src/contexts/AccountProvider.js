@@ -10,19 +10,11 @@ const AccountProvider = ({ children }) => {
 
   useEffect(() => {
     console.log(cookies);
-    console.log("preGet", user);
     if (user) {
+      console.log("preGet", user);
       accountService.userGet(setUser);
     }
   }, []);
-
-  // useEffect(() => {
-  //   console.log(user);
-  // }, [user]);
-
-  // setInterval(() => {
-  //   accountService.userGet(setUser());
-  // }, 500);
 
   return <AccountContext.Provider value={[user, setUser]}>{children}</AccountContext.Provider>;
 };

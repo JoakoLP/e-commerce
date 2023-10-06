@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import accountService from "../../../services/account";
 import { AccountContext } from "../../../contexts/AccountProvider";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
+import PasswordSwitch from "./passwordSwitch";
 
 const Login = () => {
   const handleLogin = async (event) => {
@@ -11,11 +12,21 @@ const Login = () => {
     let password = document.getElementById("userPass").value;
     let remember = document.getElementById("remember").checked;
     let userInfo = { email, password, remember };
-    console.log({ credentials: { ...userInfo } });
+    // console.log({ credentials: { ...userInfo } });
     try {
       accountService.login(userInfo);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const [inputPass, setInputPass] = useState(false);
+  let pass = document.getElementById("userPass");
+  const handlePassword = (e) => {
+    if (e?.target?.value?.length > 0) {
+      setInputPass(true);
+    } else {
+      setInputPass(false);
     }
   };
 
@@ -38,7 +49,10 @@ const Login = () => {
                 <label htmlFor="" className="text-xs font-bold">
                   Contraseña
                 </label>
-                <input type="password" name="" required id="userPass" placeholder="" className={inputStyle} />
+                <div className="relative">
+                  <PasswordSwitch inputPass={inputPass} pass={pass} />
+                  <input type="password" name="" required id="userPass" placeholder="" onChange={handlePassword} className={inputStyle + " pr-8"} />
+                </div>
               </div>
             </div>
             <div className="flex items-center justify-center w-full ">

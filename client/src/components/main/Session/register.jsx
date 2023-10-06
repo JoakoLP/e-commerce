@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import accountService from "../../../services/account";
 import { Link } from "react-router-dom";
+import PasswordSwitch from "./passwordSwitch";
 
 const Register = () => {
   const [image, setImage] = useState();
@@ -49,6 +50,19 @@ const Register = () => {
     }
   };
 
+  const [inputPass, setInputPass] = useState(false);
+  const [inputPassCheck, setInputPassCheck] = useState(false);
+
+  let passReg = document.getElementById("userPassReg");
+  let passRegCheck = document.getElementById("userPassRegCheck");
+  const handlePassword = (e) => {
+    if (e?.target?.value?.length > 0) {
+      e?.target?.id == "userPassReg" ? setInputPass(true) : setInputPassCheck(true);
+    } else {
+      e?.target?.id == "userPassReg" ? setInputPass(false) : setInputPassCheck(false);
+    }
+  };
+
   const divStyle = "flex flex-col items-between justify-center w-full";
   const inputStyle = "px-2 py-1 rounded-sm h-min";
   return (
@@ -56,7 +70,15 @@ const Register = () => {
       <div className="flex flex-col items-center justify-center p-5 bg-white rounded w-min">
         <div className="flex flex-col items-center p-4 border rounded w-min">
           <p className="text-2xl font-bold">Registrarse</p>
-          <form action="" id="register" onSubmit={console.log("disabled", "handleRegister")} encType="multipart/form-data" className="flex flex-col items-center pt-3 space-y-3">
+          <form
+            action=""
+            id="register"
+            onSubmit={() => {
+              console.log("disabled", "handleRegister");
+            }}
+            encType="multipart/form-data"
+            className="flex flex-col items-center pt-3 space-y-3"
+          >
             <div className="flex flex-col items-center space-y-1 w-min">
               <p className={errorMsg ? "visible text-xs text-red-600" : "hidden"}>{errorMsg}</p>
               <div className={divStyle}>
@@ -81,13 +103,19 @@ const Register = () => {
                 <label htmlFor="userPassReg" className="text-xs font-bold">
                   Contraseña
                 </label>
-                <input type="password" name="" id="userPassReg" placeholder="" className={inputStyle} />
+                <div className="relative">
+                  <PasswordSwitch inputPass={inputPass} pass={passReg} />
+                  <input type="password" name="" id="userPassReg" placeholder="" onChange={handlePassword} className={inputStyle + " pr-8"} />
+                </div>
               </div>
               <div className={divStyle}>
                 <label htmlFor="userPassRegCheck" className="text-xs font-bold">
                   Repita la contraseña
                 </label>
-                <input type="password" name="" id="userPassRegCheck" placeholder="" className={inputStyle} />
+                <div className="relative">
+                  <PasswordSwitch inputPass={inputPassCheck} pass={passRegCheck} />
+                  <input type="password" name="" id="userPassRegCheck" placeholder="" onChange={handlePassword} className={inputStyle + " pr-8"} />
+                </div>
               </div>
               <div className={divStyle}>
                 <label htmlFor="userImgReg" className="text-xs font-bold">
