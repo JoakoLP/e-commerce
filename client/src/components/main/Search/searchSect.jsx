@@ -30,6 +30,7 @@ const SearchSect = () => {
     const sctg = searchSubCateg.toString();
     navigate(`/search?srch=${searchField}&ctg=${searchCateg}&sctg=${sctg}`);
     search(searchCateg, sctg);
+    console.log(searchSubCateg);
   }, [searchCateg, searchSubCateg]);
 
   const checkArray = () => {
@@ -51,6 +52,7 @@ const SearchSect = () => {
               <span>
                 {" "}
                 en <i>{searchCateg.toString()}</i>
+                {/* {searchSubCateg?.length > 0 ? ` > ${searchSubCateg}` : null} */}
               </span>
             ) : null}
             .
@@ -74,7 +76,7 @@ const SearchSect = () => {
       <div className="flex">
         {CategoryFilter({ searchCateg, setSearchCateg, searchSubCateg, setSearchSubCateg })}
         <div className="flex flex-col items-start w-full">
-          <h1 className="pt-2 ml-2 text-xl font-bold border-b-2 border-purple-700 text-centera whitespace-nowrap w-min">
+          <h1 className="pt-2 ml-2 text-xl font-bold border-b-2 border-blue-700 text-centera whitespace-nowrap w-min">
             {products.length > 0 ? products.length : "Sin"} resultado{products.length != 1 ? "s" : null} de búsqueda
           </h1>
           <div className="amax-w-[1640px] w-fit m-auto px-1 sm:px-4 py-4">{checkArray()}</div>
