@@ -1,13 +1,16 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AccountContext } from "../../../contexts/AccountProvider";
-import { UserIcon, LockClosedIcon, CreditCardIcon, MapPinIcon, ArrowRightOnRectangleIcon, AdjustmentsHorizontalIcon, UserGroupIcon, Bars3Icon, Squares2X2Icon } from "@heroicons/react/24/outline";
+import { UserIcon, LockClosedIcon, CreditCardIcon, MapPinIcon, ArrowRightOnRectangleIcon, UserMinusIcon, ExclamationTriangleIcon, ExclamationCircleIcon } from "@heroicons/react/24/outline";
 import accountService from "../../../services/account";
+import { Button, Dialog, DialogHeader, DialogBody, DialogFooter } from "@material-tailwind/react";
 
 const Account = () => {
   const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
   // const SERVER_URL = "http://localhost:8080";
 
   const [user, setUser] = useContext(AccountContext);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(!open);
 
   const date = user.date
     ? new Intl.DateTimeFormat("es-ES", {
@@ -33,30 +36,6 @@ const Account = () => {
           </p>
         </div>
       </div>
-
-      {user?.isAdmin ? (
-        <div className="flex flex-col w-full max-w-3xl p-6 bg-white shadow md:rounded-md ">
-          <div className="flex justify-center w-full pb-1 space-x-1">
-            <a href="/admin" className="flex w-min">
-              <AdjustmentsHorizontalIcon className="w-6 h-6 text-gray-500" />
-              <p className="font-bold">ADMIN</p>
-              <AdjustmentsHorizontalIcon className="w-6 h-6 text-gray-500" />
-            </a>
-          </div>
-          <a href="/admin/userList" className={cardStyle}>
-            <UserGroupIcon className="w-6 h-6 text-gray-500" />
-            <p>Listado de usuarios</p>
-          </a>
-          <a href="/admin/category" className={cardStyle}>
-            <Bars3Icon className="w-6 h-6 text-gray-500" />
-            <p>Categorías</p>
-          </a>
-          <a href="/admin/products" className={cardStyle}>
-            <Squares2X2Icon className="w-6 h-6 text-gray-500" />
-            <p>Productos</p>
-          </a>
-        </div>
-      ) : null}
 
       <div className="flex flex-col w-full max-w-3xl p-6 bg-white shadow md:rounded-md ">
         <div className={cardStyle}>
@@ -84,7 +63,39 @@ const Account = () => {
           <ArrowRightOnRectangleIcon className="w-6 h-6 text-gray-500" />
           <p>Cerrar sesión</p>
         </button>
+        <button className={cardStyle} onClick={handleOpen}>
+          <UserMinusIcon className="w-6 h-6 text-red-400" />
+          <p>Eliminar cuenta</p>
+        </button>
       </div>
+
+      <Dialog open={open} size="xs" handler={handleOpen}>
+        <DialogHeader>
+          <ExclamationCircleIcon className="w-8 text-red-500 aspect-square" />
+          <p className="pl-2">¿Desea eliminar su cuenta?</p>
+        </DialogHeader>
+        <DialogBody divider>
+          <div className="flex flex-col items-center justify-center">
+            <ExclamationTriangleIcon className="w-16 p-3 text-red-500 bg-red-100 rounded-full aspect-square" />
+            <p>Atención</p>
+            <p className="">Su cuenta se elimininará permanentemente.</p>
+          </div>
+        </DialogBody>
+        <DialogFooter className="flex justify-between px-8">
+          <Button variant="outlined" color="gray" onClick={handleOpen} className="mr-1">
+            <p>Cancelar</p>
+          </Button>
+          <Button
+            variant="gradient"
+            color="red"
+            onClick={() => {
+              accountService.unregister();
+            }}
+          >
+            <p>Eliminar cuenta</p>
+          </Button>
+        </DialogFooter>
+      </Dialog>
     </div>
   );
 };
