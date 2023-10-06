@@ -1,21 +1,15 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const PasswordSwitch = ({ inputPass, pass }) => {
   const [visible, setVisible] = useState(false);
 
-  useEffect(() => {
-    console.log(inputPass);
-  }, [inputPass]);
-
   const switchVisible = () => {
     if (pass !== null) {
       if (pass.type == "text") {
-        console.log(pass.type);
         setVisible(true);
         pass.type = "password";
       } else {
-        console.log(pass.type);
         setVisible(false);
         pass.type = "text";
       }
