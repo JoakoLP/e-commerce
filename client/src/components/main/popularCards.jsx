@@ -2,11 +2,11 @@ import React from "react";
 
 const PopularCards = () => {
   const a = [
-    {
-      href: "/search?srch=offer&ctg=all",
-      src: "https://cdn-icons-png.flaticon.com/512/2956/2956869.png",
-      title: "Ofertas",
-    },
+    // {
+    //   href: "/search?srch=offer&ctg=all",
+    //   src: "https://cdn-icons-png.flaticon.com/512/2956/2956869.png",
+    //   title: "Ofertas",
+    // },
     {
       href: "/search?srch=&ctg=PC&sctg=",
       src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqLhV7CIqiSfFxTjaCwPVJgTq7MuD5qRMveQ&usqp=CAU",
@@ -36,7 +36,7 @@ const PopularCards = () => {
   return (
     <div className="flex flex-col w-full pb-4 m-auto">
       <p className="self-start w-full pt-4 pb-2 pl-10 text-xl font-bold">Podría interesarte...</p>
-      <ul className="grid justify-center gap-3 text-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+      <ul className="grid gap-y-4 grid-cols-[repeat(auto-fit,_minmax(256px,_1fr))]">
         {a.map((item) => (
           <li className="flex items-center justify-center">
             <a href={item.href}>
