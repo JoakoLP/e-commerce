@@ -65,7 +65,7 @@ const SidebarCategories = ({ setCategIsOpen }) => {
                   Iniciar sesión
                 </Sidebar.Item>
                 <Sidebar.Item href="/session/register" icon={TableCellsIcon} onClick={handleClick}>
-                  Cerrar sesión
+                  Registrarse
                 </Sidebar.Item>
               </>
             )}
