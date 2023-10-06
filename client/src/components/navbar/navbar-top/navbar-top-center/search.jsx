@@ -41,7 +41,7 @@ const NavSearch = () => {
     const currentURL = location.pathname + location.search;
     if (searchURL && currentURL) {
       console.log(currentURL);
-      // window.location.reload(false);
+      window.location.reload(false);
 
       // navigate(0);
     }
