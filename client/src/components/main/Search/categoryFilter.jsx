@@ -96,7 +96,7 @@ const CategoryFilter = ({ searchCateg, setSearchCateg, searchSubCateg, setSearch
           }
         } else {
           // else if it doesn't have a category
-          setSearchSubCateg([...searchSubCateg, e?.target?.value]);
+          setSearchSubCateg([e?.target?.value]);
           // set the non selected to 'false'
           subCatCheckboxes.forEach((checkbox) => {
             if (checkbox?.value !== e?.target?.value) {
@@ -137,9 +137,9 @@ const CategoryFilter = ({ searchCateg, setSearchCateg, searchSubCateg, setSearch
         return subc?.id == subCat;
       });
 
-      if (SubCategoryList.length > 0 && subCategoryItem[0]?.category !== null) {
+      if (SubCategoryList.length > 0) {
         // if subCategory has a category different than url's
-        if (subCategoryItem[0]?.category?.id != searchCateg) {
+        if (subCategoryItem[0]?.category?.id !== searchCateg) {
           newSubCArray = newSubCArray.filter((subCateg) => {
             return subCateg !== subCat;
           });
@@ -153,7 +153,7 @@ const CategoryFilter = ({ searchCateg, setSearchCateg, searchSubCateg, setSearch
       }
     });
     // if the newSubCArray is different than searchSubCateg
-    if (newSubCArray != searchSubCateg) {
+    if (newSubCArray !== searchSubCateg) {
       setSearchSubCateg(newSubCArray);
     }
   };
