@@ -3,11 +3,12 @@ import accountService from "../../../../services/account";
 import { useState } from "react";
 import { useEffect } from "react";
 import UserModal from "./userModal";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 import { Table, Badge, Tooltip } from "flowbite-react";
 import Moment from "react-moment";
 import "moment/locale/es";
+import { Button, Dialog, DialogBody, DialogHeader } from "@material-tailwind/react";
+import { AiOutlineClose } from "react-icons/ai";
 
 const UserList = () => {
   const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
@@ -19,6 +20,9 @@ const UserList = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState();
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(!open);
 
   const loadUsers = async () => {
     await accountService.userList(setUserList);
@@ -111,8 +115,7 @@ const UserList = () => {
                         color="blue-gray"
                         onClick={(e) => {
                           e.preventDefault();
-                          setUser(user);
-                          setIsOpen(true);
+                          handleOpen();
                         }}
                       >
                         <PencilIcon className="w-4 h-4" />
@@ -123,7 +126,7 @@ const UserList = () => {
               </Table.Row>
             ))}
           </Table.Body>
-          <UserModal isOpen={isOpen} setIsOpen={setIsOpen} user={user} />
+          <UserModal open={open} handleOpen={handleOpen} user={user} />
         </Table>
       </div>
     );
