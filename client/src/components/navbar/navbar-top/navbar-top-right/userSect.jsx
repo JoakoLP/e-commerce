@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
-import { CartCheck } from "react-bootstrap-icons";
 import { Cart2 } from "react-bootstrap-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AccountContext } from "../../../../contexts/AccountProvider";
 import Cookies from "universal-cookie";
 import { CartContext } from "../../../../contexts/CartProvider";
@@ -16,6 +15,15 @@ const UserSect = ({ setCartIsOpen }) => {
   const cartContextValue = useContext(CartContext);
   const { cart, setCart } = cartContextValue;
 
+  const navigate = useNavigate();
+  const cartOnClick = () => {
+    if (user) {
+      setCartIsOpen(true);
+    } else {
+      navigate("/session/login");
+    }
+  };
+
   const defaultUser = `${SERVER_URL}/public/default/user-avatar.png`;
   // const defaultUser = "http://localhost:8080/public/default/user-avatar.png";
 
@@ -27,11 +35,10 @@ const UserSect = ({ setCartIsOpen }) => {
           <p>{user ? user?.username : "Cuenta"}</p>
         </div>
       </Link>
-      <div className="relative flex flex-col items-center justify-center w-min" onClick={() => setCartIsOpen(true)}>
+      <div className="relative flex flex-col items-center justify-center w-min" onClick={cartOnClick}>
         {cart?.count ? <p className="absolute p-0 text-xs leading-3 cursor-pointer w-min -top-2">{cart?.count}</p> : <></>}
         <Cart2 size={20} title="Carrito" className="cursor-pointer" />
       </div>
-      {/* <CartCheck></CartCheck> */}
     </div>
   );
 };

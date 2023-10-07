@@ -54,7 +54,9 @@ const Cart = () => {
             </div>
           </>
         ) : (
-          <p className="pt-10 text-center select-none">Debes iniciar sesión.</p>
+          <div className={styles.emptyCart}>
+            <p className={styles.empCarTxt}>Debes iniciar sesión.</p>
+          </div>
         )}
       </>
     );
