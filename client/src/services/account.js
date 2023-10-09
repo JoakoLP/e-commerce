@@ -74,22 +74,28 @@ const register = async (credentials) => {
   }
 };
 
-const logout = async () => {
+const logout = async (unregister) => {
   try {
-    toast("Cerrando sesión...", { toastId: "logout", containerId: "session", autoClose: 5000, type: "default", isLoading: true });
-    toast.update("logout", { render: "Cerrando sesión...", containerId: "session", autoClose: 5000, type: "default", isLoading: true });
+    if (!unregister) {
+      toast("Cerrando sesión...", { toastId: "logout", containerId: "session", autoClose: 5000, type: "default", isLoading: true });
+      toast.update("logout", { render: "Cerrando sesión...", containerId: "session", autoClose: 5000, type: "default", isLoading: true });
+    }
     await account.delete(`/logout`).then((res) => {
-      toast.update("logout", {
-        icon: ({ theme, type }) => <HiArrowRightOnRectangle size={24} />,
-        render: "Sesión cerrada!",
-        type: "success",
-        containerId: "session",
-        autoClose: 1000,
-        isLoading: false,
-      });
-      setTimeout(() => {
+      if (!unregister) {
+        toast.update("logout", {
+          icon: ({ theme, type }) => <HiArrowRightOnRectangle size={24} />,
+          render: "Sesión cerrada!",
+          type: "success",
+          containerId: "session",
+          autoClose: 1000,
+          isLoading: false,
+        });
+        setTimeout(() => {
+          window.location.reload(false);
+        }, 1000);
+      } else {
         window.location.reload(false);
-      }, 1000);
+      }
       console.log(res.data);
     });
   } catch (error) {
@@ -113,7 +119,10 @@ const unregister = async (credentials) => {
         isLoading: false,
       });
       console.log(res.data);
-      logout();
+      setTimeout(() => {
+        const unregister = true;
+        logout(unregister);
+      }, 1000);
     });
   } catch (error) {
     toast.update("unregister", { render: error?.response?.data, type: "error", containerId: "session", autoClose: 2000, isLoading: false });
