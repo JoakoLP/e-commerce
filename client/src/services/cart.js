@@ -1,4 +1,6 @@
 import axios from "axios";
+import { toast } from "react-toastify";
+import { BsCartDashFill, BsCartPlusFill, BsCartXFill } from "react-icons/bs";
 import Cookies from "universal-cookie";
 // import { toast } from "react-toastify";
 
@@ -32,28 +34,16 @@ const getCart = async (setCart) => {
 };
 
 const addToCart = async (id, setCart, name) => {
-  console.log("a");
-  const msgTxt = (
-    <div className="text-[rgb(196,36,255,0.8)]">
-      <b className="text-white">{name}</b> agregado al carrito!
-    </div>
-  );
-  // toast.success(msgTxt, {
-  //   position: "bottom-right",
-  //   autoClose: 1000,
-  //   hideProgressBar: false,
-  //   closeOnClick: true,
-  //   pauseOnHover: false,
-  //   draggable: true,
-  //   draggablePercent: 30,
-  //   progress: undefined,
-  //   theme: "dark",
-  // });
   console.log(`Producto de id "${id}" agregado al carrito.`);
   try {
     // console.log(cookies.get("userSession"));
     // console.log(cookies.get("authorization"));
     await cart.post(`/add/${id}`).then((res) => {
+      toast(`Producto agregado al carrito.`, {
+        icon: ({ theme, type }) => <BsCartPlusFill size={24} className="fill-green-700" />,
+        type: "success",
+        containerId: "cart",
+      });
       // await axios.post(`${baseUrl}add/${id}`, { withCredentials: true }).then((res) => {
       console.log(res.data);
       // console.log(res.data.msg);
@@ -68,6 +58,11 @@ const addToCart = async (id, setCart, name) => {
 const deleteFromCart = async (id, setCart) => {
   try {
     await cart.put(`/delete-item/${id}`).then((res) => {
+      toast(`Producto eliminado del carrito.`, {
+        icon: ({ theme, type }) => <BsCartDashFill size={24} className="fill-red-700" />,
+        type: "error",
+        containerId: "cart",
+      });
       console.log(res.data);
       setCart(res.data.cart);
       // console.log(cookies.get("userSession"));
@@ -79,6 +74,11 @@ const deleteFromCart = async (id, setCart) => {
 const deleteAllItems = async (id, setCart) => {
   try {
     await cart.delete(`/delete-all-items/${id}`).then((res) => {
+      toast(`Productos eliminados del carrito.`, {
+        icon: ({ theme, type }) => <BsCartDashFill size={24} className="fill-red-700" />,
+        type: "error",
+        containerId: "cart",
+      });
       console.log(res.data);
       setCart(res.data.cart);
       // console.log(cookies.get("userSession"));
@@ -90,6 +90,11 @@ const deleteAllItems = async (id, setCart) => {
 const clearCart = async (setCart) => {
   try {
     await cart.delete(`/clear`).then((res) => {
+      toast(`Carrito vaciado.`, {
+        icon: ({ theme, type }) => <BsCartXFill size={24} className="fill-red-800" />,
+        type: "error",
+        containerId: "cart",
+      });
       console.log(res.data);
       setCart(res.data.cart);
       // console.log(cookies.get("userSession"));
