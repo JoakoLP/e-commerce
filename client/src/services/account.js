@@ -19,8 +19,8 @@ const account = axios.create({
 
 const login = async (credentials) => {
   try {
-    toast("Iniciando sesión...", { toastId: "login", autoClose: 5000, type: "default", isLoading: true });
-    toast.update("login", { render: "Iniciando sesión...", autoClose: 5000, type: "default", isLoading: true });
+    toast("Iniciando sesión...", { toastId: "login", containerId: "session", autoClose: 5000, type: "default", isLoading: true });
+    toast.update("login", { render: "Iniciando sesión...", containerId: "session", autoClose: 5000, type: "default", isLoading: true });
     await account.post(`/login`, { ...credentials }).then((res) => {
       console.log(res.data);
       const data = res.data;
@@ -29,6 +29,7 @@ const login = async (credentials) => {
           icon: ({ theme, type }) => <HiOutlineArrowLeftOnRectangle size={24} />,
           render: `Sesión iniciada${data?.user?.isAdmin ? " como administrador" : ""}!`,
           type: "success",
+          containerId: "session",
           autoClose: 1000,
           isLoading: false,
         });
@@ -38,7 +39,7 @@ const login = async (credentials) => {
       }
     });
   } catch (error) {
-    toast.update("login", { render: error?.response?.data, type: "error", autoClose: 2000, isLoading: false });
+    toast.update("login", { render: error?.response?.data, type: "error", containerId: "session", autoClose: 2000, isLoading: false });
 
     console.log(error);
 
@@ -48,13 +49,14 @@ const login = async (credentials) => {
 
 const register = async (credentials) => {
   try {
-    toast("Registrando usuario...", { toastId: "register", autoClose: 5000, type: "default", isLoading: true });
-    toast.update("register", { render: "Registrando usuario...", autoClose: 5000, type: "default", isLoading: true });
+    toast("Registrando usuario...", { toastId: "register", containerId: "session", autoClose: 5000, type: "default", isLoading: true });
+    toast.update("register", { render: "Registrando usuario...", containerId: "session", autoClose: 5000, type: "default", isLoading: true });
     console.log(credentials);
     await account.post(`/register`, { ...credentials }, { headers: { "Content-Type": "multipart/form-data" } }).then((res) => {
       toast.update("register", {
         icon: ({ theme, type }) => <HiOutlineUserPlus size={24} />,
         render: "Usuario registrado correctamente.",
+        containerId: "session",
         autoClose: 1000,
         type: "success",
         isLoading: false,
@@ -67,20 +69,21 @@ const register = async (credentials) => {
       // console.log({ userSession: { ...cookies.get("userSession") } });
     });
   } catch (error) {
-    toast.update("register", { render: error?.response?.data, type: "error", autoClose: 2000, isLoading: false });
+    toast.update("register", { render: error?.response?.data, type: "error", containerId: "session", autoClose: 2000, isLoading: false });
     console.log(error);
   }
 };
 
 const logout = async () => {
   try {
-    toast("Cerrando sesión...", { toastId: "logout", autoClose: 5000, type: "default", isLoading: true });
-    toast.update("logout", { render: "Cerrando sesión...", autoClose: 5000, type: "default", isLoading: true });
+    toast("Cerrando sesión...", { toastId: "logout", containerId: "session", autoClose: 5000, type: "default", isLoading: true });
+    toast.update("logout", { render: "Cerrando sesión...", containerId: "session", autoClose: 5000, type: "default", isLoading: true });
     await account.delete(`/logout`).then((res) => {
       toast.update("logout", {
         icon: ({ theme, type }) => <HiArrowRightOnRectangle size={24} />,
         render: "Sesión cerrada!",
         type: "success",
+        containerId: "session",
         autoClose: 1000,
         isLoading: false,
       });
@@ -90,21 +93,22 @@ const logout = async () => {
       console.log(res.data);
     });
   } catch (error) {
-    toast.update("logout", { render: error?.response?.data, type: "error", autoClose: 2000, isLoading: false });
+    toast.update("logout", { render: error?.response?.data, type: "error", containerId: "session", autoClose: 2000, isLoading: false });
     console.log(error.response.data);
   }
 };
 
 const unregister = async (credentials) => {
   try {
-    toast("Eliminando cuenta...", { toastId: "unregister", autoClose: 5000, type: "default", isLoading: true });
-    toast.update("unregister", { render: "Eliminando cuenta...", autoClose: 5000, type: "default", isLoading: true });
+    toast("Eliminando cuenta...", { toastId: "unregister", containerId: "session", autoClose: 5000, type: "default", isLoading: true });
+    toast.update("unregister", { render: "Eliminando cuenta...", containerId: "session", autoClose: 5000, type: "default", isLoading: true });
     console.log(credentials);
     await account.delete(`/unregister`).then((res) => {
       toast.update("unregister", {
         icon: ({ theme, type }) => <HiOutlineUserMinus className="text-red-400" size={24} />,
         render: "Cuenta elminada!",
         type: "success",
+        containerId: "session",
         autoClose: 1000,
         isLoading: false,
       });
@@ -112,7 +116,7 @@ const unregister = async (credentials) => {
       logout();
     });
   } catch (error) {
-    toast.update("unregister", { render: error?.response?.data, type: "error", autoClose: 2000, isLoading: false });
+    toast.update("unregister", { render: error?.response?.data, type: "error", containerId: "session", autoClose: 2000, isLoading: false });
     console.log(error.response.data);
   }
 };
@@ -132,7 +136,7 @@ const userList = async (setUserList) => {
       // console.log(res.data);
     });
   } catch (error) {
-    toast(error?.response?.data, { type: "error", autoClose: 5000, isLoading: false });
+    toast(error?.response?.data, { type: "error", containerId: "session", autoClose: 5000, isLoading: false });
     console.log(error);
   }
 };
@@ -151,7 +155,7 @@ const userGet = async (setUser) => {
       }
     });
   } catch (error) {
-    toast(error?.response?.data, { type: "error", autoClose: 5000, isLoading: false });
+    toast(error?.response?.data, { type: "error", containerId: "session", autoClose: 5000, isLoading: false });
     console.log(error);
   }
 };
