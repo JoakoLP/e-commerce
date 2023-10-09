@@ -107,10 +107,20 @@ class UserController {
 
       const token = token60({ ...req.session.user });
       // console.log(token);
-      res.cookie("authorization", `Bearer ${token}`, { maxAge: 60000, sameSite: "none", secure: true, httpOnly: true });
+      res.cookie(
+        "authorization",
+        token,
+        req.body.remember ? { sameSite: "none", secure: true, domain: DOMAIN_URL } : { maxAge: 60000, sameSite: "none", httpOnly: true, secure: true, domain: DOMAIN_URL }
+      );
+      // res.cookie("authorization", `Bearer ${token}`, { maxAge: 60000, sameSite: "none", secure: true, httpOnly: true });
       // res.cookie("userSession", { ...req.session.user }, { maxAge: 60000, sameSite: "none", secure: true });
 
-      res.cookie("userSession", { ...req.session.user, remember: false }, { maxAge: 60000, sameSite: "none", secure: true });
+      res.cookie(
+        "userSession",
+        { ...req.session.user },
+        req.body.remember ? { sameSite: "none", secure: true, domain: DOMAIN_URL } : { maxAge: 60000, sameSite: "none", secure: true, domain: DOMAIN_URL }
+      );
+      // res.cookie("userSession", { ...req.session.user, remember: false }, { maxAge: 60000, sameSite: "none", secure: true });
       await User.findByIdAndUpdate(user._id, { status: true });
       setTimeout(async () => {
         // switch status if 'interval'
