@@ -14,10 +14,13 @@ import {
   HiOutlineUserPlus,
   HiOutlineWrenchScrewdriver,
 } from "react-icons/hi2";
+import { useNavigate } from "react-router";
 
 const SidebarCategories = ({ setCategIsOpen }) => {
+  const navigate = useNavigate();
   const [user, setUser] = useContext(AccountContext);
-  const handleClick = () => {
+  const handleClick = (url) => {
+    navigate(url);
     setCategIsOpen(false);
   };
 
@@ -32,13 +35,15 @@ const SidebarCategories = ({ setCategIsOpen }) => {
       {user ? <p className="text-gray-600 px-4a">Hola {user.username}</p> : <></>}
       <List>
         {user ? (
-          <ListItem onClick={handleClick}>
-            <a href="/account" className="flex items-center">
-              <ListItemPrefix>
-                <HiOutlineUser size={24} />
-              </ListItemPrefix>
-              Mi Cuenta
-            </a>
+          <ListItem
+            onClick={() => {
+              handleClick("/account");
+            }}
+          >
+            <ListItemPrefix>
+              <HiOutlineUser size={24} />
+            </ListItemPrefix>
+            Mi Cuenta
           </ListItem>
         ) : (
           <></>
@@ -63,37 +68,45 @@ const SidebarCategories = ({ setCategIsOpen }) => {
             </ListItem>
             <AccordionBody className="py-1">
               <List className="p-0">
-                <ListItem onClick={handleClick}>
-                  <a href="/admin" className="flex items-center">
-                    <ListItemPrefix>
-                      <HiOutlineAdjustmentsHorizontal size={24} className="text-gray-600 " />
-                    </ListItemPrefix>
-                    Panel de control
-                  </a>
+                <ListItem
+                  onClick={() => {
+                    handleClick("/admin");
+                  }}
+                >
+                  <ListItemPrefix>
+                    <HiOutlineAdjustmentsHorizontal size={24} className="text-gray-600 " />
+                  </ListItemPrefix>
+                  Panel de control
                 </ListItem>
-                <ListItem onClick={handleClick}>
-                  <a href="/admin/userList" className="flex items-center">
-                    <ListItemPrefix>
-                      <HiOutlineUserGroup size={24} className="text-gray-600 " />
-                    </ListItemPrefix>
-                    Usuarios
-                  </a>
+                <ListItem
+                  onClick={() => {
+                    handleClick("/admin/userList");
+                  }}
+                >
+                  <ListItemPrefix>
+                    <HiOutlineUserGroup size={24} className="text-gray-600 " />
+                  </ListItemPrefix>
+                  Usuarios
                 </ListItem>
-                <ListItem onClick={handleClick}>
-                  <a href="/admin/category" className="flex items-center">
-                    <ListItemPrefix>
-                      <HiOutlineBars3 size={24} className="text-gray-600 " />
-                    </ListItemPrefix>
-                    Categorías
-                  </a>
+                <ListItem
+                  onClick={() => {
+                    handleClick("/admin/category");
+                  }}
+                >
+                  <ListItemPrefix>
+                    <HiOutlineBars3 size={24} className="text-gray-600 " />
+                  </ListItemPrefix>
+                  Categorías
                 </ListItem>
-                <ListItem onClick={handleClick}>
-                  <a href="/admin/products" className="flex items-center">
-                    <ListItemPrefix>
-                      <HiOutlineSquares2X2 size={24} className="text-gray-600 " />
-                    </ListItemPrefix>
-                    Productos
-                  </a>
+                <ListItem
+                  onClick={() => {
+                    handleClick("/admin/products");
+                  }}
+                >
+                  <ListItemPrefix>
+                    <HiOutlineSquares2X2 size={24} className="text-gray-600 " />
+                  </ListItemPrefix>
+                  Productos
                 </ListItem>
               </List>
             </AccordionBody>
@@ -116,21 +129,25 @@ const SidebarCategories = ({ setCategIsOpen }) => {
           </ListItem>
         ) : (
           <>
-            <ListItem onClick={handleClick}>
-              <a href="/session/login" className="flex items-center">
-                <ListItemPrefix>
-                  <HiArrowRightOnRectangle size={24} className="text-gray-600 " />
-                </ListItemPrefix>
-                Iniciar sesión
-              </a>
+            <ListItem
+              onClick={() => {
+                handleClick("/session/login");
+              }}
+            >
+              <ListItemPrefix>
+                <HiArrowRightOnRectangle size={24} className="text-gray-600 " />
+              </ListItemPrefix>
+              Iniciar sesión
             </ListItem>
-            <ListItem onClick={handleClick}>
-              <a href="/session/register" className="flex items-center">
-                <ListItemPrefix>
-                  <HiOutlineUserPlus size={24} className="text-gray-600 " />
-                </ListItemPrefix>
-                Registrarse
-              </a>
+            <ListItem
+              onClick={() => {
+                handleClick("/session/register");
+              }}
+            >
+              <ListItemPrefix>
+                <HiOutlineUserPlus size={24} className="text-gray-600 " />
+              </ListItemPrefix>
+              Registrarse
             </ListItem>
           </>
         )}
