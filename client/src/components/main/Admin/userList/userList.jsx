@@ -3,12 +3,10 @@ import accountService from "../../../../services/account";
 import { useState } from "react";
 import { useEffect } from "react";
 import UserModal from "./userModal";
-import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
+import { PencilIcon } from "@heroicons/react/24/solid";
 import { Table, Badge, Tooltip } from "flowbite-react";
 import Moment from "react-moment";
 import "moment/locale/es";
-import { Button, Dialog, DialogBody, DialogHeader } from "@material-tailwind/react";
-import { AiOutlineClose } from "react-icons/ai";
 
 const UserList = () => {
   const SERVER_URL = "https://e-commerce-api.joaquintakara.com";

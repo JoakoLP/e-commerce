@@ -11,9 +11,19 @@ const isRegistered = async (req, res, next) => {
         const { path, filename } = req.files[0];
         fs.unlinkSync(path, filename);
       }
-      res.status(500).send("Email already registered.");
+      res.status(500).send("Email ya registrado.");
     } else {
-      next();
+      const user = await User.findOne({ username: req.body.username });
+      if (user) {
+        if (req.files[0]) {
+          // console.log(req.files[0]);
+          const { path, filename } = req.files[0];
+          fs.unlinkSync(path, filename);
+        }
+        res.status(500).send("Usuario ya registrado.");
+      } else {
+        next();
+      }
     }
   } catch (error) {
     res.json(error);
@@ -24,7 +34,7 @@ const isNotRegistered = async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (user == null) {
-      res.status(500).send("Email not registered.");
+      res.status(500).send("Email no registrado.");
     } else {
       next();
     }
@@ -43,7 +53,7 @@ const isLogged = (req, res, next) => {
         // console.log(path);
         fs.unlinkSync(path, filename);
       }
-      res.status(501).send("Already logged in.");
+      res.status(501).send("Ya has iniciado sesión.");
     } else {
       next();
     }
@@ -58,7 +68,7 @@ const isNotLogged = (req, res, next) => {
     console.log(req);
     // if (!req.cookies.userSession) {
     if (!req.cookies.userSession) {
-      res.status(501).send("You need to login first.");
+      res.status(500).send("Primero debes iniciar sesión.");
     } else {
       next();
     }
@@ -95,7 +105,7 @@ const isAdmin = async (req, res, next) => {
     if (user?.isAdmin == true) {
       next();
     } else {
-      res.json({ msg: "User is not admin" });
+      res.send("Debes ser admin.");
     }
   } catch (error) {
     res.json(error);

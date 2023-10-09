@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 import Cookies from "universal-cookie";
 
 axios.defaults.withCredentials = false;
@@ -17,17 +18,21 @@ const account = axios.create({
 
 const login = async (credentials) => {
   try {
+    toast("Iniciando sesión...", { toastId: "login", autoClose: 5000, type: "default", isLoading: true });
+    toast.update("login", { render: "Iniciando sesión...", autoClose: 5000, type: "default", isLoading: true });
     await account.post(`/login`, { ...credentials }).then((res) => {
       console.log(res.data);
       const data = res.data;
       if (data.user) {
-        // cookies.set("authorization", data.token, credentials.remember ? {} : { maxAge: 60000 });
-        // cookies.set("userSession", data.user, credentials.remember ? {} : { maxAge: 60000 });
+        toast.update("login", { render: `Sesión iniciada${data?.user?.isAdmin ? " como administrador" : ""}!`, type: "success", autoClose: 1500, isLoading: false });
+        setTimeout(() => {
+          window.location.reload(false);
+        }, 1500);
       }
-      // console.log({ userSession: { ...cookies.get("userSession") } });
     });
-    // window.location.reload(false);
   } catch (error) {
+    toast.update("login", { render: error?.response?.data, type: "error", autoClose: 5000, isLoading: false });
+
     console.log(error);
 
     // console.log(error.response.data);
@@ -36,37 +41,53 @@ const login = async (credentials) => {
 
 const register = async (credentials) => {
   try {
+    toast("Registrando usuario...", { toastId: "register", autoClose: 5000, type: "default", isLoading: true });
+    toast.update("register", { render: "Registrando usuario...", autoClose: 5000, type: "default", isLoading: true });
     console.log(credentials);
     await account.post(`/register`, { ...credentials }, { headers: { "Content-Type": "multipart/form-data" } }).then((res) => {
+      toast.update("register", { render: "Usuario registrado correctamente.", autoClose: 1500, type: "success", isLoading: false });
+      setTimeout(() => {
+        window.location.reload(false);
+      }, 1500);
       // console.log(res);
       console.log(res.data.user);
       // console.log({ userSession: { ...cookies.get("userSession") } });
-      // window.location.reload(false);
     });
   } catch (error) {
+    toast.update("register", { render: error?.response?.data, type: "error", autoClose: 5000, isLoading: false });
     console.log(error);
   }
 };
 
-const logout = () => {
+const logout = async () => {
   try {
-    account.delete(`/logout`).then((res) => {
-      // window.location.reload(false);
+    toast("Cerrando sesión...", { toastId: "logout", autoClose: 5000, type: "default", isLoading: true });
+    toast.update("logout", { render: "Cerrando sesión...", autoClose: 5000, type: "default", isLoading: true });
+    await account.delete(`/logout`).then((res) => {
+      toast.update("logout", { render: "Sesión cerrada!", type: "success", autoClose: 1500, isLoading: false });
+      setTimeout(() => {
+        window.location.reload(false);
+      }, 1500);
       console.log(res.data);
     });
   } catch (error) {
+    toast.update("logout", { render: error?.response?.data, type: "error", autoClose: 5000, isLoading: false });
     console.log(error.response.data);
   }
 };
 
 const unregister = async (credentials) => {
   try {
+    toast("Eliminando cuenta...", { toastId: "unregister", autoClose: 5000, type: "default", isLoading: true });
+    toast.update("unregister", { render: "Eliminando cuenta...", autoClose: 5000, type: "default", isLoading: true });
     console.log(credentials);
     await account.delete(`/unregister`).then((res) => {
+      toast.update("unregister", { render: "Cuenta elminada!", type: "success", autoClose: 1500, isLoading: false });
       console.log(res.data);
       logout();
     });
   } catch (error) {
+    toast.update("unregister", { render: error?.response?.data, type: "error", autoClose: 5000, isLoading: false });
     console.log(error.response.data);
   }
 };
@@ -86,6 +107,7 @@ const userList = async (setUserList) => {
       // console.log(res.data);
     });
   } catch (error) {
+    toast(error?.response?.data, { type: "error", autoClose: 5000, isLoading: false });
     console.log(error);
   }
 };
@@ -104,6 +126,7 @@ const userGet = async (setUser) => {
       }
     });
   } catch (error) {
+    toast(error?.response?.data, { type: "error", autoClose: 5000, isLoading: false });
     console.log(error);
   }
 };

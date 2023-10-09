@@ -89,6 +89,7 @@ const Account = () => {
             variant="gradient"
             color="red"
             onClick={() => {
+              handleOpen();
               accountService.unregister();
             }}
           >

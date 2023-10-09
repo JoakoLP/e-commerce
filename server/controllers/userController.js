@@ -25,34 +25,21 @@ class UserController {
       const user = await User.findOne({ email: req.body.email });
       console.log(req.body);
       if (!bcrypt.compareSync(req.body.password, user.password)) {
-        res.status(500).json({ msg: "Wrong password." });
+        res.status(500).json("Contraseña incorrecta.");
       } else {
-        // console.log(user);
-
-        // req.session.user = { ...user._doc };
         let { _id, username, name, email, isAdmin, avatar, date } = user._doc;
         req.session.user = { _id, username, name, email, isAdmin, avatar, date };
-        // console.log(req.user);
-        // console.log(req.session.user);
         const token = `Bearer ${req.body.remember ? tokenRemember({ ...req.session.user }) : token60({ ...req.session.user })}`;
-        // console.log(token);
-        // res.header("Authorization", token);
         res.cookie(
           "authorization",
           token,
-          // `Bearer ${token}`,
-          // req.body.remember ? {} : { maxAge: 60000 }
           req.body.remember ? { sameSite: "none", secure: true, domain: DOMAIN_URL } : { maxAge: 60000, sameSite: "none", httpOnly: true, secure: true, domain: DOMAIN_URL }
-          // req.body.remember ? { domain: "https://e-commerce-server-psi.vercel.app/" } : { maxAge: 60000, domain: "https://e-commerce-server-psi.vercel.app/" }
         );
         res.cookie(
           "userSession",
           { ...req.session.user },
           req.body.remember ? { sameSite: "none", secure: true, domain: DOMAIN_URL } : { maxAge: 60000, sameSite: "none", secure: true, domain: DOMAIN_URL }
-          // req.body.remember ? { domain: "https://e-commerce-five-rose.vercel.app/" } : { maxAge: 60000, domain: "https://e-commerce-five-rose.vercel.app/" }
-          // req.body.remember ? { domain: "https://e-commerce-server-psi.vercel.app/" } : { maxAge: 60000, domain: "https://e-commerce-server-psi.vercel.app/" }
         );
-        // console.log(req.cookies);
         await User.findByIdAndUpdate(user._id, { status: true });
         if (!req.body.remember) {
           setTimeout(async () => {
@@ -70,7 +57,7 @@ class UserController {
       }
     } catch (error) {
       // console.log(error.response.data);
-      res.json(error);
+      res.status(400).json(error);
     }
   }
 

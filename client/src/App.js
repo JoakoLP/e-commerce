@@ -8,13 +8,13 @@ import NavBar from "./components/navbar/index";
 import MenuDrawer from "./components/navbar/drawers/menuDrawer";
 import CartDrawer from "./components/navbar/drawers/cartDrawer";
 import Pages from "./pages/Pages";
-import Register from "./components/main/Session/register";
 import Footer from "./components/footer";
-import Admin from "./components/main/Admin";
 import AccountComps from "./components/main/Account/AccountComps";
 import SessionComps from "./components/main/Session/SessionComps";
 import AdminComps from "./components/main/Admin/AdminComps";
 import CartButton from "./components/cart/cartButton";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [categIsOpen, setCategIsOpen] = useState(false);
@@ -59,7 +59,7 @@ function App() {
                 </Route>
               </Routes>
             </div>
-
+            <ToastContainer position={toast.POSITION.BOTTOM_RIGHT} />
             <Footer />
           </div>
         </CartProvider>
