@@ -13,8 +13,15 @@ const AccountProvider = ({ children }) => {
     if (user) {
       console.log("preGet", user);
       accountService.userGet(setUser);
+      accountService.userStatus();
     }
   }, []);
+
+  setInterval(() => {
+    if (user) {
+      accountService.userStatus();
+    }
+  }, 60000);
 
   return <AccountContext.Provider value={[user, setUser]}>{children}</AccountContext.Provider>;
 };

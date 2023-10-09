@@ -169,4 +169,14 @@ const userGet = async (setUser) => {
   }
 };
 
-export default { login, register, logout, unregister, userList, userGet };
+const userStatus = async () => {
+  try {
+    await account.get("/userStatus").then((res) => {
+      console.log(res.data);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export default { login, register, logout, unregister, userList, userGet, userStatus };

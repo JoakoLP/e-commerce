@@ -10,6 +10,15 @@ const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
 const DOMAIN_URL = ".joaquintakara.com";
 // const DOMAIN_URL = "";
 
+const setOnline = async (user) => {
+  await User.findByIdAndUpdate(user._id, { status: true });
+  setTimeout(async () => {
+    // switch status if 'interval'
+    console.log("logout time");
+    await User.findByIdAndUpdate(user?._id, { status: false });
+  }, 60000);
+};
+
 class UserController {
   index(req, res) {
     console.log("Información recibida:");
@@ -23,7 +32,6 @@ class UserController {
   async login(req, res) {
     try {
       const user = await User.findOne({ email: req.body.email });
-      console.log(req.body);
       if (!bcrypt.compareSync(req.body.password, user.password)) {
         res.status(500).json("Contraseña incorrecta.");
       } else {
@@ -176,6 +184,18 @@ class UserController {
       const userSend = { _id, username, name, email, isAdmin, avatar, bookmark, date };
       console.log(userSend);
       res.json(userSend);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async userStatus(req, res) {
+    try {
+      const decoded = tokenVerify(req.token);
+      const user = await User.findById(decoded.body._id);
+
+      setOnline(user);
+      res.send("Status online");
     } catch (error) {
       console.log(error);
     }
