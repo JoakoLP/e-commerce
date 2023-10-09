@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { TicketIcon, UserCircleIcon, ArrowRightOnRectangleIcon, AdjustmentsHorizontalIcon, UserGroupIcon, Bars3Icon, Squares2X2Icon } from "@heroicons/react/24/outline";
 import accountService from "../../../services/account";
 import { AccountContext } from "../../../contexts/AccountProvider";
+import { HiArrowRightOnRectangle, HiOutlineAdjustmentsHorizontal, HiOutlineBars3, HiOutlineSquares2X2, HiOutlineTicket, HiOutlineUserCircle, HiOutlineUserGroup } from "react-icons/hi2";
 
 const Index = () => {
   const [user, setUser] = useContext(AccountContext);
@@ -21,13 +21,13 @@ const Index = () => {
           <div className="grid items-center justify-center grid-cols-2 gap-4">
             <Link to={"my-purchases"} className={linkStyle}>
               <div className={iconStyle}>
-                <TicketIcon className="h-9 !text-cyan-800a text-gray-600 ratio-square " />
+                <HiOutlineTicket className="text-gray-600 h-9 w-9 ratio-square " />
               </div>
               <span className="w-max">Compras</span>
             </Link>
             <Link to={"my-profile"} className={linkStyle}>
               <div className={iconStyle}>
-                <UserCircleIcon className="h-9 !text-cyan-800a text-gray-600 ratio-square " />
+                <HiOutlineUserCircle className="text-gray-600 h-9 w-9 ratio-square " />
               </div>
               <span className="w-max">Mi perfil</span>
             </Link>
@@ -39,21 +39,21 @@ const Index = () => {
         <div className="flex flex-col w-full max-w-3xl p-6 bg-white shadow md:rounded-md ">
           <div className="flex justify-center w-full pb-1 space-x-1">
             <a href="/admin" className="flex w-min">
-              <AdjustmentsHorizontalIcon className="w-6 h-6 text-gray-500" />
+              <HiOutlineAdjustmentsHorizontal className="w-6 h-6 text-gray-600" />
               <p className="font-bold">ADMIN</p>
-              <AdjustmentsHorizontalIcon className="w-6 h-6 text-gray-500" />
+              <HiOutlineAdjustmentsHorizontal className="w-6 h-6 text-gray-600" />
             </a>
           </div>
           <a href="/admin/userList" className={cardStyle}>
-            <UserGroupIcon className="w-6 h-6 text-gray-500" />
+            <HiOutlineUserGroup className="w-6 h-6 text-gray-500" />
             <p>Listado de usuarios</p>
           </a>
           <a href="/admin/category" className={cardStyle}>
-            <Bars3Icon className="w-6 h-6 text-gray-500" />
+            <HiOutlineBars3 className="w-6 h-6 text-gray-500" />
             <p>Categorías</p>
           </a>
           <a href="/admin/products" className={cardStyle}>
-            <Squares2X2Icon className="w-6 h-6 text-gray-500" />
+            <HiOutlineSquares2X2 className="w-6 h-6 text-gray-500" />
             <p>Productos</p>
           </a>
         </div>
@@ -67,7 +67,7 @@ const Index = () => {
               accountService.logout();
             }}
           >
-            <ArrowRightOnRectangleIcon className="w-6 h-6 text-gray-500" />
+            <HiArrowRightOnRectangle className="w-6 h-6 text-gray-500" />
             <p>Cerrar sesión</p>
           </button>
         </div>

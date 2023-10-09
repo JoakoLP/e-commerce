@@ -16,6 +16,7 @@ router.delete("/logout", isNotLogged, userController.logout);
 router.delete("/unregister", isNotLogged, userController.unregister);
 router.get("/userList", verifyToken, isAdmin, userController.userList);
 router.get("/userGet", isNotLogged, verifyToken, userController.userGet);
+router.get("/userStatus", isNotLogged, verifyToken, userController.userStatus);
 // router.get("/userGet", userController.userGet);
 
 module.exports = router;
