@@ -11,6 +11,7 @@ import {
   HiOutlineSquares2X2,
   HiOutlineUser,
   HiOutlineUserGroup,
+  HiOutlineUserPlus,
   HiOutlineWrenchScrewdriver,
 } from "react-icons/hi2";
 
@@ -30,14 +31,19 @@ const SidebarCategories = ({ setCategIsOpen }) => {
     <div className="text-left w-fit">
       {user ? <p className="text-gray-600 px-4a">Hola {user.username}</p> : <></>}
       <List>
-        <ListItem onClick={handleClick}>
-          <a href="/account" className="flex items-center">
-            <ListItemPrefix>
-              <HiOutlineUser size={24} />
-            </ListItemPrefix>
-            Mi Cuenta
-          </a>
-        </ListItem>
+        {user ? (
+          <ListItem onClick={handleClick}>
+            <a href="/account" className="flex items-center">
+              <ListItemPrefix>
+                <HiOutlineUser size={24} />
+              </ListItemPrefix>
+              Mi Cuenta
+            </a>
+          </ListItem>
+        ) : (
+          <></>
+        )}
+
         {user?.isAdmin ? (
           <Accordion open={open === 1} icon={<HiOutlineChevronDown className={`${open === 1 ? "rotate-180" : ""} transition-transform`} />}>
             <ListItem className="p-0" selected={open === 1}>
@@ -95,18 +101,39 @@ const SidebarCategories = ({ setCategIsOpen }) => {
         ) : (
           <></>
         )}
-        <ListItem>
-          <ListItemPrefix
+        {user ? (
+          <ListItem
             onClick={(e) => {
               e.preventDefault();
-              handleClick();
               accountService.logout();
+              handleClick();
             }}
           >
-            <HiArrowRightOnRectangle size={24} />
-          </ListItemPrefix>
-          Salir
-        </ListItem>
+            <ListItemPrefix>
+              <HiArrowRightOnRectangle size={24} />
+            </ListItemPrefix>
+            Salir
+          </ListItem>
+        ) : (
+          <>
+            <ListItem onClick={handleClick}>
+              <a href="/session/login" className="flex items-center">
+                <ListItemPrefix>
+                  <HiArrowRightOnRectangle size={24} className="text-gray-600 " />
+                </ListItemPrefix>
+                Iniciar sesión
+              </a>
+            </ListItem>
+            <ListItem onClick={handleClick}>
+              <a href="/session/register" className="flex items-center">
+                <ListItemPrefix>
+                  <HiOutlineUserPlus size={24} className="text-gray-600 " />
+                </ListItemPrefix>
+                Registrarse
+              </a>
+            </ListItem>
+          </>
+        )}
       </List>
     </div>
   );
