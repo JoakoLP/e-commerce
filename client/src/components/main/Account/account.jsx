@@ -1,8 +1,17 @@
 import React, { useContext, useState } from "react";
 import { AccountContext } from "../../../contexts/AccountProvider";
-import { UserIcon, LockClosedIcon, CreditCardIcon, MapPinIcon, ArrowRightOnRectangleIcon, UserMinusIcon, ExclamationTriangleIcon, ExclamationCircleIcon } from "@heroicons/react/24/outline";
 import accountService from "../../../services/account";
 import { Button, Dialog, DialogHeader, DialogBody, DialogFooter } from "@material-tailwind/react";
+import {
+  HiArrowRightOnRectangle,
+  HiOutlineCreditCard,
+  HiOutlineExclamationCircle,
+  HiOutlineExclamationTriangle,
+  HiOutlineLockClosed,
+  HiOutlineMapPin,
+  HiOutlineUser,
+  HiOutlineUserMinus,
+} from "react-icons/hi2";
 
 const Account = () => {
   const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
@@ -39,19 +48,19 @@ const Account = () => {
 
       <div className="flex flex-col w-full max-w-3xl p-6 bg-white shadow md:rounded-md ">
         <div className={cardStyle}>
-          <UserIcon className="w-6 h-6 text-gray-500" />
+          <HiOutlineUser className="w-6 h-6 text-gray-500" />
           <p>Mis datos</p>
         </div>
         <div className={cardStyle}>
-          <LockClosedIcon className="w-6 h-6 text-gray-500" />
+          <HiOutlineLockClosed className="w-6 h-6 text-gray-500" />
           <p>Seguridad</p>
         </div>
         <div className={cardStyle}>
-          <CreditCardIcon className="w-6 h-6 text-gray-500" />
+          <HiOutlineCreditCard className="w-6 h-6 text-gray-500" />
           <p>Tarjetas</p>
         </div>
         <div className={cardStyle}>
-          <MapPinIcon className="w-6 h-6 text-gray-500" />
+          <HiOutlineMapPin className="w-6 h-6 text-gray-500" />
           <p>Direcciones</p>
         </div>
         <button
@@ -60,23 +69,23 @@ const Account = () => {
             accountService.logout();
           }}
         >
-          <ArrowRightOnRectangleIcon className="w-6 h-6 text-gray-500" />
+          <HiArrowRightOnRectangle className="w-6 h-6 text-gray-500" />
           <p>Cerrar sesión</p>
         </button>
         <button className={cardStyle} onClick={handleOpen}>
-          <UserMinusIcon className="w-6 h-6 text-red-400" />
+          <HiOutlineUserMinus className="w-6 h-6 text-red-400" />
           <p>Eliminar cuenta</p>
         </button>
       </div>
 
       <Dialog open={open} size="xs" handler={handleOpen}>
         <DialogHeader>
-          <ExclamationCircleIcon className="w-8 text-red-500 aspect-square" />
+          <HiOutlineExclamationCircle size={32} className="w-8 text-red-500 aspect-square" />
           <p className="pl-2">¿Desea eliminar su cuenta?</p>
         </DialogHeader>
         <DialogBody divider>
           <div className="flex flex-col items-center justify-center">
-            <ExclamationTriangleIcon className="w-16 p-3 text-red-500 bg-red-100 rounded-full aspect-square" />
+            <HiOutlineExclamationTriangle size={64} className="w-16 p-3 text-red-500 bg-red-100 rounded-full aspect-square" />
             <p>Atención</p>
             <p className="">Su cuenta se elimininará permanentemente.</p>
           </div>

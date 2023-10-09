@@ -1,4 +1,5 @@
 import axios from "axios";
+import { HiArrowRightOnRectangle, HiOutlineUserMinus, HiOutlineUserPlus } from "react-icons/hi2";
 import { toast } from "react-toastify";
 import Cookies from "universal-cookie";
 
@@ -24,14 +25,14 @@ const login = async (credentials) => {
       console.log(res.data);
       const data = res.data;
       if (data.user) {
-        toast.update("login", { render: `Sesión iniciada${data?.user?.isAdmin ? " como administrador" : ""}!`, type: "success", autoClose: 1500, isLoading: false });
+        toast.update("login", { render: `Sesión iniciada${data?.user?.isAdmin ? " como administrador" : ""}!`, type: "success", autoClose: 1000, isLoading: false });
         setTimeout(() => {
           window.location.reload(false);
-        }, 1500);
+        }, 1000);
       }
     });
   } catch (error) {
-    toast.update("login", { render: error?.response?.data, type: "error", autoClose: 5000, isLoading: false });
+    toast.update("login", { render: error?.response?.data, type: "error", autoClose: 2000, isLoading: false });
 
     console.log(error);
 
@@ -45,16 +46,22 @@ const register = async (credentials) => {
     toast.update("register", { render: "Registrando usuario...", autoClose: 5000, type: "default", isLoading: true });
     console.log(credentials);
     await account.post(`/register`, { ...credentials }, { headers: { "Content-Type": "multipart/form-data" } }).then((res) => {
-      toast.update("register", { render: "Usuario registrado correctamente.", autoClose: 1500, type: "success", isLoading: false });
+      toast.update("register", {
+        icon: ({ theme, type }) => <HiOutlineUserPlus size={24} />,
+        render: "Usuario registrado correctamente.",
+        autoClose: 1000,
+        type: "success",
+        isLoading: false,
+      });
       setTimeout(() => {
         window.location.reload(false);
-      }, 1500);
+      }, 1000);
       // console.log(res);
       console.log(res.data.user);
       // console.log({ userSession: { ...cookies.get("userSession") } });
     });
   } catch (error) {
-    toast.update("register", { render: error?.response?.data, type: "error", autoClose: 5000, isLoading: false });
+    toast.update("register", { render: error?.response?.data, type: "error", autoClose: 2000, isLoading: false });
     console.log(error);
   }
 };
@@ -64,14 +71,20 @@ const logout = async () => {
     toast("Cerrando sesión...", { toastId: "logout", autoClose: 5000, type: "default", isLoading: true });
     toast.update("logout", { render: "Cerrando sesión...", autoClose: 5000, type: "default", isLoading: true });
     await account.delete(`/logout`).then((res) => {
-      toast.update("logout", { render: "Sesión cerrada!", type: "success", autoClose: 1500, isLoading: false });
+      toast.update("logout", {
+        icon: ({ theme, type }) => <HiArrowRightOnRectangle size={24} />,
+        render: "Sesión cerrada!",
+        type: "success",
+        autoClose: 1000,
+        isLoading: false,
+      });
       setTimeout(() => {
         window.location.reload(false);
-      }, 1500);
+      }, 1000);
       console.log(res.data);
     });
   } catch (error) {
-    toast.update("logout", { render: error?.response?.data, type: "error", autoClose: 5000, isLoading: false });
+    toast.update("logout", { render: error?.response?.data, type: "error", autoClose: 2000, isLoading: false });
     console.log(error.response.data);
   }
 };
@@ -82,12 +95,18 @@ const unregister = async (credentials) => {
     toast.update("unregister", { render: "Eliminando cuenta...", autoClose: 5000, type: "default", isLoading: true });
     console.log(credentials);
     await account.delete(`/unregister`).then((res) => {
-      toast.update("unregister", { render: "Cuenta elminada!", type: "success", autoClose: 1500, isLoading: false });
+      toast.update("unregister", {
+        icon: ({ theme, type }) => <HiOutlineUserMinus className="text-red-400" size={24} />,
+        render: "Cuenta elminada!",
+        type: "success",
+        autoClose: 1000,
+        isLoading: false,
+      });
       console.log(res.data);
       logout();
     });
   } catch (error) {
-    toast.update("unregister", { render: error?.response?.data, type: "error", autoClose: 5000, isLoading: false });
+    toast.update("unregister", { render: error?.response?.data, type: "error", autoClose: 2000, isLoading: false });
     console.log(error.response.data);
   }
 };
