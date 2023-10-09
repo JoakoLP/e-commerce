@@ -1,5 +1,5 @@
 import axios from "axios";
-import { HiArrowRightOnRectangle, HiOutlineUserMinus, HiOutlineUserPlus } from "react-icons/hi2";
+import { HiArrowRightOnRectangle, HiOutlineArrowLeftOnRectangle, HiOutlineUserMinus, HiOutlineUserPlus } from "react-icons/hi2";
 import { toast } from "react-toastify";
 import Cookies from "universal-cookie";
 
@@ -25,7 +25,13 @@ const login = async (credentials) => {
       console.log(res.data);
       const data = res.data;
       if (data.user) {
-        toast.update("login", { render: `Sesión iniciada${data?.user?.isAdmin ? " como administrador" : ""}!`, type: "success", autoClose: 1000, isLoading: false });
+        toast.update("login", {
+          icon: ({ theme, type }) => <HiOutlineArrowLeftOnRectangle size={24} />,
+          render: `Sesión iniciada${data?.user?.isAdmin ? " como administrador" : ""}!`,
+          type: "success",
+          autoClose: 1000,
+          isLoading: false,
+        });
         setTimeout(() => {
           window.location.reload(false);
         }, 1000);
