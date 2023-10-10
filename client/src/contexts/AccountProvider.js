@@ -14,7 +14,7 @@ const AccountProvider = ({ children }) => {
       if (user) {
         accountService.userStatus();
       }
-    }, 20000);
+    }, 60000);
   };
 
   let runned = false;
