@@ -8,20 +8,28 @@ const AccountProvider = ({ children }) => {
   const cookies = new Cookies();
   const [user, setUser] = useState(cookies.get("userSession"));
 
+  const sendStatus = () => {
+    accountService.userStatus();
+    setInterval(() => {
+      if (user) {
+        accountService.userStatus();
+      }
+    }, 20000);
+  };
+
+  let runned = false;
+
   useEffect(() => {
-    console.log(cookies);
-    if (user) {
-      console.log("preGet", user);
-      accountService.userGet(setUser);
-      accountService.userStatus();
+    if (!runned) {
+      runned = true;
+      console.log(cookies);
+      if (user) {
+        console.log("preGet", user);
+        accountService.userGet(setUser);
+        sendStatus();
+      }
     }
   }, []);
-
-  setInterval(() => {
-    if (user) {
-      accountService.userStatus();
-    }
-  }, 60000);
 
   return <AccountContext.Provider value={[user, setUser]}>{children}</AccountContext.Provider>;
 };

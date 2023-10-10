@@ -10,11 +10,9 @@ const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
 const DOMAIN_URL = ".joaquintakara.com";
 // const DOMAIN_URL = "";
 
-const setOnline = async (user) => {
-  await User.findByIdAndUpdate(user._id, { status: true });
+const setOffline = (user) => {
   setTimeout(async () => {
-    // switch status if 'interval'
-    console.log("logout time");
+    console.log(`${user?.name} status: offline`);
     await User.findByIdAndUpdate(user?._id, { status: false });
   }, 60000);
 };
@@ -48,14 +46,14 @@ class UserController {
           { ...req.session.user },
           req.body.remember ? { sameSite: "none", secure: true, domain: DOMAIN_URL } : { maxAge: 60000, sameSite: "none", secure: true, domain: DOMAIN_URL }
         );
-        await User.findByIdAndUpdate(user._id, { status: true });
-        if (!req.body.remember) {
-          setTimeout(async () => {
-            // switch status if 'interval'
-            console.log("logout time");
-            await User.findByIdAndUpdate(user?._id, { status: false });
-          }, 60000);
-        }
+        // await User.findByIdAndUpdate(user._id, { status: true });
+        // if (!req.body.remember) {
+        //   setTimeout(async () => {
+        //     // switch status if 'interval'
+        //     console.log("logout time");
+        //     await User.findByIdAndUpdate(user?._id, { status: false });
+        //   }, 60000);
+        // }
         console.log(`${user.name} login`);
         res.status(201).json({
           user: { ...req.session.user },
@@ -193,8 +191,10 @@ class UserController {
     try {
       const decoded = tokenVerify(req.token);
       const user = await User.findById(decoded.body._id);
-
-      setOnline(user);
+      // setOnline(user);
+      console.log(`${user?.name} status: online`);
+      await User.findByIdAndUpdate(user._id, { status: true });
+      setOffline(user);
       res.send("Status online");
     } catch (error) {
       console.log(error);
