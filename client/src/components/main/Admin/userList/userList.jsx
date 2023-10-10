@@ -38,8 +38,25 @@ const UserList = () => {
     console.log(userList);
   }, [userList]);
 
+  const userStatus = (user) => {
+    const now = Date.parse(new Date(Date.now()).toJSON());
+    const userDate = Date.parse(user?.lastSeen);
+    // console.log({ userDate });
+
+    const diffTime = Math.abs(now - userDate);
+    // console.log({ diffTime }, user?.username);
+    const diffMinu = diffTime / (1000 * 60);
+    // console.log(diffMinu + " minutes", user?.username);
+
+    if (diffMinu < 1) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const TABLE_ROWS = userList;
-  const TABLE_HEAD = ["Usuario", "Admin", "Estado", "Creación"];
+  const TABLE_HEAD = ["Usuario", "Admin", "Estado", "Ult. vez en linea", "Creación"];
   const defaultUser = `${SERVER_URL}/public/default/user-avatar.png`;
   // const defaultUser = "http://localhost:8080/public/default/user-avatar.png";
 
@@ -67,7 +84,12 @@ const UserList = () => {
                 {/* info user */}
                 <Table.Cell>
                   <div className="flex items-center gap-3">
-                    <img src={user?.avatar ? user?.avatar : defaultUser} className="object-cover w-10 rounded-full aspect-square" alt={user?.name} size="sm" />
+                    <img
+                      src={user?.avatar ? user?.avatar : defaultUser}
+                      className={`${userStatus(user) ? "border-cyan-500" : "border-gray-400"} border-2 object-cover w-10 rounded-full aspect-square`}
+                      alt={user?.name}
+                      size="sm"
+                    />
                     <div className="flex flex-col">
                       <p className="font-bold">{user?.username}</p>
                       <p className="font-normal">{user?.name}</p>
@@ -86,8 +108,20 @@ const UserList = () => {
                 {/* status */}
                 <Table.Cell>
                   <div className="w-max">
-                    <Badge color={user?.status ? "success" : "dark"}>{user?.status ? "Online" : "Offline"}</Badge>
+                    <Badge color={userStatus(user) ? "success" : "dark"}>{userStatus(user) ? "Online" : "Offline"}</Badge>
                   </div>
+                </Table.Cell>
+                {/* lastSeen */}
+                <Table.Cell>
+                  <span variant="small" color="blue-gray" className="font-normal">
+                    {user?.lastSeen != undefined ? (
+                      <Moment fromNow locale="es">
+                        {user?.lastSeen}
+                      </Moment>
+                    ) : (
+                      <p>Desconocido</p>
+                    )}
+                  </span>
                 </Table.Cell>
                 {/* date */}
                 <Table.Cell>

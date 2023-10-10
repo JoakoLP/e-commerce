@@ -169,9 +169,9 @@ const userGet = async (setUser) => {
   }
 };
 
-const userStatus = async () => {
+const lastSeen = () => {
   try {
-    await account.get("/userStatus").then((res) => {
+    account.put("/lastSeen").then((res) => {
       console.log(res.data);
     });
   } catch (error) {
@@ -179,4 +179,4 @@ const userStatus = async () => {
   }
 };
 
-export default { login, register, logout, unregister, userList, userGet, userStatus };
+export default { login, register, logout, unregister, userList, userGet, lastSeen };

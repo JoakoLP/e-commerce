@@ -9,10 +9,12 @@ const AccountProvider = ({ children }) => {
   const [user, setUser] = useState(cookies.get("userSession"));
 
   const sendStatus = () => {
-    accountService.userStatus();
+    accountService.lastSeen();
     setInterval(() => {
-      if (user) {
-        accountService.userStatus();
+      if (cookies.get("userSession")) {
+        accountService.lastSeen();
+      } else {
+        window.location.reload(false);
       }
     }, 60000);
   };
@@ -22,9 +24,7 @@ const AccountProvider = ({ children }) => {
   useEffect(() => {
     if (!runned) {
       runned = true;
-      console.log(cookies);
-      if (user) {
-        console.log("preGet", user);
+      if (cookies.get("userSession")) {
         accountService.userGet(setUser);
         sendStatus();
       }

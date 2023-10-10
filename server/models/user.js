@@ -25,9 +25,10 @@ const schema = new Schema({
     type: Boolean,
     default: false,
   },
-  status: {
-    type: Boolean,
-    default: false,
+  lastSeen: {
+    type: Date,
+    min: "2023-07-06",
+    max: "2030-12-31",
   },
   date: {
     type: Date,
@@ -50,7 +51,7 @@ const schema = new Schema({
 });
 
 schema.methods.setImgUrl = function setImgUrl(filename) {
-  const { host, port } = appConfig;
+  // const { host, port } = appConfig;
   const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
   // const SERVER_URL = "http://localhost:8080";
 

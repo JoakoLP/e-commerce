@@ -10,18 +10,13 @@ const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
 const DOMAIN_URL = ".joaquintakara.com";
 // const DOMAIN_URL = "";
 
-const setOffline = (user) => {
-  setTimeout(async () => {
-    console.log(`${user?.name} status: offline`);
-    await User.findByIdAndUpdate(user?._id, { status: false });
-  }, 60000);
-};
-
 class UserController {
-  index(req, res) {
+  async index(req, res) {
     console.log("Información recibida:");
     console.log(req.body);
-    // console.log(req.cookies);
+    console.log(Date.now());
+    console.log(new Date());
+    console.log(new Date(Date.now()));
     res.status(200).json({
       msg: "a",
     });
@@ -46,14 +41,9 @@ class UserController {
           { ...req.session.user },
           req.body.remember ? { sameSite: "none", secure: true, domain: DOMAIN_URL } : { maxAge: 60000, sameSite: "none", secure: true, domain: DOMAIN_URL }
         );
-        // await User.findByIdAndUpdate(user._id, { status: true });
-        // if (!req.body.remember) {
-        //   setTimeout(async () => {
-        //     // switch status if 'interval'
-        //     console.log("logout time");
-        //     await User.findByIdAndUpdate(user?._id, { status: false });
-        //   }, 60000);
-        // }
+
+        await User.findByIdAndUpdate(user._id, { lastSeen: new Date() });
+
         console.log(`${user.name} login`);
         res.status(201).json({
           user: { ...req.session.user },
@@ -73,7 +63,8 @@ class UserController {
       console.log(`${user?.name} logout`);
       res.clearCookie("userSession", { domain: DOMAIN_URL });
       res.clearCookie("authorization", { domain: DOMAIN_URL });
-      await User.findByIdAndUpdate(user?._id, { status: false });
+
+      await User.findByIdAndUpdate(user._id, { lastSeen: new Date() });
       req.session.destroy();
       res.status(201).json({
         msg: "Session closed.",
@@ -88,6 +79,7 @@ class UserController {
       console.log(req.files[0]);
       const salt = bcrypt.genSaltSync(8);
       const passwordHash = bcrypt.hashSync(req.body.password, salt);
+      // const now = new Date(Date.now());
       const user = new User({
         username: req.body.username,
         name: req.body.name,
@@ -95,16 +87,14 @@ class UserController {
         password: passwordHash,
         isAdmin: false,
         avatar: `${SERVER_URL}/public/default/user-avatar.png`,
+        lastSeen: new Date(),
         // avatar: "http://localhost:8080/public/default/user-avatar.png",
         cart: { products: [], total: 0, count: 0 },
       });
       if (req.files[0]) {
-        console.log("Hay avatar!");
         const { filename } = req.files[0];
         user.setImgUrl(filename);
         // console.log(user.avatar);
-      } else {
-        console.log("No hay avatar!");
       }
       await user.save();
 
@@ -112,7 +102,7 @@ class UserController {
       req.session.user = { _id, username, name, email, isAdmin, avatar, date };
 
       const token = token60({ ...req.session.user });
-      // console.log(token);
+
       res.cookie(
         "authorization",
         token,
@@ -127,11 +117,7 @@ class UserController {
         req.body.remember ? { sameSite: "none", secure: true, domain: DOMAIN_URL } : { maxAge: 60000, sameSite: "none", secure: true, domain: DOMAIN_URL }
       );
       // res.cookie("userSession", { ...req.session.user, remember: false }, { maxAge: 60000, sameSite: "none", secure: true });
-      await User.findByIdAndUpdate(user._id, { status: true });
-      setTimeout(async () => {
-        // switch status if 'interval'
-        await User.findByIdAndUpdate(user?._id, { status: false });
-      }, 60000);
+
       console.log(`${user.name} register`);
       res.status(201).json({ user: { ...req.session.user }, msg: "User registered succesfully." });
     } catch (error) {
@@ -187,15 +173,13 @@ class UserController {
     }
   }
 
-  async userStatus(req, res) {
+  async lastSeen(req, res) {
     try {
       const decoded = tokenVerify(req.token);
       const user = await User.findById(decoded.body._id);
-      // setOnline(user);
-      console.log(`${user?.name} status: online`);
-      await User.findByIdAndUpdate(user._id, { status: true });
-      setOffline(user);
-      res.send("Status online");
+
+      await User.findByIdAndUpdate(user._id, { lastSeen: new Date() });
+      res.send("Last seen updated");
     } catch (error) {
       console.log(error);
     }
