@@ -115,7 +115,7 @@ const UserList = () => {
                 <Table.Cell>
                   <span variant="small" color="blue-gray" className="font-normal">
                     {user?.lastSeen != undefined ? (
-                      <Moment fromNow locale="es">
+                      <Moment fromNow locale="es" withTitle titleFormat="hh:mmA - DD/MM/YYYY ([GMT]Z)">
                         {user?.lastSeen}
                       </Moment>
                     ) : (
@@ -126,7 +126,7 @@ const UserList = () => {
                 {/* date */}
                 <Table.Cell>
                   <span variant="small" color="blue-gray" className="font-normal">
-                    <Moment format="hh:mmA - DD/MM/YYYY" withTitle titleFormat="LL - hh:mm:ssA" locale="es">
+                    <Moment format="hh:mmA - DD/MM/YYYY" withTitle titleFormat="LL - HH:mm:ss ([GMT]Z)" locale="es">
                       {user?.date}
                     </Moment>
                   </span>
