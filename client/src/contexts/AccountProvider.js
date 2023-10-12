@@ -18,7 +18,7 @@ const AccountProvider = ({ children }) => {
           window.location.reload(false);
         }
       }, 60000);
-    }, 30000);
+    }, 15000);
   };
 
   let runned = false;
