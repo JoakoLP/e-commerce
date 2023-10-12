@@ -9,7 +9,7 @@ const Product = (props) => {
   const [user, setUser] = useContext(AccountContext);
   const cartContextValue = useContext(CartContext);
   const actions = cartContextValue.cartService;
-  const { cart, setCart } = cartContextValue;
+  const { cart, setCart, onService, setOnService } = cartContextValue;
 
   return (
     <div
@@ -27,7 +27,7 @@ const Product = (props) => {
           {user ? (
             <button
               onClick={() => {
-                actions.addToCart(data.prod_id, setCart, data.name);
+                actions.addToCart(data.prod_id, setCart, onService, setOnService);
 
                 // cartService.addToCart(data.id);
               }}

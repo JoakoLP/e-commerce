@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { CartContext } from "../../contexts/CartProvider";
 import CartItem from "./cartItem";
 import * as styles from "./styles";
@@ -14,7 +14,7 @@ const clearCart = (
 const Cart = () => {
   const cartContextValue = useContext(CartContext);
   const actions = cartContextValue.cartService;
-  const { cart, setCart } = cartContextValue;
+  const { cart, setCart, onService, setOnService } = cartContextValue;
 
   // AccountContext
   const [user, setUser] = useContext(AccountContext);
@@ -34,13 +34,22 @@ const Cart = () => {
             <div className={user?.cart ? "hidden" : styles.cart}>
               {/* {console.log(cart)} */}
               {cart?.products?.map((item) => (
-                <CartItem key={item.id} data={item} addToCart={actions.addToCart} deleteFromCart={actions.deleteFromCart} deleteAllItems={actions.deleteAllItems} setCart={setCart} />
+                <CartItem
+                  key={item.id}
+                  data={item}
+                  addToCart={actions.addToCart}
+                  deleteFromCart={actions.deleteFromCart}
+                  deleteAllItems={actions.deleteAllItems}
+                  setCart={setCart}
+                  onService={onService}
+                  setOnService={setOnService}
+                />
               ))}
             </div>
             <div className={user?.cart ? "hidden" : styles.totalBar}>
               <button
                 onClick={() => {
-                  actions.clearCart(setCart);
+                  actions.clearCart(setCart, onService, setOnService);
                 }}
                 className={styles.clearCart}
                 title="Vaciar carrito"

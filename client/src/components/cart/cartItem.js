@@ -8,7 +8,7 @@ const trashCan = (
   </svg>
 );
 
-const CartItem = ({ data, addToCart, deleteFromCart, deleteAllItems, setCart }) => {
+const CartItem = ({ data, addToCart, deleteFromCart, deleteAllItems, setCart, onService, setOnService }) => {
   return (
     <div className={styles.itemCont}>
       <div className={styles.imgTitle} title={data.name}>
@@ -23,7 +23,7 @@ const CartItem = ({ data, addToCart, deleteFromCart, deleteAllItems, setCart }) 
             <button
               className={styles.qttySub}
               onClick={() => {
-                deleteFromCart(data.prod_id, setCart);
+                deleteFromCart(data.prod_id, setCart, onService, setOnService);
               }}
             >
               <HiOutlineMinusSmall className="w-4 h-4 stroke-2 stroke-white sm:stroke-black group-hover/sub:lg:stroke-cyan-700" />
@@ -32,7 +32,7 @@ const CartItem = ({ data, addToCart, deleteFromCart, deleteAllItems, setCart }) 
             <button
               className={styles.qttyAdd}
               onClick={() => {
-                addToCart(data.prod_id, setCart);
+                addToCart(data.prod_id, setCart, onService, setOnService);
               }}
             >
               <HiOutlinePlusSmall className="w-5 h-5 stroke-2 stroke-white sm:stroke-black group-hover/add:lg:stroke-cyan-700" />
@@ -45,7 +45,7 @@ const CartItem = ({ data, addToCart, deleteFromCart, deleteAllItems, setCart }) 
         </div>
         <button
           onClick={() => {
-            deleteAllItems(data.prod_id, setCart);
+            deleteAllItems(data.prod_id, setCart, onService, setOnService);
           }}
           title="Eliminar del carrito."
           className={styles.dltButton}
