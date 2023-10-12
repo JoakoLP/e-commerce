@@ -18,28 +18,30 @@ const CartItem = ({ data, addToCart, deleteFromCart, deleteAllItems, setCart }) 
         </div>
       </div>
       <div className={styles.priceQuant}>
-        <div className={styles.qttySect}>
-          <button
-            className={styles.qttySub}
-            onClick={() => {
-              deleteFromCart(data.prod_id, setCart);
-            }}
-          >
-            <HiOutlineMinusSmall className="w-4 h-4 stroke-2 stroke-white sm:stroke-black group-hover/sub:lg:stroke-cyan-700" />
-          </button>
-          <span className={styles.quantity}>{data.quantity}</span>
-          <button
-            className={styles.qttyAdd}
-            onClick={() => {
-              addToCart(data.prod_id, setCart);
-            }}
-          >
-            <HiOutlinePlusSmall className="w-5 h-5 stroke-2 stroke-white sm:stroke-black group-hover/add:lg:stroke-cyan-700" />
-          </button>
-        </div>
-        <div className={styles.priceSub}>
-          <span className={styles.subTot}>Subtotal: ${(data.price * data.quantity).toFixed(2)}</span>
-          <span className={styles.price}>Unidad: ${data.price}</span>
+        <div className="flex">
+          <div className={styles.qttySect}>
+            <button
+              className={styles.qttySub}
+              onClick={() => {
+                deleteFromCart(data.prod_id, setCart);
+              }}
+            >
+              <HiOutlineMinusSmall className="w-4 h-4 stroke-2 stroke-white sm:stroke-black group-hover/sub:lg:stroke-cyan-700" />
+            </button>
+            <span className={styles.quantity}>{data.quantity}</span>
+            <button
+              className={styles.qttyAdd}
+              onClick={() => {
+                addToCart(data.prod_id, setCart);
+              }}
+            >
+              <HiOutlinePlusSmall className="w-5 h-5 stroke-2 stroke-white sm:stroke-black group-hover/add:lg:stroke-cyan-700" />
+            </button>
+          </div>
+          <div className={styles.priceSub}>
+            <span className={styles.subTot}>Subtotal: ${(data.price * data.quantity).toFixed(2)}</span>
+            <span className={styles.price}>Unidad: ${data.price}</span>
+          </div>
         </div>
         <button
           onClick={() => {

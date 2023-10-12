@@ -60,7 +60,7 @@ function App() {
               </Routes>
             </div>
             <ToastContainer position={toast.POSITION.BOTTOM_RIGHT} enableMultiContainer containerId={"session"} />
-            <ToastContainer position={toast.POSITION.BOTTOM_LEFT} newestOnTop={true} className="max-h-[50%]" autoClose={1000} enableMultiContainer containerId={"cart"} />
+            <ToastContainer position={toast.POSITION.BOTTOM_LEFT} newestOnTop={true} className="max-h-[7%] md:max-h-[50%]" autoClose={1000} enableMultiContainer containerId={"cart"} />
             <Footer />
           </div>
         </CartProvider>

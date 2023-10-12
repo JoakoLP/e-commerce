@@ -48,7 +48,7 @@ const Cart = () => {
                 <span className={styles.clearCartBtn}>{clearCart}</span>
               </button>
               <div className={styles.totalPagar}>
-                <p className={styles.total}>TOTAL: ${cart?.total?.toFixed(2)}</p>
+                <p className={styles.total}>TOTAL: ${parseFloat(cart?.total?.toFixed(2))}</p>
                 <button className={styles.pagarBtn}>Comprar</button>
               </div>
             </div>

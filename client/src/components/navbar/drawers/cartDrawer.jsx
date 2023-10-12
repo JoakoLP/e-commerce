@@ -17,7 +17,7 @@ export default function CartDrawer({ cartIsOpen, setCartIsOpen }) {
       className="p-4"
     >
       <section className={" w-full max-w-lg  h-full "}>
-        <article className="flex flex-col items-center w-full h-full max-w-lg pb-10 space-y-6">
+        <article className="flex flex-col items-center w-full h-full max-w-lg pb-10 space-y-2 md:space-y-6">
           <header className="relative flex items-center justify-center w-full text-lg font-bold ">
             <Cart2 size={24} />
             <span>Carrito</span>

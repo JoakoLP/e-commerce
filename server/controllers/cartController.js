@@ -19,7 +19,7 @@ class CartController {
   async getCart(req, res) {
     try {
       const decoded = tokenVerify(req.token);
-      console.log(decoded);
+      // console.log(decoded);
 
       const user = await User.findById(decoded.body._id);
       res.json(user?.cart);
@@ -43,19 +43,23 @@ class CartController {
 
         const cart = user.cart;
         let itemInCart = cart.products.find((item) => item.prod_id === newItem.prod_id);
+
+        const total = parseFloat(cart.total.toFixed(2)) + parseFloat(newItem.price.toFixed(2));
+
         const newCart = itemInCart
           ? {
               ...cart,
               products: cart.products.map((item) => (item.prod_id === newItem.prod_id ? { ...item, quantity: item.quantity + 1 } : item)),
-              total: parseFloat(cart.total) + parseFloat(newItem.price),
+              total: parseFloat(total.toFixed(2)),
               count: parseFloat(cart.count) + 1,
             }
           : {
               ...cart,
               products: [...cart.products, { ...newItem, quantity: 1 }],
-              total: parseFloat(cart.total) + parseFloat(newItem.price),
+              total: parseFloat(total.toFixed(2)),
               count: parseFloat(cart.count) + 1,
             };
+
         await cartSave(user, newCart, req, res);
         res.status(201).json({
           msg: `Product: ${req.params.id} added to cart.`,
@@ -80,6 +84,8 @@ class CartController {
 
         let itemToDelete = cart.products.find((item) => item.prod_id === id);
 
+        const total = parseFloat(cart.total.toFixed(2)) - parseFloat(itemToDelete.price.toFixed(2));
+
         const newCart =
           itemToDelete.quantity > 1
             ? {
@@ -92,13 +98,13 @@ class CartController {
                       }
                     : item
                 ),
-                total: parseFloat(cart.total) - parseFloat(itemToDelete.price),
+                total: parseFloat(total.toFixed(2)),
                 count: parseFloat(cart.count) - 1,
               }
             : {
                 ...cart,
                 products: cart.products.filter((item) => item.prod_id != id),
-                total: parseFloat(cart.total) - parseFloat(itemToDelete.price),
+                total: parseFloat(total.toFixed(2)),
                 count: parseFloat(cart.count) - 1,
               };
 
@@ -126,14 +132,17 @@ class CartController {
         const cart = user.cart;
 
         let itemToDelete = cart.products.find((item) => item.prod_id === id);
-        let itemToDeletePrice = itemToDelete.price * itemToDelete.quantity;
+        let itemToDeletePrice = itemToDelete.price.toFixed(2) * itemToDelete.quantity;
+
+        const total = parseFloat(cart.total.toFixed(2)) - itemToDeletePrice.toFixed(2);
 
         const newCart = {
           ...cart,
           products: cart.products.filter((item) => item.prod_id !== id),
-          total: parseFloat(cart.total) - itemToDeletePrice,
+          total: parseFloat(total.toFixed(2)),
           count: parseFloat(cart.count) - parseFloat(itemToDelete.quantity),
         };
+
         await cartSave(user, newCart, req, res);
 
         res.status(201).json({
