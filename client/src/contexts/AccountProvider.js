@@ -9,14 +9,16 @@ const AccountProvider = ({ children }) => {
   const [user, setUser] = useState(cookies.get("userSession"));
 
   const sendStatus = () => {
-    accountService.lastSeen();
-    setInterval(() => {
-      if (cookies.get("userSession")) {
-        accountService.lastSeen();
-      } else {
-        window.location.reload(false);
-      }
-    }, 60000);
+    setTimeout(() => {
+      accountService.lastSeen();
+      setInterval(() => {
+        if (cookies.get("userSession")) {
+          accountService.lastSeen();
+        } else {
+          window.location.reload(false);
+        }
+      }, 60000);
+    }, 30000);
   };
 
   let runned = false;
