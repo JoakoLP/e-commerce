@@ -2,13 +2,13 @@ export const emptyCart = "flex w-full h-[37vh] justify-center flex-wrap content-
 export const empCarTxt = "h-min text-cyan-600 select-none text-center text-2xl";
 export const cart =
   "overflow-y-auto min-h-min bg-white border-y border-cyan-600 divide-y divide-cyan-600 max-h-[75vh] min-h-[50vh] overflow-x-hidden min-w-full max-w-full flex flex-col justify-start";
-export const itemCont = "py-5 p-2.5 flex-col sm:flex-row items-end flex sm:items-center justify-between min-h-[160px] h-[100px] max-h-[200px] w-full";
-export const imgTitle = "flex w-full max-w-full truncate sm:min-w-[10%] h-full sm:max-w-[40%] justify-start items-center h-min overflow-hidden";
+export const itemCont = "py-5 p-2.5 flex-col items-end flex justify-between min-h-[160px] h-[100px] max-h-[200px] w-full";
+export const imgTitle = "flex w-full max-w-full truncate h-full justify-start items-center h-min overflow-hidden";
 export const itemImg = "w-16 h-16 object-contain bg-white rounded-sm border-[1.5px] border-cyan-600";
 export const itemTitleCont = "pl-3 max-w-full truncate h-full text-base flex flex-col justify-between ";
-export const itemTitle = "select-text truncate max-w-max h-[50%] min-h-[30px] max-h-[120px] truncate whitespace-nowrap md:whitespace-normal";
+export const itemTitle = "select-text truncate max-w-max min-h-[30px] max-h-[120px] truncate whitespace-nowrap md:whitespace-normal";
 export const price = "flex w-min h-min text-xs pl-1 mt-5px whitespace-nowrap";
-export const priceQuant = "flex md:w-[60%] overflow-hidden items-center justify-between md:ml-2 mt-3 md:mt-0";
+export const priceQuant = "flex overflow-hidden items-center justify-between mt-3 ";
 export const qttySect = "flex min-w-min m-1 rounded-sm border border-1 border-cyan-600 justify-between";
 export const qttySub = "p-1 px-1.5 group/sub active:duration-100 active:scale-110 active:border active:border-r-none active:border-cyan-600 active:rounded-l-sm bg-cyan-600 sm:bg-white";
 export const qttyAdd = "p-1 px-1.5 group/add active:duration-100 active:scale-110 active:border active:border-l-none active:border-cyan-600 active:rounded-r-sm bg-cyan-600 sm:bg-white";

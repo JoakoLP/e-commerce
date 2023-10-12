@@ -13,7 +13,7 @@ export default function CartDrawer({ cartIsOpen, setCartIsOpen }) {
       onClose={() => {
         setCartIsOpen(false);
       }}
-      size={450}
+      size={500}
       className="p-4"
     >
       <section className={" w-full max-w-lg  h-full "}>
