@@ -122,11 +122,11 @@ const clearCart = async (setCart, onService, setOnService) => {
         // console.log(res.data);
         setCart(res.data.cart);
         // console.log(cookies.get("userSession"));
-        setOnService(true);
+        setOnService(false);
       });
     } catch (error) {
       console.log(error);
-      setOnService(true);
+      setOnService(false);
     }
   }
 };

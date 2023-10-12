@@ -13,9 +13,9 @@ const CartButton = ({ cartIsOpen, setCartIsOpen }) => {
       className={`
       ${
         cart?.products?.length > 0
-          ? `opacity-100  flex overflow-hidden items-center justify-center p-2 bg-cyan-900 bg-opacity-95 rounded-lg shadow-md bordera border-cyan-700 z-20 shadow-slate-800 bottom-5 right-5 `
+          ? `opacity-100  flex overflow-hidden items-center justify-center p-2.5 bg-cyan-600/90 bg-opacity-95 lg:hover:bg-cyan-600 lg:hover:shadow-slate-600 lg:hover:shadow-lg rounded-lg shadow-md z-20 shadow-slate-500 bottom-5 right-5 `
           : ` opacity-0`
-      }  transition-opacity fixed duration-1000
+      }  transition-all fixed duration-500
       `}
       onClick={() => {
         setCartIsOpen(!cartIsOpen);
@@ -30,7 +30,7 @@ const CartButton = ({ cartIsOpen, setCartIsOpen }) => {
         // </p>
         <></>
       )}
-      <Cart2 size={25} className="mb-[-1px] mt-[1px] fill-white" />
+      <Cart2 size={20} className="fill-white" />
     </button>
   );
 };
