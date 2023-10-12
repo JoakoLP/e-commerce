@@ -31,13 +31,13 @@ const Cart = () => {
         {user !== undefined && Object.keys(user).length > 1 ? (
           // {true == false ? <p>A</p> : <p>B</p>}
           <>
-            <div className={styles.cart}>
+            <div className={user?.cart ? "hidden" : styles.cart}>
               {/* {console.log(cart)} */}
               {cart?.products?.map((item) => (
                 <CartItem key={item.id} data={item} addToCart={actions.addToCart} deleteFromCart={actions.deleteFromCart} deleteAllItems={actions.deleteAllItems} setCart={setCart} />
               ))}
             </div>
-            <div className={styles.totalBar}>
+            <div className={user?.cart ? "hidden" : styles.totalBar}>
               <button
                 onClick={() => {
                   actions.clearCart(setCart);
@@ -51,6 +51,9 @@ const Cart = () => {
                 <p className={styles.total}>TOTAL: ${cart?.total?.toFixed(2)}</p>
                 <button className={styles.pagarBtn}>Comprar</button>
               </div>
+            </div>
+            <div className={user?.cart ? styles.emptyCart : "hidden"}>
+              <p className={user?.cart ? styles.empCarTxt : "hidden"}>Cargando...</p>
             </div>
           </>
         ) : (
