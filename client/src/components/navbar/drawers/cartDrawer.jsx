@@ -1,37 +1,34 @@
-import { Button } from "flowbite-react";
 import React from "react";
 import { Cart2, XLg } from "react-bootstrap-icons";
 import { useDisableBodyScroll } from "../../useDisableBodySroll";
 import Cart from "../../cart/cart";
+import { Button, Drawer } from "@material-tailwind/react";
 
 export default function CartDrawer({ cartIsOpen, setCartIsOpen }) {
   useDisableBodyScroll(cartIsOpen);
   return (
-    <div
-      className={
-        " fixed overflow-hidden bg-gray-900 z-30 inset-0 transform ease-in-out " +
-        (cartIsOpen ? " transition-opacity opacity-100 duration-500 bg-opacity-25 translate-x-0 " : " transition-all opacity-0 bg-opacity-0 delay-500 translate-x-full ")
-      }
+    <Drawer
+      placement="right"
+      open={cartIsOpen}
+      onClose={() => {
+        setCartIsOpen(false);
+      }}
+      size={450}
+      className="p-4"
     >
-      <section
-        className={
-          " w-screen sm:max-w-xl right-0 absolute bg-white h-full shadow-xl delay-400 duration-500 ease-in-out transition-all transform  " + (cartIsOpen ? " translate-x-0 " : " translate-x-full ")
-        }
-      >
-        <article className="relative flex flex-col w-screen h-full pb-10 sm:max-w-full">
-          <header className="flex justify-center p-5 space-x-2 text-lg font-bold bg-white select-none">
+      <section className={" w-full max-w-lg  h-full "}>
+        <article className="flex flex-col items-center w-full h-full max-w-lg pb-10 space-y-6">
+          <header className="relative flex items-center justify-center w-full text-lg font-bold ">
             <Cart2 size={24} />
             <span>Carrito</span>
             <Button
-              gradientMonochrome="info"
-              outline={true}
-              size="xs"
-              className="absolute top-4 right-5"
+              variant="text"
+              className="!absolute right-0 p-2 -translate-y-1/2 top-1/2"
               onClick={() => {
                 setCartIsOpen(false);
               }}
             >
-              <div className="py-1">
+              <div className="">
                 <XLg size={15} />
               </div>
             </Button>
@@ -39,12 +36,6 @@ export default function CartDrawer({ cartIsOpen, setCartIsOpen }) {
           <Cart />
         </article>
       </section>
-      <section
-        className="w-full h-screen"
-        onClick={() => {
-          setCartIsOpen(false);
-        }}
-      ></section>
-    </div>
+    </Drawer>
   );
 }

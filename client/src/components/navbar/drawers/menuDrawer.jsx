@@ -17,7 +17,7 @@ export default function CategDrawer({ categIsOpen, setCategIsOpen }) {
       className="p-4"
     >
       <section className={" w-full max-w-lg  h-full "}>
-        <article className="flex flex-col h-full max-w-lg pb-10 space-y-6 w-fit">
+        <article className="flex flex-col items-center w-full h-full max-w-lg pb-10 space-y-6">
           <header className="relative flex items-center justify-center w-full text-lg font-bold ">
             {/* <List size={24} /> */}
             <div className="flex items-center justify-center space-x-2 ">
@@ -26,7 +26,7 @@ export default function CategDrawer({ categIsOpen, setCategIsOpen }) {
             </div>
             <Button
               variant="text"
-              className="!absolute right-0 translate-x-1/2 p-2 -translate-y-1/2 top-1/2"
+              className="!absolute right-0 p-2 -translate-y-1/2 top-1/2"
               onClick={() => {
                 setCategIsOpen(false);
               }}
