@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AccountContext } from "../../../contexts/AccountProvider";
 import { useContext } from "react";
 import accountService from "../../../services/account";
@@ -16,12 +16,16 @@ import {
 } from "react-icons/hi2";
 import { useNavigate } from "react-router";
 
-const SidebarCategories = ({ setCategIsOpen }) => {
+const SidebarCategories = ({ setMenuIsOpen, menuIsOpen, setMenuMobileIsOpen, menuMobileIsOpen }) => {
   const navigate = useNavigate();
   const [user, setUser] = useContext(AccountContext);
   const handleClick = (url) => {
     navigate(url);
-    setCategIsOpen(false);
+    if (setMenuIsOpen) {
+      setMenuIsOpen(false);
+    } else {
+      setMenuMobileIsOpen(false);
+    }
   };
 
   const [open, setOpen] = useState(0);
@@ -29,6 +33,10 @@ const SidebarCategories = ({ setCategIsOpen }) => {
   const handleOpen = (value) => {
     setOpen(open === value ? 0 : value);
   };
+
+  useEffect(() => {
+    handleOpen(0);
+  }, [menuIsOpen, menuMobileIsOpen]);
 
   return (
     <div className="text-left w-fit">

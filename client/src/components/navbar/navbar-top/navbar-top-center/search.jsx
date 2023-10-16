@@ -54,7 +54,7 @@ const NavSearch = () => {
   SearchOnEnter(searchField, handleClick);
 
   return (
-    <div className="flex items-center min-w-[40vw] w-auto  relative rounded shadow-md focus-within:shadow-none">
+    <div className="hidden md:flex items-center min-w-[40vw] w-auto  relative rounded shadow-md focus-within:shadow-none">
       <div className="w-full h-10 bg-white border border-white rounded-l focus-within:border-custom-blue focus-within:border-r-0">
         <div className="h-full ">
           <div className="flex items-center h-full ">

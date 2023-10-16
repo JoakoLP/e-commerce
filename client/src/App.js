@@ -15,17 +15,20 @@ import AdminComps from "./components/main/Admin/AdminComps";
 import CartButton from "./components/cart/cartButton";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import MobileDrawer from "./components/navbar/drawers/mobileDrawer";
 
 function App() {
-  const [categIsOpen, setCategIsOpen] = useState(false);
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
+  const [menuMobileIsOpen, setMenuMobileIsOpen] = useState(false);
   const [cartIsOpen, setCartIsOpen] = useState(false);
   return (
     <BrowserRouter>
       <AccountProvider>
         <CartProvider>
           <div className="">
-            <NavBar setCategIsOpen={setCategIsOpen} setCartIsOpen={setCartIsOpen} />
-            <MenuDrawer categIsOpen={categIsOpen} setCategIsOpen={setCategIsOpen} />
+            <NavBar setMenuIsOpen={setMenuIsOpen} setCartIsOpen={setCartIsOpen} setMenuMobileIsOpen={setMenuMobileIsOpen} />
+            <MenuDrawer menuIsOpen={menuIsOpen} setMenuIsOpen={setMenuIsOpen} />
+            <MobileDrawer menuMobileIsOpen={menuMobileIsOpen} setMenuMobileIsOpen={setMenuMobileIsOpen} />
             <CartDrawer cartIsOpen={cartIsOpen} setCartIsOpen={setCartIsOpen} />
             <CartButton cartIsOpen={cartIsOpen} setCartIsOpen={setCartIsOpen} />
 
