@@ -7,7 +7,7 @@ function CarouselComp({ imgArray }) {
   const itemRender = (imgItem, index) => {
     return (
       <div class="items-center justify-center flex h-full overflow-hidden ease-in-out" data-carousel-item>
-        <div className="relative flex justify-center w-3/4 h-full overflow-hidden bg-white">
+        <div className="relative flex justify-center w-full h-full overflow-hidden bg-white md:w-3/4">
           <img key={index} src={imgItem.url} className="object-cover w-full aspect-auto" alt={imgItem.alt} />
         </div>
       </div>
@@ -23,10 +23,10 @@ function CarouselComp({ imgArray }) {
           <button
             type="button"
             onClick={handlePrev}
-            class="absolute top-2/4 group-hover/carousel:opacity-100 opacity-0 -translate-y-1/2 w-8 h-16 left-0  rounded-r-full flex items-center justify-center px-4 cursor-pointer focus:outline-none shadow shadow-gray-300 hover:shadow-lg bg-white dark:bg-gray-800/30 active:ring-2 active:ring-white dark:active:ring-gray-800/70 active:outline-none"
+            class="absolute top-2/4 group-hover/carousel:opacity-100 opacity-0 -translate-y-1/2 w-8 h-16 left-0 rounded-r-full flex items-center justify-center px-4 cursor-pointer focus:outline-none shadow shadow-gray-300 hover:shadow-lg bg-white active:ring-2 active:ring-white active:outline-none"
           >
             <span class="inline-flex items-center justify-center">
-              <svg aria-hidden="true" class="w-5 h-5 text-cyan-600 sm:w-6 sm:h-6 dark:text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <svg aria-hidden="true" class="w-5 h-5 text-cyan-600 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
               </svg>
               <span class="sr-only">Previous</span>
@@ -37,10 +37,10 @@ function CarouselComp({ imgArray }) {
           <button
             type="button"
             onClick={handleNext}
-            class="absolute top-2/4 group-hover/carousel:opacity-100 opacity-0 -translate-y-1/2 w-8 h-16 right-0  rounded-l-full flex items-center justify-center px-4 cursor-pointer focus:outline-none shadow shadow-gray-300 hover:shadow-lg bg-white dark:hover:bg-gray-800/60 active:ring-2 active:ring-white dark:active:ring-gray-800/70 active:outline-none"
+            class="absolute top-2/4 group-hover/carousel:opacity-100 opacity-0 -translate-y-1/2 w-8 h-16 right-0 rounded-l-full flex items-center justify-center px-4 cursor-pointer focus:outline-none shadow shadow-gray-300 hover:shadow-lg bg-white active:ring-2 active:ring-white active:outline-none"
           >
             <span class="inline-flex items-center justify-center">
-              <svg aria-hidden="true" class="w-5 h-5 text-cyan-600 sm:w-6 sm:h-6 dark:text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <svg aria-hidden="true" class="w-5 h-5 text-cyan-600 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
               </svg>
               <span class="sr-only">Next</span>
