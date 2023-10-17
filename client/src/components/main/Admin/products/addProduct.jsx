@@ -102,7 +102,17 @@ const AddProduct = () => {
     let categCheckeds = categInputs.filter((categ) => {
       return categ.checked === true;
     });
-    if (categCheckeds.length > 0) {
+
+    let subCategInputs = [];
+    SubCategoryList.forEach((subcategory) => {
+      subCategInputs.push(document.getElementById(`subCategory/${subcategory?.id}`));
+    });
+    // console.log({ subCategInputs });
+    let subCategCheckeds = subCategInputs.filter((subCateg) => {
+      return subCateg?.checked === true;
+    });
+
+    if (categCheckeds.length > 0 || subCategCheckeds.length > 0) {
       console.log({ categCheckeds });
       let categUncheckeds = categInputs.filter((categ) => {
         return categ.checked === false;
@@ -157,7 +167,84 @@ const AddProduct = () => {
     console.log(tags);
   };
 
-  const style = "flex justify-between items-center py-1.5 w-full px-2";
+  const checkboxChange = (e) => {
+    const catCheckboxes = document.getElementsByName("category");
+    const subCatCheckboxes = document.getElementsByName("subCategory");
+
+    // if the checkbox onChange is a category
+    if (e?.target?.name == "category") {
+      // if it's checked
+      if (e?.target?.checked) {
+        // set all the checkbox except the selected to 'false'
+        catCheckboxes.forEach((checkbox) => {
+          if (checkbox?.value !== e?.target?.value) {
+            checkbox.checked = false;
+          }
+        });
+        // set all the subCategories checkbox outside the selected to 'false'
+        SubCategoryList.forEach((subC) => {
+          if (subC?.category?.id !== e?.target?.value) {
+            const checkbox = document.getElementById(`subCategory/${subC?.id}`);
+            if (checkbox !== null) {
+              checkbox.checked = false;
+            }
+          }
+        });
+      } else {
+        //if isn't selected set all subCategories to 'false'
+        subCatCheckboxes.forEach((checkbox) => {
+          checkbox.checked = false;
+        });
+      }
+
+      // if the checkbox onChange is a subcategory
+    } else if (e?.target?.name == "subCategory") {
+      // if it's checked
+      if (e?.target?.checked) {
+        // get subcategory checkbox
+        const subCat = SubCategoryList.filter((subC) => {
+          return subC?.id === e?.target?.value;
+        });
+        // if has a category
+        if (subCat[0]?.category !== null) {
+          const catCheckbox = document.getElementById(`category/${subCat[0]?.category?.id}`);
+          // set category checkbox to 'true'
+          catCheckbox.checked = true;
+          // unchecks categories where the checked subcategory isn't
+          catCheckboxes.forEach((checkbox) => {
+            if (checkbox?.value !== catCheckbox?.value) {
+              checkbox.checked = false;
+            }
+          });
+          // unchecks subcategories from different category
+          SubCategoryList.forEach((subC) => {
+            if (subC?.category?.id !== subCat[0]?.category?.id) {
+              const checkbox = document.getElementById(`subCategory/${subC?.id}`);
+              if (checkbox !== null) {
+                checkbox.checked = false;
+                // checks if this subCategory was on search array
+              }
+            }
+          });
+        } else {
+          // else if it doesn't have a category
+          // set the non selected to 'false'
+          subCatCheckboxes.forEach((checkbox) => {
+            if (checkbox?.value !== e?.target?.value) {
+              checkbox.checked = false;
+            }
+          });
+          // sets all the categories to 'false'
+          catCheckboxes.forEach((checkbox) => {
+            checkbox.checked = false;
+          });
+        }
+      }
+      checkCateg();
+    }
+  };
+
+  const style = "flex justify-between items-center py-1.5 w-full max-w-full px-2";
 
   return (
     <div className="flex justify-center py-3 md:px-4">
@@ -190,67 +277,75 @@ const AddProduct = () => {
           <div className="border border-gray-500 rounded-sm my-1.5">
             <p className="text-xl font-semibold text-center cursor-default">Categorización</p>
             <p className={isLoading ? "visible" : "hidden"}>Cargando...</p>
-            <div className={isLoading ? "hidden" : `visible grid grid-flow-row grid-cols-2 shrink-0 gap-3 justify-between py-1.5 w-[100%] px-2 items-start`}>
-              {CategoryList.map((category) => {
-                return (
-                  <div className="text-black w-min">
-                    <div className="flex items-center justify-start space-x-1">
-                      <input type="checkbox" id={`category/${category?.id}`} onChange={checkCateg} required name="category" value={category?.id} />
-                      <label htmlFor={`category/${category?.id}`} id={`category/${category?.id}/label`} className="w-min text-sm pl-0.5">
-                        {category?.name}
-                      </label>
-                    </div>
+            <div className="max-w-full overflow-auto ">
+              <div className={isLoading ? "hidden" : `visible w-max grid grid-flow-row grid-cols-2 shrink-0 gap-2 gap-x-0.5 justify-between py-1.5 px-2 items-start`}>
+                {CategoryList.map((category) => {
+                  return (
+                    <div className="text-black w-min">
+                      <div className="flex items-center justify-start space-x-1">
+                        <input type="checkbox" id={`category/${category?.id}`} onChange={checkboxChange} required name="category" value={category?.id} />
+                        <label htmlFor={`category/${category?.id}`} id={`category/${category?.id}/label`} className="w-min text-sm pl-0.5">
+                          {category?.name}
+                        </label>
+                      </div>
 
-                    <ul className={category?.subCategories.length > 0 ? ` visible flex flex-col items-start pl-3 text-sm` : "hidden"}>
-                      {category?.subCategories?.map((subCategory) => (
-                        <li className="flex items-center justify-center space-x-1">
-                          <input type="checkbox" id={`subCategory/${subCategory?.id}`} name="subCategory" value={subCategory?.id} />
-                          <label htmlFor={`subCategory/${subCategory?.id}`} id={`subCategory/${subCategory?.id}/label`} className="w-min text-sm pl-0.5">
-                            {subCategory?.name}
-                          </label>
-                        </li>
-                      ))}
+                      <ul className={category?.subCategories.length > 0 ? ` visible flex flex-col items-start pl-3 text-sm` : "hidden"}>
+                        {category?.subCategories?.map((subCategory) => (
+                          <li className="flex items-center justify-center space-x-1">
+                            <input type="checkbox" id={`subCategory/${subCategory?.id}`} onChange={checkboxChange} name="subCategory" value={subCategory?.id} />
+                            <label htmlFor={`subCategory/${subCategory?.id}`} id={`subCategory/${subCategory?.id}/label`} className="w-min text-sm pl-0.5">
+                              {subCategory?.name}
+                            </label>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  );
+                })}
+                <div className={subCategRest.length > 0 ? "visible text-black w-min" : "hidden"}>
+                  <ul className="list-disc list-inside">
+                    <li className="font-semibold">
+                      <span className="ml-[-10px]">Otras subcategorías</span>
+                    </li>
+                    <ul className="flex flex-col items-start pl-3 text-sm">
+                      {subCategRest?.map((subCategory) => {
+                        // console.log(subCategory);
+                        return (
+                          <li className="flex items-center justify-center space-x-1">
+                            <input type="checkbox" id={`subCategory/${subCategory?.id}`} onChange={checkboxChange} name="subCategory" value={subCategory?.id} />
+                            <label htmlFor={`subCategory/${subCategory?.id}`} id={`subCategory/${subCategory?.id}/label`} className="w-min text-sm pl-0.5">
+                              {subCategory?.name}
+                            </label>
+                          </li>
+                        );
+                      })}
                     </ul>
-                  </div>
-                );
-              })}
-              <div className={subCategRest.length > 0 ? "visible text-black w-min" : "hidden"}>
-                <ul className="list-disc list-inside">
-                  <li className="font-semibold">
-                    <span className="ml-[-10px]">Otras subcategorías</span>
-                  </li>
-                  <ul className="flex flex-col items-start pl-3 text-sm">
-                    {subCategRest?.map((subCategory) => {
-                      // console.log(subCategory);
-                      return (
-                        <li className="flex items-center justify-center space-x-1">
-                          <input type="checkbox" id={`subCategory/${subCategory?.id}`} name="subCategory" value={subCategory?.id} />
-                          <label htmlFor={`subCategory/${subCategory?.id}`} id={`subCategory/${subCategory?.id}/label`} className="w-min text-sm pl-0.5">
-                            {subCategory?.name}
-                          </label>
-                        </li>
-                      );
-                    })}
                   </ul>
-                </ul>
+                </div>
               </div>
             </div>
 
             {/* tags */}
-            <form className="border border-cyan-500 border-dashed py-1.5 rounded-b-sm m-[-1px] mt-0">
+            <form className="outline-1 outline-cyan-500 w-full outline-dashed py-1.5 rounded-b-sm ">
               <p className="text-lg text-center cursor-default" title="Etiquetas del producto que ayudarán a su búsqueda. Ej: amd, notebook, portatil, etc.">
                 Etiquetas
               </p>
               <div className={style}>
                 <label htmlFor="elementTag">Agregar</label>
-                <div className="flex">
-                  <input type="text" id="elementTag" placeholder="Ej: gpu, placa de video, escritorio, etc" className="rounded-l-sm rounded-r-none" defaultValue="" />
+                <div className="flex pl-1 max-w-fit full">
+                  <input
+                    type="text"
+                    id="elementTag"
+                    placeholder="Ej: gpu, placa de video, escritorio, etc"
+                    className="w-full border-black rounded-l-sm rounded-r-none border-r-none "
+                    defaultValue=""
+                  />
                   <button
-                    className="px-3 py-2 border border-l-0 border-black rounded-l-none rounded-r-sm bg-cyan-400 hover:bg-cyan-600 hover:shadow-inner lg:hover:shadow-neutral-800 "
+                    className="px-3 py-2 border border-l-0 border-black rounded-l-none rounded-r-sm bg-cyan-600 hover:bg-cyan-600 hover:shadow-inner lg:hover:shadow-neutral-800 "
                     title="Agregar"
                     onClick={addTag}
                   >
-                    <PlusSmallIcon className="w-6 h-6 text-black" />
+                    <PlusSmallIcon className="w-6 h-6 text-white" />
                   </button>
                 </div>
               </div>

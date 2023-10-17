@@ -67,7 +67,7 @@ const UserList = () => {
     return <p>Cargando...</p>;
   } else {
     return (
-      <div className="bg-white shadow">
+      <div className="max-w-full overflow-auto bg-white shadow">
         <Table>
           <Table.Head>
             {TABLE_HEAD.map((head) => (

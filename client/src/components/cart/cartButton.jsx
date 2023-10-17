@@ -13,9 +13,9 @@ const CartButton = ({ cartIsOpen, setCartIsOpen }) => {
       className={`
       ${
         cart?.products?.length > 0
-          ? ` flex overflow-hidden items-center justify-center p-2.5 bg-cyan-600/90 bg-opacity-95 lg:hover:bg-cyan-600 lg:hover:shadow-slate-600 lg:hover:shadow-lg rounded-lg shadow-md z-20 shadow-slate-500 bottom-5 right-5 `
+          ? ` flex overflow-hidden items-center justify-center p-2.5 bg-cyan-900/95 lg:hover:shadow-slate-700/90 lg:hover:shadow-md rounded-lg z-20 bottom-5 right-5 `
           : ` hidden`
-      }  transition-all fixed duration-500
+      }  transition-all fixed duration-150
       `}
       onClick={() => {
         setCartIsOpen(!cartIsOpen);
