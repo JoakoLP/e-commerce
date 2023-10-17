@@ -40,7 +40,7 @@ const SidebarCategories = ({ setMenuIsOpen, menuIsOpen, setMenuMobileIsOpen, men
 
   return (
     <div className="text-left w-fit">
-      {user ? <p className="text-gray-600 px-4a">Hola {user.username}</p> : <></>}
+      {user ? <p className="hidden text-gray-600 md:block ">Hola {user.username}</p> : <></>}
       <List>
         {user ? (
           <ListItem

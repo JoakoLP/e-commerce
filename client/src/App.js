@@ -25,14 +25,14 @@ function App() {
     <BrowserRouter>
       <AccountProvider>
         <CartProvider>
-          <div className="">
-            <NavBar setMenuIsOpen={setMenuIsOpen} setCartIsOpen={setCartIsOpen} setMenuMobileIsOpen={setMenuMobileIsOpen} />
+          <div className="bg-gray-200 ">
+            <NavBar setMenuIsOpen={setMenuIsOpen} setCartIsOpen={setCartIsOpen} setMenuMobileIsOpen={setMenuMobileIsOpen} menuMobileIsOpen={menuMobileIsOpen} />
             <MenuDrawer menuIsOpen={menuIsOpen} setMenuIsOpen={setMenuIsOpen} />
             <MobileDrawer menuMobileIsOpen={menuMobileIsOpen} setMenuMobileIsOpen={setMenuMobileIsOpen} />
             <CartDrawer cartIsOpen={cartIsOpen} setCartIsOpen={setCartIsOpen} />
             <CartButton cartIsOpen={cartIsOpen} setCartIsOpen={setCartIsOpen} />
 
-            <div className="min-h-[90vh] bg-gray-200">
+            <div className="min-h-[90vh]">
               <Routes>
                 <Route path="/" element={<Pages.Default />} />
                 <Route path="/search" element={<Pages.Search />} />

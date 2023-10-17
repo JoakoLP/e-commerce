@@ -1,45 +1,23 @@
-import { Button, Drawer } from "@material-tailwind/react";
-import { XLg } from "react-bootstrap-icons";
-import iconpng from "../../../assets/favicon.ico";
+import { Collapse } from "@material-tailwind/react";
 import SidebarCategories from "../navbar-bottom/sidebarCategories";
-import { useDisableBodyScroll } from "../../useDisableBodySroll";
+import AccountNavButton from "../navbar-top/navbar-top-right/accountNavButton";
 
 export default function MobileDrawer({ menuMobileIsOpen, setMenuMobileIsOpen }) {
-  useDisableBodyScroll(menuMobileIsOpen);
   return (
-    <Drawer
-      placement="top"
-      // size={400}
+    <Collapse
       open={menuMobileIsOpen}
-      onClose={() => {
-        setMenuMobileIsOpen(false);
-      }}
-      className="p-4 !min-h-fit !h-min !max-h-fit"
+      className={`${
+        menuMobileIsOpen ? "before:absolute  overflow-visible mb-2 shadow" : " overflow-hidden before:hidden"
+      } relative  before:bg-white before:rotate-45 before:-top-1.5 before:z-50 before:right-[48px] before:h-3 before:w-3  shadow-slate-300 bg-white`}
     >
-      <section className={" w-full h-full "}>
-        <article className="flex flex-col items-center w-full h-full max-w-lg space-y-6">
+      <section className={`overflow-hidden w-full h-full py-6`}>
+        <article className="flex flex-col items-center w-full h-full max-w-lg md:space-y-6">
           <header className="relative flex items-center justify-center w-full text-lg font-bold ">
-            {/* <List size={24} /> */}
-            <div className="flex items-center justify-center space-x-2 ">
-              <img src={iconpng} alt="Icon" className="aspect-auto h-7" />
-              <span>MENU</span>
-            </div>
-            <Button
-              variant="text"
-              className="!absolute right-0 p-2 -translate-y-1/2 top-1/2"
-              onClick={() => {
-                setMenuMobileIsOpen(false);
-              }}
-            >
-              <div className="">
-                <XLg size={15} />
-              </div>
-            </Button>
+            <AccountNavButton setMenuMobileIsOpen={setMenuMobileIsOpen} />
           </header>
           <SidebarCategories setMenuMobileIsOpen={setMenuMobileIsOpen} menuMobileIsOpen={menuMobileIsOpen} />
-          {/* {children} */}
         </article>
       </section>
-    </Drawer>
+    </Collapse>
   );
 }
