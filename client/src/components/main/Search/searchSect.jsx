@@ -56,7 +56,6 @@ const SearchSect = () => {
               <span>
                 {" "}
                 en <i>{searchCateg.toString()}</i>
-                {/* {searchSubCateg?.length > 0 ? ` > ${searchSubCateg}` : null} */}
               </span>
             ) : null}
             .
@@ -93,7 +92,7 @@ const SearchSect = () => {
           <h1 className="pt-2 ml-2 text-xl font-bold border-b-2 border-blue-700 text-centera whitespace-nowrap w-min">
             {products.length > 0 ? products.length : "Sin"} resultado{products.length != 1 ? "s" : null} de búsqueda
           </h1>
-          <div className="amax-w-[1640px] w-fit m-auto px-1 sm:px-4 py-4">{checkArray()}</div>
+          <div className="px-1 py-4 m-auto w-fit sm:px-4">{checkArray()}</div>
         </div>
       </div>
     </div>
