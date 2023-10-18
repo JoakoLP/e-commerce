@@ -182,54 +182,56 @@ const CategoryFilter = ({ searchCateg, setSearchCateg, searchSubCateg, setSearch
     <div className="flex flex-col justify-between pl-2 min-w-fit lg:flex-row">
       {/* Fliter Type */}
       <div className="">
-        <p className="font-bold">Filtro por Categoria</p>
-        <p className={isLoading ? "visible" : "hidden"}>Cargando...</p>
-        <div className={isLoading ? "hidden" : "visible grid grid-flow-row-dense grid-cols-1 shrink-0 gap-3 justify-between py-1.5 px-2 items-start"}>
-          {CategoryList.map((category) => {
-            return (
-              <div className="text-black w-max">
-                <div className="flex items-center justify-start space-x-1 w-max">
-                  <input type="checkbox" name={"category"} value={category?.id} id={`category/${category?.id}`} onChange={checkboxChange} />
-                  <label htmlFor={`category/${category?.id}`} id={`category/${category?.id}/label`} className="font-semibold whitespace-nowrap min-w-max w-max">
-                    {category?.name}
-                  </label>
+        <p className="text-lg font-bold md:text-black text-cyan-700 md:text-base">Filtro por Categoria</p>
+        <div className="m-2 md:m-0 max-h-[75vh] md:max-h-full overflow-auto">
+          <p className={isLoading ? "visible" : "hidden"}>Cargando...</p>
+          <div className={isLoading ? "hidden" : "visible grid grid-flow-row-dense grid-cols-1 shrink-0 gap-3 justify-between py-1.5 px-2 items-start"}>
+            {CategoryList.map((category) => {
+              return (
+                <div className="text-black w-max">
+                  <div className="flex items-center justify-start space-x-1 w-max">
+                    <input type="checkbox" name={"category"} value={category?.id} id={`category/${category?.id}`} onChange={checkboxChange} />
+                    <label htmlFor={`category/${category?.id}`} id={`category/${category?.id}/label`} className="font-semibold whitespace-nowrap min-w-max w-max">
+                      {category?.name}
+                    </label>
+                  </div>
+                  {category?.subCategories.length > 0 ? (
+                    <ul className="flex flex-col items-start pl-3 text-sm">
+                      {category?.subCategories?.map((subCategory) => (
+                        <li className="flex items-center justify-center space-x-1">
+                          <input type="checkbox" name={"subCategory"} value={subCategory?.id} id={`subCategory/${subCategory?.id}`} onChange={checkboxChange} />
+                          <label htmlFor={`subCategory/${subCategory?.id}`} id={`subCategory/${subCategory?.id}/label`} className="whitespace-nowrap">
+                            {subCategory?.name}
+                          </label>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    {}
+                  )}
                 </div>
-                {category?.subCategories.length > 0 ? (
-                  <ul className="flex flex-col items-start pl-3 text-sm">
-                    {category?.subCategories?.map((subCategory) => (
+              );
+            })}
+            <div className={subCategRest.length > 0 ? "visible text-black w-fit" : "hidden"}>
+              <ul className="list-disc list-inside">
+                <li className="font-semibold whitespace-nowrap">
+                  <span className="ml-[-10px] whitespace-nowrap">Otras subcategorías</span>
+                </li>
+                <ul className="flex flex-col items-start pl-3 text-sm">
+                  {subCategRest?.map((subCategory) => {
+                    // console.log(subCategory);
+                    return (
                       <li className="flex items-center justify-center space-x-1">
-                        <input type="checkbox" name={"subCategory"} value={subCategory?.id} id={`subCategory/${subCategory?.id}`} onChange={checkboxChange} />
-                        <label htmlFor={`subCategory/${subCategory?.id}`} id={`subCategory/${subCategory?.id}/label`} className="whitespace-nowrap">
+                        <input type="checkbox" id={`subCategory/${subCategory?.id}`} name="subCategory" value={subCategory?.id} onChange={checkboxChange} />
+                        <label htmlFor={`subCategory/${subCategory?.id}`} id={`subCategory/${subCategory?.id}/label`} className="w-min text-sm pl-0.5">
                           {subCategory?.name}
                         </label>
                       </li>
-                    ))}
-                  </ul>
-                ) : (
-                  {}
-                )}
-              </div>
-            );
-          })}
-          <div className={subCategRest.length > 0 ? "visible text-black w-fit" : "hidden"}>
-            <ul className="list-disc list-inside">
-              <li className="font-semibold whitespace-nowrap">
-                <span className="ml-[-10px] whitespace-nowrap">Otras subcategorías</span>
-              </li>
-              <ul className="flex flex-col items-start pl-3 text-sm">
-                {subCategRest?.map((subCategory) => {
-                  // console.log(subCategory);
-                  return (
-                    <li className="flex items-center justify-center space-x-1">
-                      <input type="checkbox" id={`subCategory/${subCategory?.id}`} name="subCategory" value={subCategory?.id} onChange={checkboxChange} />
-                      <label htmlFor={`subCategory/${subCategory?.id}`} id={`subCategory/${subCategory?.id}/label`} className="w-min text-sm pl-0.5">
-                        {subCategory?.name}
-                      </label>
-                    </li>
-                  );
-                })}
+                    );
+                  })}
+                </ul>
               </ul>
-            </ul>
+            </div>
           </div>
         </div>
       </div>

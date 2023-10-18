@@ -3,6 +3,7 @@ import Product from "../Products/Product";
 import CategoryFilter from "./categoryFilter";
 import productsService from "../../../services/products";
 import { useNavigate } from "react-router-dom";
+import CategoryMobile from "./categoryMobile";
 
 const SearchSect = () => {
   const navigate = useNavigate();
@@ -15,6 +16,9 @@ const SearchSect = () => {
   if (params.get("sctg")) {
     subc = params.get("sctg").split(",");
   }
+
+  const [categMobile, setCategMobile] = useState(false);
+
   const [searchSubCateg, setSearchSubCateg] = useState(subc || []);
 
   const [products, setProducts] = useState([]);
@@ -73,8 +77,18 @@ const SearchSect = () => {
 
   return (
     <div className="flex flex-col pt-6">
+      {window.innerWidth > 728 ? null : (
+        <CategoryMobile
+          categMobile={categMobile}
+          setCategMobile={setCategMobile}
+          searchCateg={searchCateg}
+          setSearchCateg={setSearchCateg}
+          searchSubCateg={searchSubCateg}
+          setSearchSubCateg={setSearchSubCateg}
+        />
+      )}
       <div className="flex">
-        {CategoryFilter({ searchCateg, setSearchCateg, searchSubCateg, setSearchSubCateg })}
+        {window.innerWidth > 728 ? <CategoryFilter searchCateg={searchCateg} setSearchCateg={setSearchCateg} searchSubCateg={searchSubCateg} setSearchSubCateg={setSearchSubCateg} /> : null}
         <div className="flex flex-col items-start w-full">
           <h1 className="pt-2 ml-2 text-xl font-bold border-b-2 border-blue-700 text-centera whitespace-nowrap w-min">
             {products.length > 0 ? products.length : "Sin"} resultado{products.length != 1 ? "s" : null} de búsqueda
