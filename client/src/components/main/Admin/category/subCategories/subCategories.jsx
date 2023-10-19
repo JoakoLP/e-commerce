@@ -7,6 +7,7 @@ import SubCategoryAddModal from "./subCategoryAddModal";
 import SubCategoryDeleteModal from "./subCategoryDeleteModal";
 import SubCategoryEditModal from "./subCategoryEditModal";
 import { PencilIcon } from "@heroicons/react/24/outline";
+import { Button } from "@material-tailwind/react";
 
 const SubCategories = () => {
   const [SubCategoryList, setSubCategoryList] = useState([]);
@@ -48,7 +49,10 @@ const SubCategories = () => {
                   {subCategory.name}
                 </p>
               </div>
-              <button
+              <Button
+                className="!mx-auto !h-full bg-red-900"
+                // size="sm"
+                title="Eliminar categoría"
                 onClick={(e) => {
                   e.preventDefault();
                   setDelModal(!delModal);
@@ -56,10 +60,10 @@ const SubCategories = () => {
                   // setUser(user);
                   // setIsOpen(true);
                 }}
-                className="p-0.5 px-1.5 text-white duration-75 border rounded bg-cyan-700 active:duration-75 active:bg-cyan-900 active:shadow-inner active:shadow-neutral-800 lg:hover:bg-cyan-900 lg:hover:shadow-inner lg:hover:shadow-neutral-800  "
+                // className="p-0.5 px-1.5 text-white duration-75 border rounded bg-cyan-700 active:duration-75 active:bg-cyan-900 active:shadow-inner active:shadow-neutral-800 lg:hover:bg-cyan-900 lg:hover:shadow-inner lg:hover:shadow-neutral-800  "
               >
                 Eliminar SubCategoría
-              </button>
+              </Button>
               <button
                 onClick={(e) => {
                   setEditModal(!editModal);
@@ -78,19 +82,20 @@ const SubCategories = () => {
   };
 
   return (
-    <div className="pb-6">
+    <div className="p-6">
+      <Button
+        className="!mx-auto flex bg-cyan-700"
+        title="Agregar categoría"
+        onClick={() => {
+          setAddModal(!addModal);
+        }}
+      >
+        Agregar SubCategoría
+      </Button>
       <div className="grid justify-center gap-3 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
         {checkCategories()}
         {/* <UserModal isOpen={isOpen} setIsOpen={setIsOpen} user={user} /> */}
       </div>
-      <button
-        onClick={() => {
-          setAddModal(!addModal);
-        }}
-        className="border w-min bg-cyan-700 text-white rounded p-1.5 px-2.5 justify-center flex whitespace-nowrap mx-auto lg:mx-8 active:duration-75 active:bg-cyan-900 active:shadow-inner active:shadow-neutral-800 lg:hover:bg-cyan-900 lg:hover:shadow-inner lg:hover:shadow-neutral-800"
-      >
-        Agregar SubCategoría
-      </button>
       <SubCategoryDeleteModal delModal={delModal} setDelModal={setDelModal} subCategory={subCateg} setSubCateg={setSubCateg} />
       <SubCategoryAddModal addModal={addModal} setAddModal={setAddModal} />
       <SubCategoryEditModal editModal={editModal} setEditModal={setEditModal} subCategory={subCateg} setSubCateg={setSubCateg} />

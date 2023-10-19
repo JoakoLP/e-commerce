@@ -1,19 +1,16 @@
 import React from "react";
 import categoryService from "../../../../../services/category";
 import { useDisableBodyScroll } from "../../../../useDisableBodySroll";
-import CategoryDeleteModal from "./categoryDeleteModal";
+import { Button } from "@material-tailwind/react";
 
 import { XMarkIcon, PlusSmallIcon } from "@heroicons/react/24/outline";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useLayoutEffect } from "react";
 
 const CategoryEditModal = ({ edit, setEdit, editItem, setEditItem }) => {
   const [SubCategoryList, setSubCategoryList] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
-
-  const [delModal, setDelModal] = useState(false);
 
   const checkSubCategory = async () => {
     await categoryService.subCategoryGet(setSubCategoryList);
@@ -67,7 +64,6 @@ const CategoryEditModal = ({ edit, setEdit, editItem, setEditItem }) => {
   const closeModal = () => {
     setEdit(!edit);
     setEditItem();
-    setDelModal(false);
     document.getElementById(`editForm/${editItem?.id}`).reset();
   };
 
@@ -84,7 +80,7 @@ const CategoryEditModal = ({ edit, setEdit, editItem, setEditItem }) => {
       >
         <section
           className={
-            "max-w-xl absolute bg-white delay-200 duration-500 ease-in-out transition-all transform rounded p-4 max-h-[85vh] " +
+            "max-w-[95vw] md:max-w-xl absolute bg-white delay-200 duration-500 ease-in-out transition-all transform rounded p-4 max-h-[85vh] " +
             (edit ? " scale-100 shadow-lg shadow-gray-700 " : "  shadow-none scale-0 ")
           }
         >
@@ -115,42 +111,32 @@ const CategoryEditModal = ({ edit, setEdit, editItem, setEditItem }) => {
                   </div>
                   <div className={`${style} flex-col`}>
                     <p className="self-start">SubCategorías:</p>
-                    <div className={`${style} max-w-[95%] grid grid-cols-3 gap-1 self-end max-h-[20%] overflow-auto`}>
-                      {isLoading ? (
-                        <p>Cargando...</p>
-                      ) : (
-                        SubCategoryList?.map((subCategory) => {
-                          return (
-                            <div className="flex items-center pr-2">
-                              <input type="checkbox" id={`subCategory/${subCategory?.id}/${editItem?.id}`} name={`subCategory/${editItem?.id}`} value={subCategory?.id} />
-                              <label htmlFor={`subCategory/${subCategory?.id}/${editItem?.id}`} id={`subCategory/${subCategory?.id}/label`} className="pl-0.5">
-                                {subCategory?.name}
-                              </label>
-                            </div>
-                          );
-                        })
-                      )}
+                    <div className={`flex justify-between items-center py-1.5 px-2 max-w-[95%] self-end max-h-[20%] overflow-auto`}>
+                      <div className="grid grid-cols-3 gap-1 shrink-0 w-max">
+                        {isLoading ? (
+                          <p>Cargando...</p>
+                        ) : (
+                          SubCategoryList?.map((subCategory) => {
+                            return (
+                              <div className="flex items-center pr-2 w-min">
+                                <input type="checkbox" id={`subCategory/${subCategory?.id}/${editItem?.id}`} name={`subCategory/${editItem?.id}`} value={subCategory?.id} />
+                                <label htmlFor={`subCategory/${subCategory?.id}/${editItem?.id}`} id={`subCategory/${subCategory?.id}/label`} className="pl-0.5">
+                                  {subCategory?.name}
+                                </label>
+                              </div>
+                            );
+                          })
+                        )}
+                      </div>
                     </div>
                   </div>
 
                   <div className={`${style} flex-col`}>
-                    <button
-                      type="submit"
-                      className="p-1 duration-300 border border-black rounded text-neutral-200 bg-cyan-700 active:scale-90 active:duration-75 active:bg-cyan-900 hover:text-white active:shadow-inner active:shadow-neutral-800 lg:hover:bg-cyan-900 lg:hover:text-white lg:hover:shadow-inner lg:hover:shadow-neutral-800"
-                    >
+                    <Button type="submit" className="bg-cyan-700" size="sm" title="Enviar edición">
                       Enviar edición
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setDelModal(true);
-                      }}
-                    >
-                      Eliminar
-                    </button>
+                    </Button>
                   </div>
                 </form>
-                <CategoryDeleteModal delModal={delModal} setDelModal={setDelModal} category={editItem} />
               </>
             ) : (
               <></>

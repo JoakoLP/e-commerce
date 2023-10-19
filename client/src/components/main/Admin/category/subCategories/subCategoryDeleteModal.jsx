@@ -3,6 +3,7 @@ import categoryService from "../../../../../services/category";
 import { useDisableBodyScroll } from "../../../../useDisableBodySroll";
 
 import { XMarkIcon, PlusSmallIcon } from "@heroicons/react/24/outline";
+import { Button } from "@material-tailwind/react";
 
 const SubCategoryDeleteModal = ({ delModal, setDelModal, subCategory, setSubCateg }) => {
   const closeModal = () => {
@@ -60,16 +61,12 @@ const SubCategoryDeleteModal = ({ delModal, setDelModal, subCategory, setSubCate
               <p>¿Está seguro que desea eliminarla?</p>
             </div>
             <div className="flex justify-evenly">
-              <button
-                type="button"
-                onClick={deleteSubCateg}
-                className="w-8 bg-red-500 border border-black rounded lg:hover:shadow-inner lg:hover:shadow-neutral-600 hover:bg-red-600 hover:border-red-950 auto-square"
-              >
+              <Button className="bg-red-700 " size="sm" title="Eliminar categoría" onClick={deleteSubCateg}>
                 Si
-              </button>
-              <button type="button" onClick={closeModal} className="w-8 border border-black rounded aspect-auto lg:hover:shadow-inner lg:hover:shadow-neutral-600 ">
+              </Button>
+              <Button size="sm" variant="outlined" onClick={closeModal}>
                 No
-              </button>
+              </Button>
             </div>
           </div>
         </div>

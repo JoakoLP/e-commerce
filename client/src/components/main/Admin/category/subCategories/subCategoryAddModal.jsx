@@ -61,7 +61,7 @@ const SubCategoryAddModal = ({ addModal, setAddModal }) => {
     >
       <section
         className={
-          "max-w-xl absolute bg-white delay-200 duration-500 ease-in-out transition-all transform rounded p-4 max-h-[85vh] " +
+          "max-w-full mx-2 md:max-w-xl absolute bg-white delay-200 duration-500 ease-in-out transition-all transform rounded p-4 max-h-[85vh] " +
           (addModal ? " scale-100 shadow-lg shadow-gray-700 " : "  shadow-none scale-0 ")
         }
       >

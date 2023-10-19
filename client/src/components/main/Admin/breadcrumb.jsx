@@ -1,25 +1,21 @@
-import { Breadcrumb } from "flowbite-react";
-import { HiHome } from "react-icons/hi";
 import { Outlet, useLocation } from "react-router-dom";
 import { AccountContext } from "../../../contexts/AccountProvider";
 import { useContext } from "react";
+import { Breadcrumbs, ThemeProvider } from "@material-tailwind/react";
 
 const AdminBreadcrumb = ({ children }) => {
   const location = useLocation();
 
-  let currentLink = "";
+  let currentLink = "/admin";
   let i = 0;
   const crumbs = location.pathname
     .split("/")
+    .filter((crumb) => crumb !== "admin")
     .filter((crumb) => crumb !== "")
     .map((crumb) => {
       currentLink += `/${crumb}`;
       let esCrumb = "";
-      // console.log(currentLink);
       switch (crumb) {
-        case "admin":
-          esCrumb = "Admin";
-          break;
         case "userList":
           esCrumb = "Listado de Usuarios";
           break;
@@ -51,21 +47,48 @@ const AdminBreadcrumb = ({ children }) => {
       }
       return (
         <>
-          <Breadcrumb.Item icon={i == 0 ? HiHome : ""} className="h-6" href={currentLink} key={i++}>
-            <p>{esCrumb}</p>
-          </Breadcrumb.Item>
+          <a href={currentLink} className="text-xs md:text-sm whitespace-nowrap">
+            <span>{esCrumb}</span>
+          </a>
         </>
       );
     });
 
   const [user, setUser] = useContext(AccountContext);
-  // console.log(user.isAdmin);
+
+  const theme = {
+    breadcrumbs: {
+      defaultProps: {
+        className: "",
+        fullWidth: false,
+        separator: "/",
+      },
+      styles: {
+        base: {
+          root: {
+            initial: {
+              width: "w-max",
+            },
+            fullWidth: { display: "block", width: "!w-full" },
+          },
+        },
+      },
+    },
+  };
+
   if (user?.isAdmin) {
     return (
       <div className="min-h-[80vh]">
-        <Breadcrumb aria-label="Default breadcrumb example" className="px-2 py-1.5">
-          {crumbs}
-        </Breadcrumb>
+        <ThemeProvider value={theme}>
+          <Breadcrumbs fullWidth className="!w-full">
+            <a href="/admin">
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+              </svg>
+            </a>
+            {crumbs}
+          </Breadcrumbs>
+        </ThemeProvider>
         <Outlet />
       </div>
     );
