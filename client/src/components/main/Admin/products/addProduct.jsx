@@ -284,7 +284,7 @@ const AddProduct = () => {
                     <div className="text-black w-min">
                       <div className="flex items-center justify-start space-x-1">
                         <input type="checkbox" id={`category/${category?.id}`} onChange={checkboxChange} required name="category" value={category?.id} />
-                        <label htmlFor={`category/${category?.id}`} id={`category/${category?.id}/label`} className="w-min text-sm pl-0.5">
+                        <label htmlFor={`category/${category?.id}`} id={`category/${category?.id}/label`} className="w-min text-sm font-semibold pl-0.5">
                           {category?.name}
                         </label>
                       </div>

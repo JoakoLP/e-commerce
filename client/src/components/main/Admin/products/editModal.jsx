@@ -232,7 +232,7 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
       >
         <section
           className={
-            "max-w-[95vw] sm:max-w-xl xl:max-w-2xl md:min-w-[40vw] absolute bg-white delay-200 duration-500 ease-in-out transition-all transform outline outline-2 outline-black rounded-sm p-4 max-h-[85vh] " +
+            "max-w-[95vw] sm:max-w-xl xl:max-w-2xl md:min-w-[40vw] absolute bg-white delay-200 duration-500 ease-in-out transition-all transform rounded p-4 max-h-[85vh] " +
             (edit ? " scale-100 " : " scale-0 ")
           }
         >
@@ -257,7 +257,7 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
                   <label htmlFor="elementId" title="ID interna del producto.">
                     ID
                   </label>
-                  <input type="number" name="" id="elementID" placeholder="ID" className={` text-gray-600 ${inputStyle}`} value={editItem?.prod_id} />
+                  <input type="number" name="" id="elementID" placeholder="Ej: 103" className={` text-gray-600 ${inputStyle}`} value={editItem?.prod_id} />
                 </div>
 
                 {/* name */}
@@ -265,7 +265,15 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
                   <label htmlFor="elementName" title="Nombre que se mostrará.">
                     Nombre
                   </label>
-                  <input type="text" name="" id="elementName" placeholder="Nombre" className={inputStyle} defaultValue={editItem?.name} form="editForm" />
+                  <input
+                    type="text"
+                    name=""
+                    id="elementName"
+                    placeholder="Ej: Placa De Video GeForce RTX 3070 Ti 8Gb Msi Ventus 3X Oc"
+                    className={inputStyle}
+                    defaultValue={editItem?.name}
+                    form="editForm"
+                  />
                 </div>
 
                 {/* price */}
@@ -284,49 +292,51 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
                 <div className="border border-gray-500 rounded-sm my-1.5 w-full justify-center items-center overflow-hidden">
                   <p className="text-xl font-semibold text-center cursor-default">Categorización</p>
                   <p className={isLoading ? "visible" : "hidden"}>Cargando...</p>
-                  <div className={isLoading ? "hidden" : `visible grid grid-flow-row grid-cols-2 shrink-0 gap-3 justify-between py-1.5 w-[100%] px-2 items-start`}>
-                    {CategoryList.map((category) => {
-                      return (
-                        <div className="text-black w-min">
-                          <div className="flex items-center justify-start space-x-1">
-                            <input type="checkbox" id={`category/${category?.id}/${editItem?.prod_id}`} onChange={checkCateg} required name={`category/${editItem?.prod_id}`} value={category?.id} />
-                            <label htmlFor={`category/${category?.id}/${editItem?.prod_id}`} id={`category/${category?.id}/label`} className="w-min font-semibold pl-0.5">
-                              {category?.name}
-                            </label>
-                          </div>
+                  <div className="max-w-full overflow-auto ">
+                    <div className={isLoading ? "hidden" : `visible w-max grid grid-flow-row grid-cols-2 shrink-0 gap-2 gap-x-0.5 justify-between py-1.5 px-2 items-start`}>
+                      {CategoryList.map((category) => {
+                        return (
+                          <div className="text-black w-min">
+                            <div className="flex items-center justify-start space-x-1">
+                              <input type="checkbox" id={`category/${category?.id}/${editItem?.prod_id}`} onChange={checkCateg} required name={`category/${editItem?.prod_id}`} value={category?.id} />
+                              <label htmlFor={`category/${category?.id}/${editItem?.prod_id}`} id={`category/${category?.id}/label`} className="w-min text-sm font-semibold pl-0.5">
+                                {category?.name}
+                              </label>
+                            </div>
 
-                          <ul className={category?.subCategories.length > 0 ? ` visible flex flex-col items-start pl-3 text-sm` : "hidden"}>
-                            {category?.subCategories?.map((subCategory) => (
-                              <li className="flex items-center justify-center space-x-1">
-                                <input type="checkbox" id={`subCategory/${subCategory?.id}/${editItem?.prod_id}`} name={`subCategory/${editItem?.prod_id}`} value={subCategory?.id} />
-                                <label htmlFor={`subCategory/${subCategory?.id}/${editItem?.prod_id}`} id={`subCategory/${subCategory?.id}/label`} className="w-min text-sm pl-0.5">
-                                  {subCategory?.name}
-                                </label>
-                              </li>
-                            ))}
+                            <ul className={category?.subCategories.length > 0 ? ` visible flex flex-col items-start pl-3 text-sm` : "hidden"}>
+                              {category?.subCategories?.map((subCategory) => (
+                                <li className="flex items-center justify-center space-x-1">
+                                  <input type="checkbox" id={`subCategory/${subCategory?.id}/${editItem?.prod_id}`} name={`subCategory/${editItem?.prod_id}`} value={subCategory?.id} />
+                                  <label htmlFor={`subCategory/${subCategory?.id}/${editItem?.prod_id}`} id={`subCategory/${subCategory?.id}/label`} className="w-min text-sm pl-0.5">
+                                    {subCategory?.name}
+                                  </label>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        );
+                      })}
+                      <div className={subCategRest.length > 0 ? "visible text-black w-min" : "hidden"}>
+                        <ul className="list-disc list-inside">
+                          <li className="font-semibold">
+                            <span className="ml-[-10px]">Otras subcategorías</span>
+                          </li>
+                          <ul className="flex flex-col items-start pl-3 text-sm">
+                            {subCategRest?.map((subCategory) => {
+                              // console.log(subCategory);
+                              return (
+                                <li className="flex items-center justify-center space-x-1">
+                                  <input type="checkbox" id={`subCategory/${subCategory?.id}/${editItem?.prod_id}`} name={`subCategory/${editItem?.prod_id}`} value={subCategory?.id} />
+                                  <label htmlFor={`subCategory/${subCategory?.id}/${editItem?.prod_id}`} id={`subCategory/${subCategory?.id}/label`} className="w-min text-sm pl-0.5">
+                                    {subCategory?.name}
+                                  </label>
+                                </li>
+                              );
+                            })}
                           </ul>
-                        </div>
-                      );
-                    })}
-                    <div className={subCategRest.length > 0 ? "visible text-black w-min" : "hidden"}>
-                      <ul className="list-disc list-inside">
-                        <li className="font-semibold">
-                          <span className="ml-[-10px]">Otras subcategorías</span>
-                        </li>
-                        <ul className="flex flex-col items-start pl-3 text-sm">
-                          {subCategRest?.map((subCategory) => {
-                            // console.log(subCategory);
-                            return (
-                              <li className="flex items-center justify-center space-x-1">
-                                <input type="checkbox" id={`subCategory/${subCategory?.id}/${editItem?.prod_id}`} name={`subCategory/${editItem?.prod_id}`} value={subCategory?.id} />
-                                <label htmlFor={`subCategory/${subCategory?.id}/${editItem?.prod_id}`} id={`subCategory/${subCategory?.id}/label`} className="w-min text-sm pl-0.5">
-                                  {subCategory?.name}
-                                </label>
-                              </li>
-                            );
-                          })}
                         </ul>
-                      </ul>
+                      </div>
                     </div>
                   </div>
 
@@ -345,14 +355,20 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
                     </p>
                     <div className={style}>
                       <label htmlFor="elementTag">Agregar</label>
-                      <div className="flex">
-                        <input type="text" id="elementTag" placeholder="Etiqueta" className="rounded-l-sm rounded-r-none" defaultValue="" />
+                      <div className="flex pl-1 max-w-fit full">
+                        <input
+                          type="text"
+                          id="elementTag"
+                          placeholder="Ej: gpu, placa de video, escritorio, etc"
+                          className="w-full border-black rounded-l-sm rounded-r-none border-r-none"
+                          defaultValue=""
+                        />
                         <button
-                          className="px-3 py-2 border border-l-0 border-black rounded-l-none rounded-r-sm bg-cyan-400 hover:bg-cyan-600 hover:shadow-inner lg:hover:shadow-neutral-800 "
+                          className="px-3 py-2 border border-l-0 border-black rounded-l-none rounded-r-sm bg-cyan-600 hover:bg-cyan-600 hover:shadow-inner lg:hover:shadow-neutral-800 "
                           title="Agregar"
                           onClick={addTag}
                         >
-                          <PlusSmallIcon className="w-6 h-6 text-black" />
+                          <PlusSmallIcon className="w-6 h-6 text-white" />
                         </button>
                       </div>
                     </div>
@@ -387,7 +403,7 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
                   <label htmlFor="elementDesc" title="Descripción del producto. Ej: 'Ordenador portatil ideal para ofimática...'">
                     Descripción
                   </label>
-                  <input type="text" name="" id="elementDesc" placeholder="Descripción" className={inputStyle} defaultValue={editItem?.desc} />
+                  <input type="text" name="" id="elementDesc" placeholder="Ej: Placa de video para gaming..." className={inputStyle} defaultValue={editItem?.desc} />
                 </div>
 
                 {/* image */}
@@ -422,7 +438,7 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
                   <label htmlFor="elementBrand" title="Marca del producto. Ej: Lenovo.">
                     Marca
                   </label>
-                  <input type="text" name="" id="elementBrand" placeholder="Marca" className={inputStyle} defaultValue={editItem?.brand} />
+                  <input type="text" name="" id="elementBrand" placeholder="Ej: MSI" className={inputStyle} defaultValue={editItem?.brand} />
                 </div>
 
                 {/* color */}
@@ -430,7 +446,7 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
                   <label htmlFor="elementColor" title="Color del producto. Ej: Negro.">
                     Color
                   </label>
-                  <input type="text" name="" id="elementColor" placeholder="Color" className={inputStyle} defaultValue={editItem?.color} />
+                  <input type="text" name="" id="elementColor" placeholder="Ej: Negro" className={inputStyle} defaultValue={editItem?.color} />
                 </div>
 
                 <div className="flex justify-evenly w-full py-1.5">
