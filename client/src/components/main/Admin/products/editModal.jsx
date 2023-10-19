@@ -292,7 +292,7 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
                 <div className="border border-gray-500 rounded-sm my-1.5 w-full justify-center items-center overflow-hidden">
                   <p className="text-xl font-semibold text-center cursor-default">Categorización</p>
                   <p className={isLoading ? "visible" : "hidden"}>Cargando...</p>
-                  <div className="flex justify-center max-w-full overflow-auto">
+                  <div className="flex max-w-full overflow-auto md:justify-center">
                     <div className={isLoading ? "hidden" : `visible w-max grid grid-flow-row grid-cols-2 shrink-0 gap-2 gap-x-0.5 justify-between py-1.5 px-2 items-start`}>
                       {CategoryList.map((category) => {
                         return (
