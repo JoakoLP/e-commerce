@@ -100,4 +100,4 @@ const isAdmin = async (req, res, next) => {
   }
 };
 
-module.exports = { uploadFile, isRegistered, isNotRegistered, isLogged, isNotLogged, verifyToken, isAdmin };
+module.exports = { isRegistered, isNotRegistered, isLogged, isNotLogged, verifyToken, isAdmin };
