@@ -4,13 +4,29 @@ import { Link } from "react-router-dom";
 import PasswordSwitch from "./passwordSwitch";
 
 const Register = () => {
+  const [preview, setPreview] = useState();
   const [image, setImage] = useState();
   const [errorMsg, setErrorMsg] = useState();
   const handleImage = (e) => {
     console.log(e.target.files);
     setImage(e.target.files[0]);
     console.log(image);
+    const file = e.target.files[0];
+    previewImage(file);
   };
+
+  const previewImage = (file) => {
+    const reader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setPreview(reader.result);
+      };
+    } else {
+      setPreview();
+    }
+  };
+
   const handleRegister = (e) => {
     e.preventDefault();
     // console.log(image);
@@ -96,7 +112,7 @@ const Register = () => {
                 </label>
                 <div className="relative">
                   <PasswordSwitch inputPass={inputPass} pass={passReg} />
-                  <input type="password" name="" id="userPassReg" placeholder="" onChange={handlePassword} className={inputStyle + " pr-8"} />
+                  <input type="password" name="" id="userPassReg" placeholder="" onChange={handlePassword} className={inputStyle + " w-full pr-8"} />
                 </div>
               </div>
               <div className={divStyle}>
@@ -105,21 +121,33 @@ const Register = () => {
                 </label>
                 <div className="relative">
                   <PasswordSwitch inputPass={inputPassCheck} pass={passRegCheck} />
-                  <input type="password" name="" id="userPassRegCheck" placeholder="" onChange={handlePassword} className={inputStyle + " pr-8"} />
+                  <input type="password" name="" id="userPassRegCheck" placeholder="" onChange={handlePassword} className={inputStyle + " w-full pr-8"} />
                 </div>
               </div>
               <div className={divStyle}>
                 <label htmlFor="userImgReg" className="text-xs font-bold">
                   Imagen
                 </label>
+                {preview && (
+                  <div className="flex flex-col items-center justify-center w-full py-1">
+                    <div className="flex items-center justify-center w-32 h-32 overflow-hidden rounded-full aspect-square">
+                      <img src={preview} alt="imageToUpload" className="object-cover aspect-auto" />
+                    </div>
+                    <p className="text-xs truncate">{image?.name}</p>
+                    <p className={`text-xs ${(image?.size / 1024 / 1024).toFixed(2) > 10 ? "text-red-500 font-bold" : ""}`}>Tamaño: {(image?.size / 1024 / 1024).toFixed(2)} MB</p>
+                  </div>
+                )}
                 <input type="file" name="" id="userImgReg" accept="image/png, image/jpeg" className="hidden" placeholder="" onChange={handleImage} />
                 <label htmlFor="userImgReg" className="self-center p-1 text-sm text-white bg-blue-900 rounded cursor-pointer select-none">
-                  Seleccionar imagen
+                  {image ? "Cambiar imagen" : "Seleccionar imagen"}
                 </label>
+                <p className="text-xs text-center">Tamaño máximo: 10MB</p>
               </div>
             </div>
             <div className="flex items-center justify-center w-full">
-              <button className="px-2.5 py-1.5 text-white bg-blue-600 rounded">Registrarse</button>
+              <button className="px-2.5 py-1.5 text-white bg-blue-600 rounded" disabled={(image?.size / 1024 / 1024).toFixed(2) > 10}>
+                Registrarse
+              </button>
             </div>
           </form>
         </div>

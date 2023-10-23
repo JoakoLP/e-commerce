@@ -22,7 +22,12 @@ const categRouter = require("./routes/categories");
 const subCategRouter = require("./routes/subCategories");
 
 // allow body parsing to avoid 'undefined'
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.urlencoded({ extended: true }));
+
+// para subir imagenes a cloudinary
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
+
 app.use(bodyParser.json());
 // app.use(bodyParser.text());
 app.use(cookieParser());

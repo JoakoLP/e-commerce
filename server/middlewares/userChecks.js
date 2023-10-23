@@ -1,31 +1,21 @@
 const { User } = require("../models/user");
 const { tokenVerify } = require("../utils/jwt");
-const fs = require("fs");
 
 const isRegistered = async (req, res, next) => {
   try {
-    const user = await User.findOne({ email: req.body.email });
-    if (user) {
-      if (req.files[0]) {
-        // console.log(req.files[0]);
-        const { path, filename } = req.files[0];
-        fs.unlinkSync(path, filename);
-      }
+    const userEm = await User.findOne({ email: req.body.email });
+    if (userEm) {
       res.status(500).send("Email ya registrado.");
     } else {
-      const user = await User.findOne({ username: req.body.username });
-      if (user) {
-        if (req.files[0]) {
-          // console.log(req.files[0]);
-          const { path, filename } = req.files[0];
-          fs.unlinkSync(path, filename);
-        }
+      const userNm = await User.findOne({ username: req.body.username });
+      if (userNm) {
         res.status(500).send("Usuario ya registrado.");
       } else {
         next();
       }
     }
   } catch (error) {
+    console.error(error);
     res.json(error);
   }
 };
@@ -39,6 +29,7 @@ const isNotRegistered = async (req, res, next) => {
       next();
     }
   } catch (error) {
+    console.error(error);
     res.json(error);
   }
 };
@@ -46,18 +37,12 @@ const isNotRegistered = async (req, res, next) => {
 const isLogged = (req, res, next) => {
   try {
     if (req.cookies.userSession) {
-      if (req.files) {
-        console.log(req.files[0]);
-        const { path, filename } = req.files[0];
-
-        // console.log(path);
-        fs.unlinkSync(path, filename);
-      }
       res.status(501).send("Ya has iniciado sesión.");
     } else {
       next();
     }
   } catch (error) {
+    console.error(error);
     res.json(error);
   }
 };
@@ -73,6 +58,7 @@ const isNotLogged = (req, res, next) => {
       next();
     }
   } catch (error) {
+    console.error(error);
     res.json(error);
   }
 };
@@ -94,6 +80,7 @@ const verifyToken = (req, res, next) => {
       res.status(403);
     }
   } catch (error) {
+    console.error(error);
     res.json(error);
   }
 };
@@ -108,8 +95,9 @@ const isAdmin = async (req, res, next) => {
       res.send("Debes ser admin.");
     }
   } catch (error) {
+    console.error(error);
     res.json(error);
   }
 };
 
-module.exports = { isRegistered, isNotRegistered, isLogged, isNotLogged, verifyToken, isAdmin };
+module.exports = { uploadFile, isRegistered, isNotRegistered, isLogged, isNotLogged, verifyToken, isAdmin };

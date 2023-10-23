@@ -51,23 +51,31 @@ const register = async (credentials) => {
   try {
     toast("Registrando usuario...", { toastId: "register", containerId: "session", autoClose: 5000, type: "default", isLoading: true });
     toast.update("register", { render: "Registrando usuario...", containerId: "session", autoClose: 5000, type: "default", isLoading: true });
-    console.log(credentials);
-    await account.post(`/register`, { ...credentials }, { headers: { "Content-Type": "multipart/form-data" } }).then((res) => {
-      toast.update("register", {
-        icon: ({ theme, type }) => <HiOutlineUserPlus size={24} />,
-        render: "Usuario registrado correctamente.",
-        containerId: "session",
-        autoClose: 1000,
-        type: "success",
-        isLoading: false,
+
+    await account
+      .post(
+        `/register`,
+        { ...credentials },
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      )
+      .then((res) => {
+        toast.update("register", {
+          icon: ({ theme, type }) => <HiOutlineUserPlus size={24} />,
+          render: "Usuario registrado correctamente.",
+          containerId: "session",
+          autoClose: 1000,
+          type: "success",
+          isLoading: false,
+        });
+        setTimeout(() => {
+          window.location.reload(false);
+        }, 1000);
+        // console.log(res);
+        // console.log(res.data.user);
+        // console.log({ userSession: { ...cookies.get("userSession") } });
       });
-      setTimeout(() => {
-        window.location.reload(false);
-      }, 1000);
-      // console.log(res);
-      console.log(res.data.user);
-      // console.log({ userSession: { ...cookies.get("userSession") } });
-    });
   } catch (error) {
     toast.update("register", { render: error?.response?.data, type: "error", containerId: "session", autoClose: 2000, isLoading: false });
     console.log(error);

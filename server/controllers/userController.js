@@ -1,14 +1,56 @@
 const bcrypt = require("bcryptjs");
 const { User } = require("../models/user");
 const { token60, tokenRemember, tokenVerify } = require("../utils/jwt");
-const fs = require("fs");
 const path = require("path");
+const { cloudinary } = require("../utils/cloudinary");
 
 const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
 // const SERVER_URL = "http://localhost:8080";
 
 const DOMAIN_URL = ".joaquintakara.com";
 // const DOMAIN_URL = "";
+
+const uploadFile = async (req, user) => {
+  if (req.files[0]) {
+    console.log("hay foto");
+    try {
+      if (user) {
+        // console.log({ user });
+        const b64 = Buffer.from(req.files[0].buffer).toString("base64");
+        let fileStr = "data:" + req.files[0].mimetype + ";base64," + b64;
+        // console.log(fileStr);
+        const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
+          public_id: `users/${req.body.username}`,
+          upload_preset: "e-commerce",
+        });
+        user.setImgUrl(uploadedResponse.url);
+        await user.save();
+      } else {
+        console.log("No hay usuario?");
+      }
+      // res.status(201).json({ user: { ...req.session.user }, msg: "User registered succesfully." });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json(error);
+    }
+  } else {
+    console.log("no hay foto");
+  }
+};
+
+const deleteImage = async (avatar) => {
+  try {
+    const filename = path.basename(avatar);
+    console.log({ filename });
+    const onlyName = filename.split(".")[0];
+    console.log({ onlyName });
+    await cloudinary.uploader.destroy(`e-commerce/users/${onlyName}`).then((res) => {
+      console.log(res);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 class UserController {
   async index(req, res) {
@@ -74,13 +116,13 @@ class UserController {
     }
   }
 
-  async register(req, res) {
+  async register(req, res, next) {
     try {
       console.log(req.files[0]);
       const salt = bcrypt.genSaltSync(8);
       const passwordHash = bcrypt.hashSync(req.body.password, salt);
       // const now = new Date(Date.now());
-      const user = new User({
+      let user = new User({
         username: req.body.username,
         name: req.body.name,
         email: req.body.email,
@@ -91,15 +133,14 @@ class UserController {
         // avatar: "http://localhost:8080/public/default/user-avatar.png",
         cart: { products: [], total: 0, count: 0 },
       });
-      if (req.files[0]) {
-        const { filename } = req.files[0];
-        user.setImgUrl(filename);
-        // console.log(user.avatar);
-      }
-      await user.save();
 
-      let { _id, username, name, email, isAdmin, avatar, date } = user._doc;
-      req.session.user = { _id, username, name, email, isAdmin, avatar, date };
+      await uploadFile(req, user);
+      user = await User.findById(user?._id).then(() => {
+        // console.log({ user });
+        let { _id, username, name, email, isAdmin, avatar, date } = user._doc;
+        console.log({ avatar });
+        req.session.user = { _id, username, name, email, isAdmin, avatar, date };
+      });
 
       const token = token60({ ...req.session.user });
 
@@ -136,10 +177,8 @@ class UserController {
 
       await User.findByIdAndDelete(user._id).then((res) => {
         if (user?.avatar) {
-          console.log(user.avatar);
-          const filename = path.basename(user.avatar);
-          console.log(filename);
-          fs.unlinkSync("storage/img/user/" + filename, filename);
+          // console.log(user.avatar);
+          deleteImage(user.avatar);
         }
         console.log(`${user.name} unregister`);
         res.status(201).json({ msg: "User deleted." });
