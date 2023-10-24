@@ -14,7 +14,9 @@ const AccountNavButton = ({ setMenuMobileIsOpen }) => {
     <Link
       to={"/account"}
       onClick={() => {
-        setMenuMobileIsOpen(false);
+        if (setMenuMobileIsOpen) {
+          setMenuMobileIsOpen(false);
+        }
       }}
     >
       <div className="flex items-center justify-center space-x-2 flex-nowrap">
