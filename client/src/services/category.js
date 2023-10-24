@@ -25,6 +25,7 @@ const categoryAdd = async (category) => {
     const credentials = { ...category };
     await categories.post("/add", { ...credentials }).then((res) => {
       console.log(res.data);
+      window.location.reload(false);
     });
   } catch (error) {
     console.log(error);
@@ -58,6 +59,7 @@ const categoryDel = async (_id) => {
   try {
     await categories.delete(`/delete?id=${_id}`).then((res) => {
       console.log(res.data);
+      window.location.reload(false);
     });
   } catch (error) {
     console.log(error);
@@ -70,6 +72,7 @@ const subCategoryAdd = async (subCategory) => {
     const credentials = { ...subCategory };
     await subCategories.post("/add", { ...credentials }).then((res) => {
       console.log(res.data);
+      window.location.reload(false);
     });
   } catch (error) {
     console.log(error);
@@ -103,6 +106,7 @@ const subCategoryDel = async (_id) => {
   try {
     await subCategories.delete(`/delete?id=${_id}`).then((res) => {
       console.log(res.data);
+      window.location.reload(false);
     });
   } catch (error) {
     console.log(error);

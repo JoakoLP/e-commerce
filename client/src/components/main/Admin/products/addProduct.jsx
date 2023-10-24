@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import productService from "../../../../services/products";
 import categoryService from "../../../../services/category";
 import { XMarkIcon, PlusSmallIcon } from "@heroicons/react/24/outline";
+import { Button } from "@material-tailwind/react";
 
 const AddProduct = () => {
   const [SubCategoryList, setSubCategoryList] = useState([]);
@@ -68,6 +69,7 @@ const AddProduct = () => {
   };
 
   // IMG
+  const [preview, setPreview] = useState();
   const [image, setImage] = useState({ type: "", data: {} });
   const checkImgFile = (e) => {
     const ImgURL = document.getElementById("elementImageURL");
@@ -79,6 +81,8 @@ const AddProduct = () => {
     } else {
       ImgURL.disabled = false;
     }
+    const file = e.target.files[0];
+    previewImage(file);
   };
   const checkImgURL = (e) => {
     const ImgFile = document.getElementById("elementImageFile");
@@ -89,6 +93,18 @@ const AddProduct = () => {
       console.log(image);
     } else {
       ImgFile.disabled = false;
+    }
+  };
+
+  const previewImage = (file) => {
+    const reader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setPreview(reader.result);
+      };
+    } else {
+      setPreview();
     }
   };
 
@@ -332,21 +348,16 @@ const AddProduct = () => {
               </p>
               <div className={style}>
                 <label htmlFor="elementTag">Agregar</label>
-                <div className="flex pl-1 max-w-fit full">
-                  <input
-                    type="text"
-                    id="elementTag"
-                    placeholder="Ej: gpu, placa de video, escritorio, etc"
-                    className="w-full border-black rounded-l-sm rounded-r-none border-r-none "
-                    defaultValue=""
-                  />
-                  <button
-                    className="px-3 py-2 border border-l-0 border-black rounded-l-none rounded-r-sm bg-cyan-600 hover:bg-cyan-600 hover:shadow-inner lg:hover:shadow-neutral-800 "
+                <div className="flex ml-1 overflow-hidden border border-black rounded-sm max-w-fit ">
+                  <input type="text" id="elementTag" placeholder="Ej: gpu, placa de video, escritorio, etc" className="w-full border-none" defaultValue="" />
+                  <Button
+                    className="px-3 py-2 rounded-none bg-cyan-700 !overflow-visible"
+                    // className="px-3 py-2 border border-l-0 border-black rounded-l-none rounded-r-sm bg-cyan-600 hover:bg-cyan-600 hover:shadow-inner lg:hover:shadow-neutral-800 "
                     title="Agregar"
                     onClick={addTag}
                   >
                     <PlusSmallIcon className="w-6 h-6 text-white" />
-                  </button>
+                  </Button>
                 </div>
               </div>
               <div className="flex justify-between items-center py-1.5 w-full px-2">
@@ -384,10 +395,39 @@ const AddProduct = () => {
           {/* image */}
           <div className={style}>
             <label htmlFor="elementImage">Imagen:</label>
-            <div className="flex flex-col w-[70%] space-y-1">
-              <input type="text" name="" id="elementImageURL" className="rounded-sm" placeholder="Ej: https://i.imgur.com/nsvoUWH.jpg" required onChange={checkImgURL} />
-              <input type="file" accept=".png,.jpg,.jpeg" id="elementImageFile" className="w-full text-xs border border-black rounded-sm" name="" required onChange={checkImgFile} />
-              <span className="text-xs">Subir archivo o link de imagen, no ambos.</span>
+            <div className="flex flex-col max-w-[70%] w-[70%] space-y-1">
+              <input type="text" name="" id="elementImageURL" className="rounded-sm" placeholder="Ej: https://i.imgur.com/nsvoUWH.jpg" required onKeyUp={checkImgURL} onChange={checkImgURL} />
+              {preview && (
+                <div className="flex flex-col items-center justify-center w-full py-1">
+                  <div className="flex items-center justify-center h-48 overflow-hidden rounded-sm aspect-auto">
+                    <img src={preview} alt="imageToUpload" className="object-contain h-full aspect-auto" />
+                  </div>
+                </div>
+              )}
+              <input type="file" accept=".png,.jpg,.jpeg" id="elementImageFile" className="hidden w-full text-xs border border-black rounded-sm" name="" required onChange={checkImgFile} />
+              {preview ? (
+                <p className={`text-xs truncate md:hidden block ${(image?.data?.size / 1024 / 1024).toFixed(2) > 10 ? "text-red-500 font-bold" : ""}`}>
+                  Tamaño: {(image?.data?.size / 1024 / 1024).toFixed(2)} MB
+                  {(image?.data?.size / 1024 / 1024).toFixed(2) > 10 ? " *" : ""}
+                </p>
+              ) : null}
+              <label htmlFor="elementImageFile" className="flex items-center w-full space-x-3 border border-black rounded-sm">
+                <p className="self-center p-2 px-4 text-sm font-semibold text-white bg-blue-900 cursor-pointer select-none">{preview ? "Cambiar imagen" : "Seleccionar imagen"}</p>
+                {preview ? (
+                  <div className="flex flex-col justify-center w-full max-w-full truncate">
+                    <p className="text-xs truncate">{image?.data?.name}</p>
+                    <p className={`text-xs truncate hidden md:block ${(image?.data?.size / 1024 / 1024).toFixed(2) > 10 ? "text-red-500 font-bold" : ""}`}>
+                      Tamaño: {(image?.data?.size / 1024 / 1024).toFixed(2)} MB
+                      {(image?.data?.size / 1024 / 1024).toFixed(2) > 10 ? " *" : ""}
+                    </p>
+                  </div>
+                ) : (
+                  <p className="text-xs truncate">Ningún archivo seleccionado.</p>
+                )}
+              </label>
+              <span className="text-xs whitespace-normal">
+                Subir archivo o link de imagen, no ambos. Tamaño máximo: 10MB{preview && (image?.data?.size / 1024 / 1024).toFixed(2) > 10 ? <span className="font-bold text-red-500"> *</span> : ""}
+              </span>
             </div>
           </div>
 
@@ -410,9 +450,9 @@ const AddProduct = () => {
           </div>
 
           <div className={`${style} flex-col`}>
-            <button className="p-1 px-2 text-white duration-100 border border-black rounded-sm select-none bg-cyan-700 active:scale-90 active:duration-75 active:bg-cyan-900 hover:text-white active:shadow-inner active:shadow-neutral-800 lg:hover:bg-cyan-900 lg:hover:text-white lg:hover:shadow-inner lg:hover:shadow-neutral-800">
+            <Button type="submit" className="bg-cyan-700" size="sm" title="Enviar edición" disabled={preview && (image?.data?.size / 1024 / 1024).toFixed(2) > 10}>
               Agregar
-            </button>
+            </Button>
           </div>
         </form>
       </div>

@@ -51,16 +51,7 @@ const schema = new Schema({
 });
 
 schema.methods.setImgUrl = function setImgUrl(filename) {
-  console.log({ filename });
   this.avatar = filename;
-
-  // Codigo anterior
-  // // const { host, port } = appConfig;
-  // // const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
-  // const SERVER_URL = "http://localhost:8080";
-
-  // this.avatar = `${SERVER_URL}/public/users/${filename}`;
-  // // this.avatar = `${host}:${port}/public/users/${filename}`;
 };
 
 const User = mongoose.model("User", schema);

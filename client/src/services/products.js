@@ -18,6 +18,7 @@ const productAdd = async (product) => {
     console.log(credentials);
     await products.post(`/add`, { ...credentials }, { withCredentials: true, headers: { "Content-Type": "multipart/form-data" } }).then((res) => {
       console.log(res.data);
+      window.location.reload(false);
     });
   } catch (error) {
     console.log(error);
@@ -48,6 +49,7 @@ const productEdit = async (product, _id) => {
   try {
     await products.put("/edit", { product, _id }, { headers: { "Content-Type": "multipart/form-data" } }).then((res) => {
       console.log(res.data);
+      window.location.reload(false);
     });
   } catch (error) {
     console.log(error);
@@ -59,6 +61,7 @@ const productDel = async (_id) => {
   try {
     await products.delete(`/delete/${_id}`).then((res) => {
       console.log(res.data);
+      window.location.reload(false);
     });
   } catch (error) {
     console.log(error);

@@ -3,6 +3,7 @@ import categoryService from "../../../../../services/category";
 import { useDisableBodyScroll } from "../../../../useDisableBodySroll";
 
 import { XMarkIcon, PlusSmallIcon } from "@heroicons/react/24/outline";
+import { Button } from "@material-tailwind/react";
 
 const CategoryAddModal = ({ addModal, setAddModal }) => {
   const categoryAdd = () => {
@@ -114,12 +115,9 @@ const CategoryAddModal = ({ addModal, setAddModal }) => {
                 </div>
               </div>
               <div className={`${style} flex-col`}>
-                <button
-                  className="p-1 duration-300 border border-black rounded text-neutral-200 bg-cyan-700 active:scale-90 active:duration-75 active:bg-cyan-900 hover:text-white active:shadow-inner active:shadow-neutral-800 lg:hover:bg-cyan-900 lg:hover:text-white lg:hover:shadow-inner lg:hover:shadow-neutral-800"
-                  title="Agregar categoría"
-                >
+                <Button type="submit" className="bg-cyan-700" size="sm" title="Enviar edición">
                   Agregar
-                </button>
+                </Button>
               </div>
             </form>
           </div>

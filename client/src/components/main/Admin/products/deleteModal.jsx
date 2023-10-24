@@ -1,6 +1,7 @@
 import React from "react";
 import { XMarkIcon, PlusSmallIcon } from "@heroicons/react/24/outline";
 import productServices from "../../../../services/products";
+import { Button } from "@material-tailwind/react";
 
 const DeleteModal = ({ delModal, setDelModal, delItem }) => {
   const closeModal = () => {
@@ -99,16 +100,12 @@ const DeleteModal = ({ delModal, setDelModal, delItem }) => {
               <p className="text-center">¿Está seguro que desea eliminarlo?</p>
             </div>
             <div className="flex pt-1 justify-evenly">
-              <button
-                type="button"
-                onClick={deleteProd}
-                className="w-8 bg-red-500 border border-black rounded lg:hover:shadow-inner lg:hover:shadow-neutral-600 hover:bg-red-600 hover:border-red-950 aspect-auto"
-              >
+              <Button className="bg-red-700 " onClick={deleteProd} size="sm" title="Eliminar producto">
                 Si
-              </button>
-              <button type="button" onClick={closeModal} className="w-8 border border-black rounded aspect-auto lg:hover:shadow-inner lg:hover:shadow-neutral-600 ">
+              </Button>
+              <Button size="sm" variant="outlined" onClick={closeModal}>
                 No
-              </button>
+              </Button>
             </div>
           </div>
         </div>

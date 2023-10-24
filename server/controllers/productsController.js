@@ -1,8 +1,71 @@
 const { Product } = require("../models/product");
 const fs = require("fs");
 const path = require("path");
-const { appConfig } = require("../config");
-const { array } = require("../libs/storageProduct");
+const { cloudinary } = require("../utils/cloudinary");
+
+const uploadFile = async (req, res, product) => {
+  if (req.files[0]) {
+    console.log("hay foto");
+    // const urlBase = path.dirname(uploadedResponse.url);
+    // console.log({ urlBase });
+    // console.log("includes? data", product.img?.data?.includes("cloudinary"));
+    // console.log("includes?", product.img?.includes("cloudinary"));
+    try {
+      if (product) {
+        console.log(req.files);
+        const b64 = Buffer.from(req.files[0].buffer).toString("base64");
+        let fileStr = "data:" + req.files[0].mimetype + ";base64," + b64;
+        // console.log(fileStr);
+        const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
+          public_id: `products/${req.body.prod_id || req.body.product.prod_id}`,
+          upload_preset: "e-commerce",
+        });
+        if (product?.setImgUrl) {
+          product.setImgUrl(uploadedResponse.url);
+          await product.save();
+        } else {
+          product.img = { type: "URL", data: uploadedResponse.url };
+        }
+      } else {
+        console.log("No hay usuario?");
+      }
+      // res.status(201).json({ user: { ...req.session.user }, msg: "User registered succesfully." });
+    } catch (error) {
+      console.log(error);
+      // res.status(500).json(error);
+    }
+  } else {
+    console.log("no hay foto");
+  }
+};
+
+const deleteImage = async (url) => {
+  try {
+    let urlBase;
+    let filename;
+    if (url?.data) {
+      console.log("hay data");
+      urlBase = path.dirname(url?.data);
+      console.log(urlBase);
+      filename = path.basename(url?.data);
+      console.log({ filename });
+    } else {
+      console.log("no hay data");
+      urlBase = path.dirname(url);
+      console.log(urlBase);
+      filename = path.basename(url);
+      console.log({ filename });
+    }
+
+    const onlyName = filename.split(".")[0];
+    console.log({ onlyName });
+    await cloudinary.uploader.destroy(`e-commerce/products/${onlyName}`).then((res) => {
+      console.log(res);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 class ProductsController {
   async productAdd(req, res) {
@@ -31,27 +94,28 @@ class ProductsController {
             brand: req.body.brand,
             color: req.body.color,
           });
-          if (req.files[0]) {
-            console.log("Hay archivo!");
-            // console.log(req.files);
-            const { filename } = req.files[0];
-            console.log(filename);
-            product.setImgUrl(filename);
-          } else {
-            console.log("No hay archivo!");
-          }
+          await uploadFile(req, res, product);
+          // if (req.files[0]) {
+          //   console.log("Hay archivo!");
+          //   // console.log(req.files);
+          //   const { filename } = req.files[0];
+          //   console.log(filename);
+          //   product.setImgUrl(filename);
+          // } else {
+          //   console.log("No hay archivo!");
+          // }
 
-          console.log(product);
-          await product.save();
+          // console.log(product);
+          // await product.save();
           res.json({ msg: `Producto id: ${req.body.prod_id} agregado.` });
         } catch (error) {
-          if (req.files[0]) {
-            const { filename } = req.files[0];
-            if (fs.existsSync("storage/img/products/" + filename)) {
-              // console.log("Existe el archivo.");
-              fs.unlinkSync("storage/img/products/" + filename, filename);
-            }
-          }
+          // if (req.files[0]) {
+          //   const { filename } = req.files[0];
+          //   if (fs.existsSync("storage/img/products/" + filename)) {
+          //     // console.log("Existe el archivo.");
+          //     fs.unlinkSync("storage/img/products/" + filename, filename);
+          //   }
+          // }
           console.log(error);
           res.json(error);
         }
@@ -82,18 +146,14 @@ class ProductsController {
   async productEdit(req, res) {
     try {
       const product = { ...req.body.product };
-      console.log(req.body?._id);
+      // console.log("id", req.body?._id);
+      // console.log("includes? data", product.img?.data?.includes("cloudinary"));
       const OldProduct = await Product.findById(req.body?._id);
+
       if (req.body?.product?.img.type == "URL") {
-        product.img.data = req.body?.product?.img.data;
+        product.img = { type: "URL", data: req.body?.product?.img.data };
       } else {
-        if (req.files[0]) {
-          const { filename } = req.files[0];
-          const { host, port } = appConfig;
-          product.img.data = `${host}:${port}/public/products/${filename}`;
-          // product.img = filename;
-          // product.setImgUrl(filename);
-        }
+        await uploadFile(req, res, product);
       }
       // console.log(OldProduct?.img?.data);
       // console.log(product?.img?.data);
@@ -131,6 +191,16 @@ class ProductsController {
         // console.log(product.img);
         const filename = path.basename(product.img?.data);
         // console.log(filename);
+        try {
+          console.log("includes? data", product.img?.data?.toString().includes("cloudinary"));
+          console.log("includes?", product.img?.toString().includes("cloudinary"));
+        } catch (error) {
+          console.log(error);
+          res.json(error);
+        }
+        if (product.img?.data?.toString().includes("cloudinary") || product.img?.toString().includes("cloudinary")) {
+          deleteImage(product.img);
+        }
         if (fs.existsSync("storage/img/products/" + filename)) {
           // console.log("Existe el archivo.");
           fs.unlinkSync("storage/img/products/" + filename, filename);

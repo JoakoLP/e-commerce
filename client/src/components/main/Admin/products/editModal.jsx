@@ -1,14 +1,11 @@
 import React, { useState } from "react";
-import { Modal, Button } from "flowbite-react";
 import { useDisableBodyScroll } from "../../../useDisableBodySroll";
 import { XMarkIcon, PlusSmallIcon } from "@heroicons/react/24/outline";
 import productsService from "../../../../services/products";
 import categoryService from "../../../../services/category";
 import { useEffect } from "react";
-import { CartContext } from "../../../../contexts/CartProvider";
-import { useContext } from "react";
 import DeleteModal from "./deleteModal";
-import { useLayoutEffect } from "react";
+import { Button } from "@material-tailwind/react";
 
 const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
   const [delModal, setDelModal] = useState(false);
@@ -64,27 +61,27 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
     filterSubCategRest();
   }, [edit, editItem]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!isLoading && edit) {
       checkCateg();
       checkImgURL();
       checkImgFile();
     }
-  }, [isLoading]);
+  }, [isLoading, edit]);
 
   const sendEdition = (e) => {
     e.preventDefault();
     // check categories
     const catCheckboxes = document.getElementsByName(`category/${editItem?.prod_id}`);
     let categories = [];
-    console.log({ catCheckboxes });
+    // console.log({ catCheckboxes });
     catCheckboxes.forEach((checkbox) => {
       if (checkbox.checked) {
         const category = CategoryList.filter((element) => {
           return element.id === checkbox.value;
         });
         categories.push(category[0]);
-        console.log({ categories });
+        // console.log({ categories });
       }
     });
     // check subcategories
@@ -96,7 +93,7 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
           return element.id === checkbox.value;
         });
         subCategories.push(subCategory[0]);
-        console.log({ subCategories });
+        // console.log({ subCategories });
       }
     });
     const product = {
@@ -112,7 +109,7 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
       brand: document.getElementById("elementBrand").value,
       color: document.getElementById("elementColor").value,
     };
-    console.log(product, editItem._id);
+    // console.log(product, editItem._id);
     productsService.productEdit(product, editItem._id).then(() => {
       // window.location.reload(false);
     });
@@ -126,6 +123,7 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
   };
 
   // IMG
+  const [preview, setPreview] = useState();
   const [image, setImage] = useState({ type: "", data: {} });
   const checkImgFile = (e) => {
     const ImgFile = document.getElementById("elementImageFile");
@@ -139,11 +137,13 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
       ImgURL.disabled = false;
       ImgURL.required = true;
     }
+    const file = e?.target?.files[0];
+    previewImage(file);
   };
   const checkImgURL = (e) => {
     const ImgURL = document.getElementById("elementImageURL");
     const ImgFile = document.getElementById("elementImageFile");
-    // console.log(!!e.target.value);
+    // console.log(e?.target?.value);
     if (e?.target?.value || ImgURL?.value) {
       ImgFile.disabled = true;
       ImgFile.required = false;
@@ -154,23 +154,45 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
     }
   };
 
+  const previewImage = (file) => {
+    const reader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setPreview(reader.result);
+      };
+    } else {
+      setPreview();
+    }
+  };
+
   // set "required" false if any category is checked
   const checkCateg = () => {
     let categInputs = [];
     CategoryList.forEach((category) => {
       categInputs.push(document.getElementById(`category/${category?.id}/${editItem?.prod_id}`));
     });
-    console.log({ categInputs });
+    // console.log({ categInputs });
     let categCheckeds = categInputs.filter((categ) => {
       return categ.checked === true;
     });
-    if (categCheckeds.length > 0) {
-      console.log({ categCheckeds });
+
+    let subCategInputs = [];
+    SubCategoryList.forEach((subcategory) => {
+      subCategInputs.push(document.getElementById(`subCategory/${subcategory?.id}/${editItem?.prod_id}`));
+    });
+    // console.log({ subCategInputs });
+    let subCategCheckeds = subCategInputs.filter((subCateg) => {
+      return subCateg?.checked === true;
+    });
+
+    if (categCheckeds.length > 0 || subCategCheckeds.length > 0) {
+      // console.log({ categCheckeds });
       let categUncheckeds = categInputs.filter((categ) => {
         return categ.checked === false;
       });
       categUncheckeds.forEach((categ) => {
-        return (categ.required = false);
+        categ.required = false;
       });
     }
   };
@@ -180,7 +202,7 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
       return subCategory?.category === null;
     });
     setSubCategRest(check);
-    console.log(subCategRest);
+    // console.log(subCategRest);
   };
 
   // tags
@@ -191,32 +213,111 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
     const checkOnTags = tags.filter((tag) => {
       return tag === newTag;
     });
-    console.log(newTag);
-    console.log(newTag.length);
+    // console.log(newTag);
+    // console.log(newTag.length);
     switch (true) {
       case newTag:
-        console.log(checkOnTags);
+      // console.log(checkOnTags);
       case checkOnTags < 1 && newTag.length > 0:
-        console.log(newTag);
+        // console.log(newTag);
         setTags([...tags, newTag]);
         break;
       default:
         break;
     }
-    console.log(tags);
+    // console.log(tags);
     const input = document.getElementById("elementTag");
     input.value = "";
   };
   const deleteTag = (index) => {
-    console.log(index);
+    // console.log(index);
     const delTag = document.getElementById(`tag ${index}`).textContent;
-    console.log(delTag);
+    // console.log(delTag);
     setTags(
       tags.filter((tag) => {
         return tag != delTag;
       })
     );
-    console.log(tags);
+    // console.log(tags);
+  };
+
+  const checkboxChange = (e) => {
+    const catCheckboxes = document.getElementsByName(`category/${editItem?.prod_id}`);
+    const subCatCheckboxes = document.getElementsByName(`subCategory/${editItem?.prod_id}`);
+
+    // if the checkbox onChange is a category
+    if (e?.target?.name == `category/${editItem?.prod_id}`) {
+      // if it's checked
+      if (e?.target?.checked) {
+        // set all the checkbox except the selected to 'false'
+        catCheckboxes.forEach((checkbox) => {
+          if (checkbox?.value !== e?.target?.value) {
+            checkbox.checked = false;
+          }
+        });
+        // set all the subCategories checkbox outside the selected to 'false'
+        SubCategoryList.forEach((subC) => {
+          if (subC?.category?.id !== e?.target?.value) {
+            const checkbox = document.getElementById(`subCategory/${subC?.id}/${editItem?.prod_id}`);
+            if (checkbox !== null) {
+              checkbox.checked = false;
+            }
+          }
+        });
+      } else {
+        //if isn't selected set all subCategories to 'false'
+        subCatCheckboxes.forEach((checkbox) => {
+          checkbox.checked = false;
+        });
+      }
+
+      // if the checkbox onChange is a subcategory
+    } else if (e?.target?.name == `subCategory/${editItem?.prod_id}`) {
+      // console.log("subC", true);
+      // if it's checked
+      if (e?.target?.checked) {
+        // console.log("subC checked", true);
+        // get subcategory checkbox
+        const subCat = SubCategoryList.filter((subC) => {
+          return subC?.id === e?.target?.value;
+        });
+        // if has a category
+        if (subCat[0]?.category !== null) {
+          const catCheckbox = document.getElementById(`category/${subCat[0]?.category?.id}/${editItem?.prod_id}`);
+          // set category checkbox to 'true'
+          catCheckbox.checked = true;
+          // unchecks categories where the checked subcategory isn't
+          catCheckboxes.forEach((checkbox) => {
+            if (checkbox?.value !== catCheckbox?.value) {
+              checkbox.checked = false;
+            }
+          });
+          // unchecks subcategories from different category
+          SubCategoryList.forEach((subC) => {
+            if (subC?.category?.id !== subCat[0]?.category?.id) {
+              const checkbox = document.getElementById(`subCategory/${subC?.id}/${editItem?.prod_id}`);
+              if (checkbox !== null) {
+                checkbox.checked = false;
+                // checks if this subCategory was on search array
+              }
+            }
+          });
+        } else {
+          // else if it doesn't have a category
+          // set the non selected to 'false'
+          subCatCheckboxes.forEach((checkbox) => {
+            if (checkbox?.value !== e?.target?.value) {
+              checkbox.checked = false;
+            }
+          });
+          // sets all the categories to 'false'
+          catCheckboxes.forEach((checkbox) => {
+            checkbox.checked = false;
+          });
+        }
+      }
+      checkCateg();
+    }
   };
 
   const style = "flex justify-between items-center py-1.5 w-full px-2";
@@ -298,7 +399,14 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
                         return (
                           <div className="text-black w-min">
                             <div className="flex items-center justify-start space-x-1">
-                              <input type="checkbox" id={`category/${category?.id}/${editItem?.prod_id}`} onChange={checkCateg} required name={`category/${editItem?.prod_id}`} value={category?.id} />
+                              <input
+                                type="checkbox"
+                                id={`category/${category?.id}/${editItem?.prod_id}`}
+                                onChange={checkboxChange}
+                                required
+                                name={`category/${editItem?.prod_id}`}
+                                value={category?.id}
+                              />
                               <label htmlFor={`category/${category?.id}/${editItem?.prod_id}`} id={`category/${category?.id}/label`} className="w-min text-sm font-semibold pl-0.5">
                                 {category?.name}
                               </label>
@@ -307,7 +415,13 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
                             <ul className={category?.subCategories.length > 0 ? ` visible flex flex-col items-start pl-3 text-sm` : "hidden"}>
                               {category?.subCategories?.map((subCategory) => (
                                 <li className="flex items-center justify-center space-x-1">
-                                  <input type="checkbox" id={`subCategory/${subCategory?.id}/${editItem?.prod_id}`} name={`subCategory/${editItem?.prod_id}`} value={subCategory?.id} />
+                                  <input
+                                    type="checkbox"
+                                    id={`subCategory/${subCategory?.id}/${editItem?.prod_id}`}
+                                    onChange={checkboxChange}
+                                    name={`subCategory/${editItem?.prod_id}`}
+                                    value={subCategory?.id}
+                                  />
                                   <label htmlFor={`subCategory/${subCategory?.id}/${editItem?.prod_id}`} id={`subCategory/${subCategory?.id}/label`} className="w-min text-sm pl-0.5">
                                     {subCategory?.name}
                                   </label>
@@ -327,7 +441,13 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
                               // console.log(subCategory);
                               return (
                                 <li className="flex items-center justify-center space-x-1">
-                                  <input type="checkbox" id={`subCategory/${subCategory?.id}/${editItem?.prod_id}`} name={`subCategory/${editItem?.prod_id}`} value={subCategory?.id} />
+                                  <input
+                                    type="checkbox"
+                                    id={`subCategory/${subCategory?.id}/${editItem?.prod_id}`}
+                                    onChange={checkboxChange}
+                                    name={`subCategory/${editItem?.prod_id}`}
+                                    value={subCategory?.id}
+                                  />
                                   <label htmlFor={`subCategory/${subCategory?.id}/${editItem?.prod_id}`} id={`subCategory/${subCategory?.id}/label`} className="w-min text-sm pl-0.5">
                                     {subCategory?.name}
                                   </label>
@@ -355,21 +475,16 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
                     </p>
                     <div className={style}>
                       <label htmlFor="elementTag">Agregar</label>
-                      <div className="flex pl-1 max-w-fit full">
-                        <input
-                          type="text"
-                          id="elementTag"
-                          placeholder="Ej: gpu, placa de video, escritorio, etc"
-                          className="w-full border-black rounded-l-sm rounded-r-none border-r-none"
-                          defaultValue=""
-                        />
-                        <button
-                          className="px-3 py-2 border border-l-0 border-black rounded-l-none rounded-r-sm bg-cyan-600 hover:bg-cyan-600 hover:shadow-inner lg:hover:shadow-neutral-800 "
+                      <div className="flex ml-1 overflow-hidden border border-black rounded-sm max-w-fit ">
+                        <input type="text" id="elementTag" placeholder="Ej: gpu, placa de video, escritorio, etc" className="w-full border-none" defaultValue="" />
+                        <Button
+                          className="px-3 py-2 rounded-none bg-cyan-700 !overflow-visible"
+                          // className="px-3 py-2 border border-l-0 border-black rounded-l-none rounded-r-sm bg-cyan-600 hover:bg-cyan-600 hover:shadow-inner lg:hover:shadow-neutral-800 "
                           title="Agregar"
                           onClick={addTag}
                         >
                           <PlusSmallIcon className="w-6 h-6 text-white" />
-                        </button>
+                        </Button>
                       </div>
                     </div>
                     <div className="flex justify-between items-center py-1.5 w-full px-2">
@@ -384,7 +499,7 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
                                 className="flex ml-0.5 items-center text-center justify-center w-4 h-4 border border-black rounded-sm md:hover:bg-cyan-500 md:hover:shadow-inner md:hover:shadow-neutral-800"
                                 onClick={(e) => {
                                   e.preventDefault();
-                                  console.log(index);
+                                  // console.log(index);
                                   deleteTag(index);
                                 }}
                               >
@@ -418,10 +533,41 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
                       placeholder="Ej: https://i.imgur.com/nsvoUWH.jpg"
                       required
                       onChange={checkImgURL}
+                      onKeyUp={checkImgURL}
                       defaultValue={editItem?.img?.data || editItem?.img}
                     />
-                    <input type="file" accept=".png,.jpg,.jpeg" id="elementImageFile" className="w-full text-xs border border-black rounded-sm" name="" required onChange={checkImgFile} />
-                    <span className="text-xs">Subir archivo o link de imagen, no ambos.</span>
+                    {preview && (
+                      <div className="flex flex-col items-center justify-center w-full py-1">
+                        <div className="flex items-center justify-center h-48 overflow-hidden rounded-sm aspect-auto">
+                          <img src={preview} alt="imageToUpload" className="object-contain h-full aspect-auto" />
+                        </div>
+                      </div>
+                    )}
+                    <input type="file" accept=".png,.jpg,.jpeg" id="elementImageFile" className="hidden w-full text-xs border border-black rounded-sm" name="" required onChange={checkImgFile} />
+                    {preview ? (
+                      <p className={`text-xs truncate md:hidden block ${(image?.data?.size / 1024 / 1024).toFixed(2) > 10 ? "text-red-500 font-bold" : ""}`}>
+                        Tamaño: {(image?.data?.size / 1024 / 1024).toFixed(2)} MB
+                        {(image?.data?.size / 1024 / 1024).toFixed(2) > 10 ? " *" : ""}
+                      </p>
+                    ) : null}
+                    <label htmlFor="elementImageFile" className="flex items-center w-full space-x-3 border border-black rounded-sm">
+                      <p className="self-center p-2 px-4 text-sm font-semibold text-white bg-blue-900 cursor-pointer select-none">{preview ? "Cambiar imagen" : "Seleccionar imagen"}</p>
+                      {preview ? (
+                        <div className="flex flex-col justify-center w-full max-w-full truncate">
+                          <p className="text-xs truncate">{image?.data?.name}</p>
+                          <p className={`text-xs truncate hidden md:block ${(image?.data?.size / 1024 / 1024).toFixed(2) > 10 ? "text-red-500 font-bold" : ""}`}>
+                            Tamaño: {(image?.data?.size / 1024 / 1024).toFixed(2)} MB
+                            {(image?.data?.size / 1024 / 1024).toFixed(2) > 10 ? " *" : ""}
+                          </p>
+                        </div>
+                      ) : (
+                        <p className="text-xs truncate">Ningún archivo seleccionado.</p>
+                      )}
+                    </label>
+                    <span className="text-xs whitespace-normal">
+                      Subir archivo o link de imagen, no ambos. Tamaño máximo: 10MB
+                      {preview && (image?.data?.size / 1024 / 1024).toFixed(2) > 10 ? <span className="font-bold text-red-500"> *</span> : ""}
+                    </span>
                   </div>
                 </div>
 
@@ -450,25 +596,19 @@ const EditModal = ({ edit, setEdit, editItem, setEditItem }) => {
                 </div>
 
                 <div className="flex justify-evenly w-full py-1.5">
-                  <button
-                    type="button"
-                    className="flex self-end p-1 text-white duration-100 bg-red-500 border border-black rounded-sm select-none active:scale-90 active:duration-75 active:bg-red-600 hover:text-white active:shadow-inner active:shadow-neutral-800 lg:hover:bg-red-600 lg:hover:text-white lg:hover:shadow-inner lg:hover:shadow-neutral-800"
+                  <Button
+                    className="bg-red-700"
+                    size="sm"
+                    title="Eliminar producto"
                     onClick={() => {
                       setDelModal(!delModal);
                     }}
                   >
                     Eliminar
-                  </button>
-                  <button
-                    type="submit"
-                    className="p-1 text-white duration-100 border border-black rounded-sm select-none bg-cyan-700 active:scale-90 active:duration-75 active:bg-cyan-900 hover:text-white active:shadow-inner active:shadow-neutral-800 lg:hover:bg-cyan-900 lg:hover:text-white lg:hover:shadow-inner lg:hover:shadow-neutral-800"
-                    // onClick={(e) => {
-                    //   e.preventDefault();
-                    //   sendEdition();
-                    // }}
-                  >
+                  </Button>
+                  <Button size="sm" type="submit" className="bg-cyan-700" disabled={preview && (image?.data?.size / 1024 / 1024).toFixed(2) > 10}>
                     Enviar
-                  </button>
+                  </Button>
                 </div>
               </form>
             </>
