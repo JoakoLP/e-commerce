@@ -103,6 +103,7 @@ const CategoryFilter = ({ searchCateg, setSearchCateg, searchSubCateg, setSearch
               checkbox.checked = false;
             }
           });
+          setSearchCateg("all");
           // sets all the categories to 'false'
           catCheckboxes.forEach((checkbox) => {
             checkbox.checked = false;
