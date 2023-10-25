@@ -1,5 +1,4 @@
 const { Product } = require("../models/product");
-const fs = require("fs");
 const path = require("path");
 const { cloudinary } = require("../utils/cloudinary");
 
@@ -27,7 +26,7 @@ const uploadFile = async (req, res, product) => {
           product.img = { type: "URL", data: uploadedResponse.url };
         }
       } else {
-        console.log("No hay usuario?");
+        // console.log("No hay usuario?");
       }
       // res.status(201).json({ user: { ...req.session.user }, msg: "User registered succesfully." });
     } catch (error) {
@@ -36,6 +35,7 @@ const uploadFile = async (req, res, product) => {
     }
   } else {
     console.log("no hay foto");
+    await product.save();
   }
 };
 
@@ -95,39 +95,13 @@ class ProductsController {
             color: req.body.color,
           });
           await uploadFile(req, res, product);
-          // if (req.files[0]) {
-          //   console.log("Hay archivo!");
-          //   // console.log(req.files);
-          //   const { filename } = req.files[0];
-          //   console.log(filename);
-          //   product.setImgUrl(filename);
-          // } else {
-          //   console.log("No hay archivo!");
-          // }
-
-          // console.log(product);
-          // await product.save();
-          res.json({ msg: `Producto id: ${req.body.prod_id} agregado.` });
+          res.json({ msg: `Producto id: ${req.body.prod_id} agregado.`, product });
         } catch (error) {
-          // if (req.files[0]) {
-          //   const { filename } = req.files[0];
-          //   if (fs.existsSync("storage/img/products/" + filename)) {
-          //     // console.log("Existe el archivo.");
-          //     fs.unlinkSync("storage/img/products/" + filename, filename);
-          //   }
-          // }
           console.log(error);
           res.json(error);
         }
       } else {
-        if (req.files[0]) {
-          const { filename } = req.files[0];
-          if (fs.existsSync("storage/img/products/" + filename)) {
-            // console.log("Existe el archivo.");
-            fs.unlinkSync("storage/img/products/" + filename, filename);
-          }
-        }
-        res.json({ msg: `Producto id: ${req.body.prod_id} ya registrado.`, product });
+        res.status(500).json({ msg: `Producto id: ${req.body.prod_id} ya registrado.`, product });
       }
     } catch (error) {
       res.json(error);
@@ -147,36 +121,17 @@ class ProductsController {
     try {
       const product = { ...req.body.product };
       // console.log("id", req.body?._id);
-      // console.log("includes? data", product.img?.data?.includes("cloudinary"));
-      const OldProduct = await Product.findById(req.body?._id);
 
       if (req.body?.product?.img.type == "URL") {
         product.img = { type: "URL", data: req.body?.product?.img.data };
       } else {
         await uploadFile(req, res, product);
       }
-      // console.log(OldProduct?.img?.data);
-      // console.log(product?.img?.data);
-      if (OldProduct?.img?.data !== undefined && OldProduct?.img?.data !== product?.img?.data) {
-        console.log("difiere");
-        const filename = path.basename(OldProduct.img?.data);
-        // console.log(filename);
-        if (fs.existsSync("storage/img/products/" + filename)) {
-          // console.log("Existe el archivo.");
-          fs.unlinkSync("storage/img/products/" + filename, filename);
-        }
-      }
-      console.log(OldProduct);
-      // console.log(product);
 
       // console.log(req.body?s.product);
       await Product.findOneAndReplace({ _id: req.body?._id }, { ...product });
       const newItem = await Product.findById(req.body._id);
 
-      // console.log(req.body.product.id);
-      // console.log(req.body.product.prod_id);
-      // console.log(req.body._id);
-      // console.log(req.body.product);
       res.json({ msg: `${req.body._id} updated`, newItem });
     } catch (error) {
       res.json(error);
@@ -188,27 +143,9 @@ class ProductsController {
       // console.log(req.params);
       const product = await Product.findById(req.params.id);
       await Product.findByIdAndDelete(req.params.id).then((res) => {
-        // console.log(product.img);
-        const filename = path.basename(product.img?.data);
-        // console.log(filename);
-        try {
-          console.log("includes? data", product.img?.data?.toString().includes("cloudinary"));
-          console.log("includes?", product.img?.toString().includes("cloudinary"));
-        } catch (error) {
-          console.log(error);
-          res.json(error);
-        }
         if (product.img?.data?.toString().includes("cloudinary") || product.img?.toString().includes("cloudinary")) {
           deleteImage(product.img);
         }
-        if (fs.existsSync("storage/img/products/" + filename)) {
-          // console.log("Existe el archivo.");
-          fs.unlinkSync("storage/img/products/" + filename, filename);
-        }
-        // else {
-        //   console.log("No existe el archivo.");
-        // }
-        // res.json({ msg: `${req.params.id} deleted.` });
         res.json({ msg: `${product._id} deleted` });
       });
     } catch (error) {
