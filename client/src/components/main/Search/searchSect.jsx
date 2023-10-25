@@ -90,7 +90,7 @@ const SearchSect = () => {
         {window.innerWidth > 728 ? <CategoryFilter searchCateg={searchCateg} setSearchCateg={setSearchCateg} searchSubCateg={searchSubCateg} setSearchSubCateg={setSearchSubCateg} /> : null}
         <div className="flex flex-col items-start w-full">
           <h1 className="pt-2 ml-2 text-xl font-bold border-b-2 border-blue-700 text-centera whitespace-nowrap w-min">
-            {products.length > 0 ? products.length : "Sin"} resultado{products.length != 1 ? "s" : null} de búsqueda
+            {products.length > 0 ? products.length : "Sin"} resultado{products.length != 1 ? "s" : null} de búsqueda para {searchField}
           </h1>
           <div className="px-1 py-4 m-auto w-fit sm:px-4">{checkArray()}</div>
         </div>
