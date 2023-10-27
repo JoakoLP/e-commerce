@@ -9,7 +9,7 @@ const categories = axios.create({
   withCredentials: true,
   baseURL: `${SERVER_URL}/api/categories/`,
   // baseURL: "http://localhost:8080/api/categories/",
-  headers: { Authorization: `${cookies.get("authorization")}` },
+  headers: { Authorization: `${cookies.get("authorization")}`, "Access-Control-Allow-Origin": "*" },
 });
 
 const subCategories = axios.create({

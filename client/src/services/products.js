@@ -9,7 +9,7 @@ const products = axios.create({
   withCredentials: true,
   baseURL: `${SERVER_URL}/api/products/`,
   // baseURL: "http://localhost:8080/api/products/",
-  headers: { Authorization: `${cookies.get("authorization")}` },
+  headers: { Authorization: `${cookies.get("authorization")}`, "Access-Control-Allow-Origin": "*" },
 });
 
 const productAdd = async (product) => {

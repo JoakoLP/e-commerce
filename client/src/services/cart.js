@@ -11,7 +11,7 @@ const SERVER_URL = "https://e-commerce-api.joaquintakara.com";
 const cart = axios.create({
   withCredentials: true,
   baseURL: `${SERVER_URL}/api/cart/`,
-  headers: { Authorization: `${cookies.get("authorization")}` },
+  headers: { Authorization: `${cookies.get("authorization")}`, "Access-Control-Allow-Origin": "*" },
 });
 
 const getCart = async (setCart, onService, setOnService) => {
