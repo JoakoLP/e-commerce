@@ -76,7 +76,7 @@ class UserController {
         const token = `Bearer ${req.body.remember ? tokenRemember({ ...req.session.user }) : token60({ ...req.session.user })}`;
         res.cookie(
           "authorization",
-          token,
+          `Bearer ${token}`,
           req.body.remember ? { sameSite: "none", secure: true, domain: DOMAIN_URL } : { maxAge: 60000, sameSite: "none", httpOnly: true, secure: true, domain: DOMAIN_URL }
         );
         res.cookie(
@@ -147,7 +147,7 @@ class UserController {
 
       res.cookie(
         "authorization",
-        token,
+        `Bearer ${token}`,
         req.body.remember ? { sameSite: "none", secure: true, domain: DOMAIN_URL } : { maxAge: 60000, sameSite: "none", httpOnly: true, secure: true, domain: DOMAIN_URL }
       );
       // res.cookie("authorization", `Bearer ${token}`, { maxAge: 60000, sameSite: "none", secure: true, httpOnly: true });
