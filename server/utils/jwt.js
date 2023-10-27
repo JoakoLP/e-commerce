@@ -14,7 +14,15 @@ const tokenRemember = (body) => {
 
 const tokenVerify = (token) => {
   // console.log(token);
-  return jwt.verify(token, process.env.JWT_SECRET);
+  try {
+    if (token) {
+      return jwt.verify(token, process.env.JWT_SECRET);
+    } else {
+      console.log("no token", token);
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 module.exports = { token60, tokenRemember, tokenVerify };
