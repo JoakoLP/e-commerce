@@ -200,8 +200,9 @@ class UserController {
 
   async userGet(req, res) {
     try {
+      console.log("userGet token", req.token);
       const decoded = tokenVerify(req.token);
-      console.log(decoded);
+      console.log("userGet decoded", decoded);
 
       const user = await User.findById(decoded.body._id);
       const { _id, username, name, email, isAdmin, avatar, bookmark, date } = user;

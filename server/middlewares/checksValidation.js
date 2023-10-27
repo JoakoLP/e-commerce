@@ -7,10 +7,10 @@ const checksValidation = async (req, res, next) => {
     if (err.isEmpty()) {
       next();
     } else {
-      if (req.files[0]) {
-        const { path, filename } = req.files[0];
-        fs.unlinkSync(path, filename);
-      }
+      // if (req.files[0]) {
+      //   const { path, filename } = req.files[0];
+      //   fs.unlinkSync(path, filename);
+      // }
       res.status(501).json(err);
     }
   } catch (error) {

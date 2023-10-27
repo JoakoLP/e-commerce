@@ -22,6 +22,7 @@ class CartController {
       // console.log(decoded);
 
       const user = await User.findById(decoded.body._id);
+      console.log(user);
       res.json(user?.cart);
     } catch (error) {
       res.json(error);
