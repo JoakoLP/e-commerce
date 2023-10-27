@@ -35,6 +35,7 @@ const uploadFile = async (req, user) => {
     }
   } else {
     console.log("no hay foto");
+    await user.save();
   }
 };
 

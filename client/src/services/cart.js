@@ -21,10 +21,11 @@ const getCart = async (setCart, onService, setOnService) => {
       await cart.get("getCart").then((res) => {
         if (setCart) {
           if (res?.data?.products) {
-            // console.log(res.data);
+            console.log(res.data);
             setCart(res.data);
           } else {
             console.log("Not a cart, getCart");
+            console.log(res);
           }
           setOnService(false);
         } else {
